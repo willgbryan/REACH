@@ -11,6 +11,7 @@ from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, ToolMe
 from langchain_openai import ChatOpenAI
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_community.utilities.tavily_search import TavilySearchAPIWrapper
+from langchain.agents import load_tools
 
 from langgraph.prebuilt.tool_executor import ToolExecutor, ToolInvocation
 from langchain.chains import create_structured_output_runnable
@@ -38,14 +39,18 @@ def _set_if_undefined(var: str) -> None:
 _set_if_undefined("LANGCHAIN_API_KEY")
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
 os.environ["LANGCHAIN_PROJECT"] = "LATS"
+os.environ["SEARX_HOST"] = "http://localhost:8000"
+os.environ["OPENAI_API_KEY"] = "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"
 
 _set_if_undefined("OPENAI_API_KEY")
-_set_if_undefined("TAVILY_API_KEY")
+_set_if_undefined("SEARX_HOST")
 
 llm = ChatOpenAI(model="gpt-3.5-turbo")
-search = TavilySearchAPIWrapper()
-tavily_tool = TavilySearchResults(api_wrapper=search, max_results=5)
-tools = [tavily_tool]
+# search = TavilySearchAPIWrapper()
+# tavily_tool = TavilySearchResults(api_wrapper=search, max_results=5)
+tools = load_tools(["searx-search"],
+                    searx_host="http://localhost:8080",
+                    engines=["google"])
 tool_executor = ToolExecutor(tools=tools)
 
 
