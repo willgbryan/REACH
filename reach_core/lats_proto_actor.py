@@ -9,8 +9,9 @@ from typing_extensions import TypedDict
 
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, ToolMessage
 from langchain_openai import ChatOpenAI
-from langchain_community.tools.tavily_search import TavilySearchResults
-from langchain_community.utilities.tavily_search import TavilySearchAPIWrapper
+from langchain_community.utilities import SearxSearchWrapper
+from langchain_community.tools.searx_search.tool import SearxSearchResults
+
 from langchain.agents import load_tools
 
 from langgraph.prebuilt.tool_executor import ToolExecutor, ToolInvocation
@@ -35,22 +36,23 @@ def _set_if_undefined(var: str) -> None:
     os.environ[var] = getpass.getpass(var)
 
 
-# Optional: Configure tracing to visualize and debug the agent
-_set_if_undefined("LANGCHAIN_API_KEY")
-os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_PROJECT"] = "LATS"
+# # Optional: Configure tracing to visualize and debug the agent
+# _set_if_undefined("LANGCHAIN_API_KEY")
+# os.environ["LANGCHAIN_TRACING_V2"] = "true"
+# os.environ["LANGCHAIN_PROJECT"] = "LATS"
 os.environ["SEARX_HOST"] = "http://localhost:8000"
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = ""
 
 _set_if_undefined("OPENAI_API_KEY")
 _set_if_undefined("SEARX_HOST")
 
 llm = ChatOpenAI(model="gpt-3.5-turbo")
-# search = TavilySearchAPIWrapper()
-# tavily_tool = TavilySearchResults(api_wrapper=search, max_results=5)
-tools = load_tools(["searx-search"],
-                    searx_host="http://localhost:8080",
-                    engines=["google"])
+search = SearxSearchWrapper(searx_host="http://localhost:8080")
+searx_tool = SearxSearchResults(name="google", wrapper=search, kwargs={"engines": ["google"]})
+# tools = load_tools(["searx-search"],
+#                     searx_host="http://localhost:8080",
+#                     engines=["google"])
+tools = [searx_tool]
 tool_executor = ToolExecutor(tools=tools)
 
 
@@ -237,17 +239,12 @@ prompt_template = ChatPromptTemplate.from_messages(
         MessagesPlaceholder(variable_name="messages", optional=True),
     ]
 )
-
 initial_answer_chain = prompt_template | llm.bind_tools(tools=tools).with_config(
     run_name="GenerateInitialCandidate"
 )
 
-parser = JsonOutputToolsParser(return_id=True)
 
-initial_response = initial_answer_chain.invoke(
-    {"input": "Write a research report on lithium pollution."}
-)
-initial_response
+parser = JsonOutputToolsParser(return_id=True)
 
 # Define the node we will add to the graph
 def generate_initial_response(state: TreeState) -> dict:
@@ -257,6 +254,7 @@ def generate_initial_response(state: TreeState) -> dict:
     tool_responses = tool_executor.batch(
         [ToolInvocation(tool=r["type"], tool_input=r["args"]) for r in parsed]
     )
+    print
     output_messages = [res] + [
         ToolMessage(content=json.dumps(resp), tool_call_id=tool_call["id"])
         for resp, tool_call in zip(tool_responses, parsed)
@@ -272,7 +270,6 @@ def generate_initial_response(state: TreeState) -> dict:
 
 # This generates N candidate values
 # for a single input to sample actions from the environment
-
 
 def generate_candidates(messages: ChatPromptValue, config: RunnableConfig):
     n = config["configurable"].get("N", 5)
@@ -365,7 +362,7 @@ graph = builder.compile()
 
 
 # running it
-question = "Generate a table with the average size and weight, as well as the oldest recorded instance for each of the top 5 most common birds."
+question = "collect information about the existing AI accelerator hardware market"
 for step in graph.stream({"input": question}):
     step_name, step_state = next(iter(step.items()))
     print(step_name)
