@@ -127,6 +127,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+reach_env/  # Added as per instruction
 
 # Spyder project settings
 .spyderproject
