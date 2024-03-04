@@ -341,34 +341,37 @@ def should_loop(state: TreeState):
     return "expand"
 
 
-builder = StateGraph(TreeState)
-builder.add_node("start", generate_initial_response)
-builder.add_node("expand", expand)
-builder.set_entry_point("start")
+def main(prompt: str):
+    builder = StateGraph(TreeState)
+    builder.add_node("start", generate_initial_response)
+    builder.add_node("expand", expand)
+    builder.set_entry_point("start")
 
+    builder.add_conditional_edges(
+        "start",
+        # Either expand/rollout or finish
+        should_loop,
+    )
+    builder.add_conditional_edges(
+        "expand",
+        # Either continue to rollout or finish
+        should_loop,
+    )
 
-builder.add_conditional_edges(
-    "start",
-    # Either expand/rollout or finish
-    should_loop,
-)
-builder.add_conditional_edges(
-    "expand",
-    # Either continue to rollout or finish
-    should_loop,
-)
+    graph = builder.compile()
 
-graph = builder.compile()
+    # running it
+    question = prompt
+    for step in graph.stream({"input": question}):
+        step_name, step_state = next(iter(step.items()))
+        print(step_name)
+        print("rolled out: ", step_state["root"].height)
+        print("---")
 
+    solution_node = step["__end__"]["root"].get_best_solution()
+    best_trajectory = solution_node.get_trajectory(include_reflections=False)
+    print(best_trajectory[-1].content)
+    return (best_trajectory[-1].content)
 
-# running it
-question = "collect information about the existing AI accelerator hardware market"
-for step in graph.stream({"input": question}):
-    step_name, step_state = next(iter(step.items()))
-    print(step_name)
-    print("rolled out: ", step_state["root"].height)
-    print("---")
-
-solution_node = step["__end__"]["root"].get_best_solution()
-best_trajectory = solution_node.get_trajectory(include_reflections=False)
-print(best_trajectory[-1].content)
+if __name__ == "__main__":
+    main()

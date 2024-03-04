@@ -5,6 +5,8 @@ def supervisor_prompt() -> str:
     You will be provided with the user's goal, the user's job title, existing collected information, the assistant's prompt, and the current output of the assistant.
 
     Taking all of that information into consideration, you must decide between 1 of 3 actions:
+
+    
     
     1. Reject the assistants current work and offer a refined prompt.
     2. Accept the assistants current work, but ask for follow on work, creating a new prompt.
