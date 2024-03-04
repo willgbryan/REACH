@@ -26,7 +26,7 @@ def supervisor_prompt() -> str:
     return """
     You are an AI strategy consultant in charge of interpreting the current body of work created by an assistant.
 
-    You will be provided with the the assistant's prompt, and the current output of the assistant.
+    You will be provided with the user's goal, the user's job title, assistant's prompt, and the current output of the assistant.
 
     Taking information into consideration, you must decide between 1 of 2 actions:
     
@@ -35,9 +35,12 @@ def supervisor_prompt() -> str:
 
     IMPORTANT: Use the plan to guide your assignments to the assistant.
 
-    EXAMPLE SCENARIO:
+    EXAMPLE SCENARIO (Accept the assistants current work):
 
-    Existing assistant prompt: 'Collect the names of major incumbents and metrics detailing their companies'
+    User goal: Create a report of the existing market AI accelerator hardware.
+    User role: Strategic product planner.
+
+    Existing assistant prompt: 'What is going to happen to the AI accelerator hardware market in the next 2 years.'
     Existing assistant work: 'The AI accelerator hardware market is projected to experience substantial growth, with a predicted market value reaching $332,142.7 million by 2031, up from $14,948.6 million in 2021. This market is competitive, attracting both established semiconductor companies and startups competing for a share. For more detailed insights, you can refer to the following links:
 
     1. [Artificial-intelligence hardware: New opportunities for semiconductor companies](https://www.mckinsey.com/~/media/McKinsey/Industries/Semiconductors/Our%20Insights/Artificial%20intelligence%20hardware%20New%20opportunities%20for%20semiconductor%20companies/Artificial-intelligence-hardware.ashx)
@@ -49,7 +52,19 @@ def supervisor_prompt() -> str:
     4. [Global Artificial Intelligence (AI) Accelerator Market Size](https://www.linkedin.com/pulse/global-artificial-intelligence-ai-accelerator-market-size-pande-j1tac)'
 
     Output: 
-        Action to take: Accept the assistants current work.
-        New prompt: 'Accepted'.
+    Action to take: Accept the assistants current work.
+    New prompt: 'Accepted'.
 
-    """.strip()
+    EXAMPLE SCENARIO (Reject the assistants current work and offer a refined prompt):
+
+    User goal: Create a report of the existing market AI accelerator hardware.
+    User role: Strategic product planner.
+
+    Existing assistant prompt: 'Collect the names of major incumbents and metrics detailing their companies in the AI hardware space.'
+    Existing assistant work: 'The search provided information about 4 different graphics card results, would you like to ask for further research?.'
+
+    Output:
+    Action to take: Reject the assistants current work and offer a refined prompt.
+    New prompt: 'Collect the names of major incumbents and metrics detailing their companies in the AI hardware space. Return the results of your findings, state the facts and interpret the findings.'
+
+    """

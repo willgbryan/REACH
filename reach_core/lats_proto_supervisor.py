@@ -55,7 +55,7 @@ def get_next_step(input_context: List[Dict[str, str]]) -> tuple:
     # Extracting the action and new prompt from the response
     action_to_take = None
     new_prompt = None
-    if response.startswith("Action to take:"):
+    if "Action to take:" in response:
         action_to_take, new_prompt_part = response.split('\n', 1)
         if "New prompt:" in response:
             new_prompt = new_prompt_part.strip().replace("New prompt: ", "")
