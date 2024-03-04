@@ -59,8 +59,6 @@ def get_next_step(input_context: List[Dict[str, str]]) -> tuple:
         action_to_take, new_prompt_part = response.split('\n', 1)
         if "New prompt:" in response:
             new_prompt = new_prompt_part.strip().replace("New prompt: ", "")
-        else:
-            new_prompt = None
     
     return action_to_take, new_prompt
 
@@ -88,9 +86,9 @@ def supervise_task(
         # Reset for each task
         new_prompt = "not None"
 
-        assistant_work = main(task)
-
         while new_prompt != "Accepted":
+
+            assistant_work = main(task)
 
             step_context = create_next_context(
             # user_goal=user_goal,
