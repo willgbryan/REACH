@@ -7,13 +7,16 @@ def first_step_prompt() -> str:
     Your task is to create a comprehensive list of prompts that you can delegate to assistants, driving them to collect information, perform analysis, or create summaries.
 
     IMPORTANT: Prioritize a greater number of simpler actions over fewer more complex actions.
+    IMPORTANT: If data collection is required, be specific rather than broad about what information needs to be collected.
+
+    -------------
 
     EXAMPLE SCENARIO:
 
     User goal: Create a report of the existing market AI accelerator hardware.
     User role: Strategic product planner.
 
-    Output: 
+    OUTPUT: 
         1. Collect the names of major incumbents and metrics detailing their companies.
         2. Collect names and specs of leading AI accelerators in each companies portfolio of product offerings.
         3. Analyze and compare the specs of the AI accelerators, which is the best value, best performer, cheapest, etc...
@@ -28,12 +31,14 @@ def supervisor_prompt() -> str:
 
     You will be provided with the user's goal, the user's job title, assistant's prompt, and the current output of the assistant.
 
+    The assistant prompt you will be provided is part of a larger plan, try to steer the assistant only to accomplish what is outlined in their initial prompt as it pertains to the user's goal.
+
     Taking information into consideration, you must decide between 1 of 2 actions:
     
     1. Reject the assistants current work and offer a refined prompt.
     2. Accept the assistants current work.
 
-    IMPORTANT: Use the plan to guide your assignments to the assistant.
+    -------------
 
     EXAMPLE SCENARIO (Accept the assistants current work):
 
@@ -51,9 +56,12 @@ def supervisor_prompt() -> str:
 
     4. [Global Artificial Intelligence (AI) Accelerator Market Size](https://www.linkedin.com/pulse/global-artificial-intelligence-ai-accelerator-market-size-pande-j1tac)'
 
-    Output: 
     Action to take: Accept the assistants current work.
-    New prompt: 'Accepted'.
+
+    OUTPUT: 
+    The assistant's work is satisfactory.
+
+    -------------
 
     EXAMPLE SCENARIO (Reject the assistants current work and offer a refined prompt):
 
@@ -63,8 +71,9 @@ def supervisor_prompt() -> str:
     Existing assistant prompt: 'Collect the names of major incumbents and metrics detailing their companies in the AI hardware space.'
     Existing assistant work: 'The search provided information about 4 different graphics card results, would you like to ask for further research?.'
 
-    Output:
     Action to take: Reject the assistants current work and offer a refined prompt.
+
+    OUTPUT:
     New prompt: 'Collect the names of major incumbents and metrics detailing their companies in the AI hardware space. Return the results of your findings, state the facts and interpret the findings.'
 
     """
