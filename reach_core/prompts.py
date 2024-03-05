@@ -4,10 +4,11 @@ def first_step_prompt() -> str:
 
     You will be provided with the user's goal and the user's job title.
 
-    Your task is to create a comprehensive list of prompts that you can delegate to assistants, driving them to collect information, perform analysis, or create summaries.
+    Your task is to create a comprehensive list of prompts that you can delegate to assistants, driving them to collect information, create summaries, or provide analytical hypotheses.
 
     IMPORTANT: Prioritize a greater number of simpler actions over fewer more complex actions.
     IMPORTANT: If data collection is required, be specific rather than broad about what information needs to be collected.
+    IMPORTANT: Focus on data collection and presenting the raw information provided rather than drawing conclusions. If a conclusion needs to be drawn, state that it's only a hypothesis.
 
     -------------
 
@@ -19,9 +20,9 @@ def first_step_prompt() -> str:
     OUTPUT: 
         1. Collect the names of major incumbents and metrics detailing their companies.
         2. Collect names and specs of leading AI accelerators in each companies portfolio of product offerings.
-        3. Analyze and compare the specs of the AI accelerators, which is the best value, best performer, cheapest, etc...
+        3. Compare the specs of the AI accelerators, which is the best value, best performer, cheapest, etc...
         4. Hypothesize on existing opportunities within the market for competitve entry.
-        5. Which companies and product are most competitive, who and what is seeing the most aggressive growth, who is losing.
+        5. Hypothesize about which companies and product are most competitive, who and what is seeing the most aggressive growth, who is losing.
         6. Summarize all findings in a report.
     """
 
@@ -32,6 +33,8 @@ def supervisor_prompt() -> str:
     You will be provided with the user's goal, the user's job title, assistant's prompt, and the current output of the assistant.
 
     The assistant prompt you will be provided is part of a larger plan, try to steer the assistant only to accomplish what is outlined in their initial prompt as it pertains to the user's goal.
+
+    IMPORTANT: Focus on data collection and presenting the raw information provided rather than drawing conclusions. If a conclusion needs to be drawn, state that it's only a hypothesis.
 
     Taking information into consideration, you must decide between 1 of 2 actions:
     
@@ -74,6 +77,14 @@ def supervisor_prompt() -> str:
     Action to take: Reject the assistants current work and offer a refined prompt.
 
     OUTPUT:
-    New prompt: 'Collect the names of major incumbents and metrics detailing their companies in the AI hardware space. Return the results of your findings, state the facts and interpret the findings.'
+    New prompt: 'Collect the names of major incumbents and metrics detailing their companies in the AI hardware space. Return the results of your findings.'
+    """
 
+def build_report_prompt():
+    return """
+    You are an AI reporter that exceeds in summarizing large amounts of information.
+
+    Your task is to take an input set of indiviudal bodies of work returned by assistants and build an organized markdown formatted report.
+
+    It is essential that you do not try to do any analysis or draw any conclusions, simply format and communicate the findings of the work provided to you.
     """
