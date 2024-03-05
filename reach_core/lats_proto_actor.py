@@ -11,6 +11,7 @@ from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, ToolMe
 from langchain_openai import ChatOpenAI
 from langchain_community.utilities import SearxSearchWrapper
 from langchain_community.tools.searx_search.tool import SearxSearchResults
+from tools.web.deep_search_tool import UrlExtractionTool
 
 from langchain.agents import load_tools
 
@@ -40,7 +41,7 @@ def _set_if_undefined(var: str) -> None:
 # _set_if_undefined("LANGCHAIN_API_KEY")
 # os.environ["LANGCHAIN_TRACING_V2"] = "true"
 # os.environ["LANGCHAIN_PROJECT"] = "LATS"
-os.environ["SEARX_HOST"] = "http://localhost:8000"
+os.environ["SEARX_HOST"] = "http://localhost:8080"
 os.environ["OPENAI_API_KEY"] = ""
 
 _set_if_undefined("OPENAI_API_KEY")
@@ -49,10 +50,9 @@ _set_if_undefined("SEARX_HOST")
 llm = ChatOpenAI(model="gpt-3.5-turbo")
 search = SearxSearchWrapper(searx_host="http://localhost:8080")
 searx_tool = SearxSearchResults(name="google", wrapper=search, kwargs={"engines": ["google"]})
-# tools = load_tools(["searx-search"],
-#                     searx_host="http://localhost:8080",
-#                     engines=["google"])
-tools = [searx_tool]
+url_extraction_tool = UrlExtractionTool()
+
+tools = [searx_tool, url_extraction_tool]
 tool_executor = ToolExecutor(tools=tools)
 
 
@@ -336,7 +336,7 @@ def should_loop(state: TreeState):
     root = state["root"]
     if root.is_solved:
         return END
-    if root.height > 5:
+    if root.height > 6:
         return END
     return "expand"
 

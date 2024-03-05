@@ -1,6 +1,6 @@
 import json
 from typing import List, Dict
-from prompts import supervisor_prompt, first_step_prompt
+from prompts import supervisor_prompt, first_step_prompt, build_report_prompt
 from utils import send_request_to_gpt, get_openai_client
 
 # this needs major work
@@ -45,7 +45,7 @@ def create_tasks(plan: str) -> List[str]:
             tasks.append(line.strip())
     return tasks
 
-def get_next_step(input_context: List[Dict[str, str]]) -> tuple:
+def get_next_step(input_context: List[Dict[str, str]]) -> str:
     response = send_request_to_gpt(
         client,
         role_preprompt=supervisor_prompt(),
@@ -77,7 +77,6 @@ def supervise_task(
     # Create plan:
     plan = get_plan(plan_context)
     tasks = create_tasks(plan)
-    print(plan)
     print(tasks)
 
     for task in tasks:
@@ -102,5 +101,16 @@ def supervise_task(
 
     return assistant_work_list
 
+def build_report(assistant_work: List[str]) -> str:
+    report = send_request_to_gpt(
+        client,
+        prompt = "Create a markdown formatted report",
+        role_preprompt=build_report_prompt(),
+        context=[{"role": "user", "content": f"assistant work: {assistant_work}"}],
+        stream=False,
+    )
 
-print(supervise_task('which nfl team has the best chance at winning the superbowl next year', 'team strategist'))
+    return report
+
+assistant_work_total = supervise_task('Who is the best basketball player of all time?', 'michael jordan fan')
+print(build_report(assistant_work_total))

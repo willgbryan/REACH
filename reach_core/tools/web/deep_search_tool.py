@@ -17,8 +17,10 @@ class UrlInput(BaseModel):
 
 
 class UrlExtractionTool(BaseTool):
+    """Tool that returns page contents given a valid URL."""
+
     name = "url_text_extraction"
-    description = "useful for when you need extract webpage information from a URL"
+    description = "A function for useful for when you need extract webpage information from a URL. Input should be a valid URL."
     args_schema: Type[BaseModel] = UrlInput
 
     def _run(
@@ -35,9 +37,15 @@ class UrlExtractionTool(BaseTool):
         # This can be adjusted to include or exclude more text
         return docs_transformed[0].page_content[0:500]
 
-    # async def _arun(
-    #     self, query: str, run_manager: Optional[AsyncCallbackManagerForToolRun] = None
-    # ) -> str:
-    #     """Use the tool asynchronously."""
-    #     raise NotImplementedError("custom_search does not support async")
+    async def _arun(
+        self, url: str, run_manager: Optional[AsyncCallbackManagerForToolRun] = None
+    ) -> str:
+        """Use the tool asynchronously."""
+        urls = [url]
+        loader = AsyncHtmlLoader(urls)
+        docs = await loader.load()  # Use await for async operation
+        html2text = Html2TextTransformer()
+        docs_transformed = html2text.transform_documents(docs)
 
+        # This can be adjusted to include or exclude more text
+        return docs_transformed[0].page_content[0:500]

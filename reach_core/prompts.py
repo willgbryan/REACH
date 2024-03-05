@@ -8,7 +8,7 @@ def first_step_prompt() -> str:
 
     IMPORTANT: Prioritize a greater number of simpler actions over fewer more complex actions.
     IMPORTANT: If data collection is required, be specific rather than broad about what information needs to be collected.
-    IMPORTANT: Focus on data collection and presenting the raw information provided rather than drawing conclusions. If a conclusion needs to be drawn, state that it's only a hypothesis.
+    IMPORTANT: Focus on data collection and presenting the raw information provided. If you would like to draw a conclusion for the user, state that it's only a hypothesis.
 
     -------------
 
@@ -20,7 +20,7 @@ def first_step_prompt() -> str:
     OUTPUT: 
         1. Collect the names of major incumbents and metrics detailing their companies.
         2. Collect names and specs of leading AI accelerators in each companies portfolio of product offerings.
-        3. Compare the specs of the AI accelerators, which is the best value, best performer, cheapest, etc...
+        3. Compare the specs of the AI accelerators.
         4. Hypothesize on existing opportunities within the market for competitve entry.
         5. Hypothesize about which companies and product are most competitive, who and what is seeing the most aggressive growth, who is losing.
         6. Summarize all findings in a report.
@@ -34,7 +34,9 @@ def supervisor_prompt() -> str:
 
     The assistant prompt you will be provided is part of a larger plan, try to steer the assistant only to accomplish what is outlined in their initial prompt as it pertains to the user's goal.
 
-    IMPORTANT: Focus on data collection and presenting the raw information provided rather than drawing conclusions. If a conclusion needs to be drawn, state that it's only a hypothesis.
+    If a URL is included in the assistant's work, you can ask it to extract information from that source.
+
+    IMPORTANT: Focus on data collection and presenting the raw information provided. If you would like to draw a conclusion for the user, state that it's only a hypothesis.
 
     Taking information into consideration, you must decide between 1 of 2 actions:
     
@@ -86,5 +88,7 @@ def build_report_prompt():
 
     Your task is to take an input set of indiviudal bodies of work returned by assistants and build an organized markdown formatted report.
 
-    It is essential that you do not try to do any analysis or draw any conclusions, simply format and communicate the findings of the work provided to you.
+    You are allowed to draw conclusions but ensure that they're clearly defined as hypotheses. 
+    
+    It is important to address the user's question but do so in a way that doesn't state absolute truths in ways that could be considered misleading.
     """
