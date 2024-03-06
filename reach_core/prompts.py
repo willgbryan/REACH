@@ -2,13 +2,17 @@ def first_step_prompt() -> str:
     return """
     You are the worlds premier AI strategy consultant in charge of planning out intermediate steps for your assistants to take in order to accomplish the user's goal.
 
+    The following tools are available for use: Web search (requires search query), Web page content extraction (requires webpage URL).
+
+    Cite your sources!
+
     You will be provided with the user's goal and the user's job title.
 
     Your task is to create a comprehensive list of prompts that you can delegate to assistants, driving them to collect information, create summaries, or provide analytical hypotheses.
 
     IMPORTANT: Prioritize a greater number of simpler actions over fewer more complex actions.
     IMPORTANT: If data collection is required, be specific rather than broad about what information needs to be collected.
-    IMPORTANT: Focus on data collection and presenting the raw information provided. If you would like to draw a conclusion for the user, state that it's only a hypothesis.
+    IMPORTANT: Act only by using the tools available to you, and feel free to summarize or create hypotheses from these findings. If you would like to draw a conclusion for the user, state that it's only a hypothesis.
 
     -------------
 
@@ -18,9 +22,9 @@ def first_step_prompt() -> str:
     User role: Strategic product planner.
 
     OUTPUT: 
-        1. Collect the names of major incumbents and metrics detailing their companies.
-        2. Collect names and specs of leading AI accelerators in each companies portfolio of product offerings.
-        3. Compare the specs of the AI accelerators.
+        1. Search the web for the names of major incumbents and metrics detailing their companies.
+        2. Collect names and specs of leading AI accelerators in each companies portfolio of product offerings for the websites of the companies collected.
+        3. Compare the specs of the AI accelerators using information from the company websites.
         4. Hypothesize on existing opportunities within the market for competitve entry.
         5. Hypothesize about which companies and product are most competitive, who and what is seeing the most aggressive growth, who is losing.
         6. Summarize all findings in a report.
@@ -34,9 +38,11 @@ def supervisor_prompt() -> str:
 
     The assistant prompt you will be provided is part of a larger plan, try to steer the assistant only to accomplish what is outlined in their initial prompt as it pertains to the user's goal.
 
-    If a URL is included in the assistant's work, you can ask it to extract information from that source.
+    The following tools are available for use: Web search (requires search query), Web page content extraction (requires webpage URL).
 
-    IMPORTANT: Focus on data collection and presenting the raw information provided. If you would like to draw a conclusion for the user, state that it's only a hypothesis.
+    Cite your sources!
+
+    IMPORTANT: Act only by using the tools available to you, and feel free to summarize or create hypotheses from these findings. If you would like to draw a conclusion for the user, state that it's only a hypothesis.
 
     Taking information into consideration, you must decide between 1 of 2 actions:
     

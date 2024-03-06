@@ -1,15 +1,36 @@
+import pprint
+import asyncio
+from langchain_openai import ChatOpenAI
 from langchain.pydantic_v1 import BaseModel, Field
 from langchain.tools import BaseTool, StructuredTool, tool
-from langchain_community.document_loaders import AsyncHtmlLoader
-from langchain_community.document_transformers import Html2TextTransformer
-
+from langchain_community.document_loaders import AsyncChromiumLoader
+from langchain.chains import create_extraction_chain
+from langchain_community.document_transformers import BeautifulSoupTransformer
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from typing import Optional, Type
+import tracemalloc
 
 from langchain.callbacks.manager import (
     AsyncCallbackManagerForToolRun,
     CallbackManagerForToolRun,
 )
+
+#TODO parametrize this 
+llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo-0613")
+
+schema = {
+    "properties": {
+        "title": {"type": "string"},
+        "key_findings": {"type": "string"},
+        "summary": {"type": "string"},
+    },
+    "required": ["title", "key_findings", "summary"],
+}
+
+tracemalloc.start()
+def extract(content: str, schema: dict):
+    return create_extraction_chain(schema=schema, llm=llm).run(content)
 
 
 class UrlInput(BaseModel):
@@ -29,23 +50,40 @@ class UrlExtractionTool(BaseTool):
         """Use the tool."""
 
         urls = [url]
-        loader = AsyncHtmlLoader(urls)
+        loader = AsyncChromiumLoader(urls)
         docs = loader.load()
-        html2text = Html2TextTransformer()
-        docs_transformed = html2text.transform_documents(docs)
+        bs_transformer = BeautifulSoupTransformer()
+        docs_transformed = bs_transformer.transform_documents(docs, tags_to_extract=["div", "p", "span"])
 
-        # This can be adjusted to include or exclude more text
-        return docs_transformed[0].page_content[0:500]
+        # chunk size can be adjusted
+        splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
+            chunk_size=1000, chunk_overlap=50
+        )
+        splits = splitter.split_documents(docs_transformed)
+        if not splits:
+            print("No content was split from the document.")
+            return "No content extracted."
+        extracted_content = extract(schema=schema, content=splits[0].page_content)
+        pprint.pprint(extracted_content)
+        return extracted_content
 
     async def _arun(
         self, url: str, run_manager: Optional[AsyncCallbackManagerForToolRun] = None
     ) -> str:
         """Use the tool asynchronously."""
         urls = [url]
-        loader = AsyncHtmlLoader(urls)
+        loader = AsyncChromiumLoader(urls)
         docs = await loader.load()  # Use await for async operation
-        html2text = Html2TextTransformer()
-        docs_transformed = html2text.transform_documents(docs)
+        # await asyncio.sleep(5)
+        bs_transformer = BeautifulSoupTransformer()
+        docs_transformed = bs_transformer.transform_documents(docs, tags_to_extract=["div", "p"])
 
-        # This can be adjusted to include or exclude more text
-        return docs_transformed[0].page_content[0:500]
+        # chunk size can be adjusted
+        splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
+            chunk_size=1000, chunk_overlap=50
+        )
+        splits = splitter.split_documents(docs_transformed)
+
+        extracted_content = extract(schema=schema, content=splits[0].page_content)
+        pprint.pprint(extracted_content)
+        return extracted_content
