@@ -9,7 +9,6 @@ from langchain_community.document_transformers import BeautifulSoupTransformer
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 from typing import Optional, Type
-import tracemalloc
 
 from langchain.callbacks.manager import (
     AsyncCallbackManagerForToolRun,
@@ -23,12 +22,11 @@ schema = {
     "properties": {
         "title": {"type": "string"},
         "key_findings": {"type": "string"},
-        "summary": {"type": "string"},
+        "body_text": {"type": "string"},
     },
-    "required": ["title", "key_findings", "summary"],
+    "required": ["title", "key_findings", "body_text"],
 }
 
-tracemalloc.start()
 def extract(content: str, schema: dict):
     return create_extraction_chain(schema=schema, llm=llm).run(content)
 
@@ -53,7 +51,9 @@ class UrlExtractionTool(BaseTool):
         loader = AsyncChromiumLoader(urls)
         docs = loader.load()
         bs_transformer = BeautifulSoupTransformer()
-        docs_transformed = bs_transformer.transform_documents(docs, tags_to_extract=["div", "p", "span"])
+        docs_transformed = bs_transformer.transform_documents(
+            docs, tags_to_extract=["div", "p", "span", "li"]
+        )
 
         # chunk size can be adjusted
         splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
@@ -76,7 +76,9 @@ class UrlExtractionTool(BaseTool):
         docs = await loader.load()  # Use await for async operation
         # await asyncio.sleep(5)
         bs_transformer = BeautifulSoupTransformer()
-        docs_transformed = bs_transformer.transform_documents(docs, tags_to_extract=["div", "p"])
+        docs_transformed = bs_transformer.transform_documents(
+            docs, tags_to_extract=["div", "p", "span", "li"]
+        )
 
         # chunk size can be adjusted
         splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
