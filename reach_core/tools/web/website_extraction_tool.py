@@ -36,10 +36,10 @@ class UrlInput(BaseModel):
 
 
 class UrlExtractionTool(BaseTool):
-    """Tool that returns page contents given a valid URL."""
+    """Tool that returns page contents given a valid website URL."""
 
-    name = "url_text_extraction"
-    description = "A function for useful for when you need extract webpage information from a URL. Input should be a valid URL."
+    name = "website_extraction"
+    description = "A function for useful for when you need extract webpage information from a URL. Input should be a valid URL that does not end in a file extension such as '.pdf' or '.html'."
     args_schema: Type[BaseModel] = UrlInput
 
     def _run(
