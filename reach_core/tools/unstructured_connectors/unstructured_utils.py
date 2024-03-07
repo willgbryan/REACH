@@ -15,6 +15,44 @@ def run_command(command: str) -> str:
         raise Exception(result.stderr.decode())
     return result.stdout.decode()
 
+def process_pdf_in_container(container_name: str, local_pdf_path: str) -> str:
+    """
+    Processes a PDF file by copying it into a Docker container and running a Python script on it.
+
+    Args:
+    - container_name (str): The name of the Docker container.
+    - local_pdf_path (str): The local path to the PDF file.
+
+    Returns: 
+    - str: The output from processing the PDF.
+    """
+    copy_command = f"docker cp {local_pdf_path} {container_name}:/tmp"
+    run_command(copy_command)
+
+    python_command = f'docker exec {container_name} python3 -c "from unstructured.partition.pdf import partition_pdf; elements = partition_pdf(filename=\'/tmp/{local_pdf_path.split("/")[-1]}\'); print(\'\\n\\n\'.join([str(el) for el in elements]))"'
+    output = run_command(python_command)
+
+    return output
+
+def process_text_in_container(container_name: str, local_text_path: str) -> str:
+    """
+    Processes a text file by copying it into a Docker container and running a Python script on it.
+
+    Args:
+    - container_name (str): The name of the Docker container.
+    - local_text_path (str): The local path to the text file.
+
+    Returns:
+    - str: The output from processing the text file.
+    """
+    copy_command = f"docker cp {local_text_path} {container_name}:/tmp"
+    run_command(copy_command)
+
+    python_command = f'docker exec {container_name} python3 -c "from unstructured.partition.text import partition_text; elements = partition_text(filename=\'/tmp/{local_text_path.split("/")[-1]}\'); print(\'\\n\\n\'.join([str(el) for el in elements]))"'
+    output = run_command(python_command)
+
+    return output
+
 def run_script_in_container(container_name: str, script_path: str) -> str:
     """
     Executes a custom Python script within a Docker container.
