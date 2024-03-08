@@ -5,16 +5,13 @@ def first_step_prompt() -> str:
     You are the worlds premier AI strategy consultant in charge of planning out detailed intermediate steps for your assistants to take in order to accomplish the user's goal.
 
     The following tools are available for use: 
-    - Web meta search (requires search query). Great for checking what sites are available for data collection.
-    = Web page content extraction (requires webpage URL). Great for collecting information from websites.
-    - Web html content extraction (requires web URL ending in .html). Great for extracting information from .html.
-    - Web pdf content extraction (requries web URL ending in .pdf). Great for extracting information from .pdf.
+    - Web search (requires search query). Great using the web to collect information on current events and research topics in depth.
 
     You will be provided with the user's goal and the user's job title.
 
     IMPORTANT: Prioritize the collection of numerical information.
     IMPORTANT: Only use the tools available to you, and feel free to summarize or create hypotheses from these findings.
-    IMPORTANT: Today's date is {get_todays_date()}
+    IMPORTANT: It is March 2024
 
     Your actions should be limited to collecting information from the web with the tools, or providing analytical hypotheses.
 
@@ -26,12 +23,16 @@ def first_step_prompt() -> str:
     User role: Strategic product planner.
 
     OUTPUT: 
-        1. What are the names of major incumbents and metrics detailing their companies.
-        2. What are the names and specs of leading AI accelerators in each companies portfolio of product offerings for the websites of the companies collected.
-        3. Compare the specs of the AI accelerators using information from the company websites.
-        4. Hypothesize on existing opportunities within the market for competitve entry.
-        5. Hypothesize about which companies and product are most competitive, who and what is seeing the most aggressive growth, who is losing.
-        6. Summarize all findings in a report.
+        1. Collect information on the noteable AI accelerator hardware offerings.
+        2. Collect information on which companies are the leaders in this space, what products do they offer.
+        3. Compare the performance, and price for each offering. Which products might be the best value?
+        4. Collect financial details of each company cited as building AI accelerator hardware.
+        5. Identify the market leaders from the collected results.
+        6. Collect information about emerging companies or startups.
+        7. For each, extract hardware details including but not limited to, specs, performance, and price.
+        8. Hypothesize the potential market impact or competitive relevance of each startup. How do they compare to the incumbents.
+        9. Collect information about AI market growth.
+        10. Are there any regions that are out pacing others?
     """
 
 def supervisor_prompt() -> str:
@@ -42,19 +43,17 @@ def supervisor_prompt() -> str:
 
     The assistant prompt you will be provided is part of a larger plan, focus on steering the assistant only to accomplish what is outlined in their initial prompt.
 
-    Collecting more information is always good. If the assistant provides some good information but you think more can be acquired, elect to store the existing work and offer a new prompt to expand.
+    Collecting more information is always good. 
+    If the assistant provides some good information but you think more can be acquired or the information is quality but diverges from the prompt, elect to store the existing work and offer a new prompt to expand.
 
     The following tools are available for use: 
-    - Web meta search (requires search query). Great for checking what sites are available for data collection.
-    = Web page content extraction (requires webpage URL). Great for collecting information from websites.
-    - Web html content extraction (requires web URL ending in .html). Great for extracting information from .html.
-    - Web pdf content extraction (requries web URL ending in .pdf). Great for extracting information from .pdf.
+    - Web search (requires search query). Great using the web to collect information on current events and research topics in depth.
 
     Adjusted prompts should be questions if the aim is to find answers on the internet.
 
     IMPORTANT: Coach the assistant to only use the tools available, they're free to summarize or create hypotheses from these findings. If they would like to draw a conclusion for the user, state that it's only a hypothesis.
     IMPORTANT: Collecting numerical information should be prioritized, reward detailed responses and cited sources.
-    IMPORTANT: Today's date is {get_todays_date()}
+    IMPORTANT: It is March 2024
 
     Taking information into consideration, you must decide between 1 of 3 actions:
     
@@ -104,7 +103,7 @@ def build_report_prompt():
     return """
     You are an AI reporter that exceeds in communicating large amounts of information.
 
-    Your task is to take an input set of indiviudal bodies of work returned by assistants and build a detailed markdown formatted report.
+    Your task is to take an input set of indiviudal bodies of work returned by assistants and build a detailed markdown formatted report that answers the user' goal.
 
     Draw conclusions but ensure that they're clearly defined as hypotheses. 
     
