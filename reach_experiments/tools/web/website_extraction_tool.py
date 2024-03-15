@@ -16,7 +16,7 @@ from langchain.callbacks.manager import (
 )
 
 #TODO parametrize this 
-llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo-0613")
+llm = ChatOpenAI(temperature=0, model="gpt-4")
 
 schema = {
     "properties": {

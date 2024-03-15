@@ -11,7 +11,9 @@ from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, ToolMe
 from langchain_openai import ChatOpenAI
 from langchain_community.utilities import SearxSearchWrapper
 from langchain_community.tools.searx_search.tool import SearxSearchResults
-from tools.web.deep_search_tool import UrlExtractionTool
+# from tools.web.website_extraction_tool import UrlExtractionTool
+# from tools.web.pdf_extraction_tool import PDFExtractionTool
+# from tools.web.html_extraction_tool import HTMLExtractionTool
 
 from langchain.agents import load_tools
 
@@ -30,6 +32,9 @@ from langchain_core.runnables import RunnableConfig
 from collections import defaultdict, deque
 from langgraph.graph import END, StateGraph
 
+from langchain.utilities.tavily_search import TavilySearchAPIWrapper
+from langchain.tools.tavily_search import TavilySearchResults
+
 
 def _set_if_undefined(var: str) -> None:
     if os.environ.get(var):
@@ -42,17 +47,25 @@ def _set_if_undefined(var: str) -> None:
 # os.environ["LANGCHAIN_TRACING_V2"] = "true"
 # os.environ["LANGCHAIN_PROJECT"] = "LATS"
 os.environ["SEARX_HOST"] = "http://localhost:8080"
-os.environ["OPENAI_API_KEY"] = ""
+# os.environ["TAVILY_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "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"
 
 _set_if_undefined("OPENAI_API_KEY")
 _set_if_undefined("SEARX_HOST")
 
-llm = ChatOpenAI(model="gpt-3.5-turbo")
+llm = ChatOpenAI(model="gpt-4")
 search = SearxSearchWrapper(searx_host="http://localhost:8080")
 searx_tool = SearxSearchResults(name="google", wrapper=search, kwargs={"engines": ["google"]})
-url_extraction_tool = UrlExtractionTool()
+# url_extraction_tool = UrlExtractionTool()
+# html_extraction_tool = HTMLExtractionTool()
+# pdf_extraction_tool = PDFExtractionTool()
+# search = TavilySearchAPIWrapper()
+# tavily_tool = TavilySearchResults(api_wrapper=search)
 
-tools = [searx_tool, url_extraction_tool]
+tools = [
+    searx_tool,
+]
+
 tool_executor = ToolExecutor(tools=tools)
 
 
@@ -289,6 +302,9 @@ expansion_chain = prompt_template | generate_candidates
 def expand(state: TreeState, config: RunnableConfig) -> dict:
     """Starting from the "best" node in the tree, generate N candidates for the next step."""
     root = state["root"]
+
+    #TODO
+    # config["recursion_limit"] = 50
     best_candidate: Node = root.best_child if root.children else root
     messages = best_candidate.get_trajectory()
     # Generate N candidates from the single child candidate

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>REACH</title>
+    <meta name="description" content="The AI Consultant">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="./static/reachWatermark.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/site/styles.css"/>
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <style>
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        .agent-name {
+            text-align: center;
+        }
+
+        .agent-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .agent-choices {
+            display: none;
+        }
+
+        .btn-show {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="landing">
+        <div class="content">
+            <div class="top-text">[OLD] INDUSTRY // NEW TECH.</div>
+            <h1 class="landing-title">
+                <span class="text-highlight">REACH</span>
+                <span class="version-tag"><span class="version-number">v0.01</span></span>
+                <span class="main-text">THE AI CONSULTANT.</span>
+            </h1>
+            <div class="bottom-text">NEW PROBLEMS // NEW SOLUTIONS.</div>
+            <div class="reach">LET'S EXTEND YOUR REACH.</div>
+            <div class="down-arrow">⌄</div>
+        </div>
+    </section>
+    
+
+    <main class="container" id="form">
+        <!-- Left Side Container -->
+        <div class="left-container">
+            <form method="POST" class="mt-3" onsubmit="Reach.startResearch(); return false;">
+                <div class="form-group">
+                    <h2 for="task" class="agent-question">TASK DEFINITION</h2>
+                    <input type="text" id="task" name="task" class="form-control" required>
+                    <input type="radio" name="agent" id="autoAgent" value="Auto Agent" checked hidden>
+                </div>
+                <div class="form-group d-flex justify-content-between">
+                    <select name="report_type" class="form-control w-75" required>
+                        <option value="research_report">RESEARCH REPORT</option>
+                        <option value="resource_report">RESOURCE REPORT</option>
+                        <option value="outline_report">OUTLINE REPORT</option>
+                        <option value="table">TABLE</option>
+                    </select>
+                    <input type="submit" value="RESEARCH" class="btn btn-primary button-padding ml-2">
+                </div>
+            </form>
+    
+            <div class="margin-div">
+                <p class="mt-2 text-left" style="font-size: 0.8rem;"></p>
+                <div id="output"></div>
+                <div class="agent-item"><img src="/static/reachArrowBlack.png" class="avatar" alt="Auto Agent"></div>
+            </div>
+        </div>
+    
+        <!-- Right Side Container -->
+        <div class="right-container">
+            <div class="margin-div">
+                <div style="text-align: right;">
+                    <button id="debugFinishState" style="background: none; border: none; padding: 0;">
+                        <img src="/static/reachWatermark.png" class="avatar" style="vertical-align: middle;">
+                    </button>
+                </div>
+                <div id="reportContainer"></div>
+                <div id="reportActions">
+                    <div class="alert alert-info" role="alert" id="status"></div>
+                    <a id="copyToClipboard" onclick="Reach.copyToClipboard()" class="btn btn-secondary mt-3" style="margin-right: 10px;">Copy to clipboard</a>
+                    <a id="downloadLinkPDF" href="#" class="btn btn-secondary mt-3" style="margin-right: 10px;" target="_blank">Download as PDF</a>
+                    <a id="downloadLinkCSV" href="#" class="btn btn-secondary mt-3" target="_blank">Download as CSV</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+<footer>
+    <p>REACH &copy; 2024 | <a target="_blank" href="https://extendyourreach.ai">REACH Website</a></p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+<script src="/site/scripts.js"></script>
+<script>
+    // const btnChoose = document.getElementById('btnChoose');
+    // const btnShowAuto = document.getElementById('btnShowAuto');
+    const autoAgentDiv = document.getElementById('autoAgentDiv');
+    const agentChoices = document.getElementsByClassName('agent-choices');
+
+    /**
+    btnChoose.addEventListener('click', function () {
+        btnShowAuto.style.display = 'inline-block';
+        btnChoose.style.display = 'none';
+        autoAgentDiv.style.display = 'none';
+        agentChoices[0].style.display = 'flex';
+    });
+    **/
+
+    // btnShowAuto.addEventListener('click', function () {
+    //     btnShowAuto.style.display = 'none';
+    //     btnChoose.style.display = 'inline-block';
+    //     autoAgentDiv.style.display = 'flex';
+    //     agentChoices[0].style.display = 'none';
+    // });
+</script>
+</body>
+
+</html>
