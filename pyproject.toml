@@ -1,9 +1,9 @@
 [tool.poetry]
-name = "gpt-researcher"
-version = "0.0.5"
-description = "GPT Researcher is an autonomous agent designed for comprehensive online research on a variety of tasks."
-authors = ["Tavily <support@tavily.com>"]
-license = "MIT"
+name = "REACH"
+version = "0.0.1"
+description = "The AI Consultant"
+authors = ["Will <will.bryan421@gmail.com>"]
+license = "Proprietary"
 readme = "README.md"
 
 [tool.poetry.dependencies]
