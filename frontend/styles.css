@@ -215,7 +215,6 @@ footer {
     margin: 10px;
     padding: 10px;
     border-radius: 0px;
-    max-width: 50%; /* Prevent horizontal expansion */
 }
 
 #output {
