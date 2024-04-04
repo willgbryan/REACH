@@ -98,7 +98,7 @@ async def get_sub_queries(query: str, agent_role_prompt: str, cfg, parent_query:
         model=cfg.smart_llm_model,
         messages=[
             {"role": "system", "content": f"{agent_role_prompt}"},
-            {"role": "user", "content": generate_search_queries_prompt(query, max_iterations=max_research_iterations)}],
+            {"role": "user", "content": generate_search_queries_prompt(query, parent_query, report_type, max_iterations=max_research_iterations)}],
         temperature=0,
         llm_provider=cfg.llm_provider
     )
