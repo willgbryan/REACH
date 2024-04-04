@@ -6,4 +6,5 @@ class ReportType(Enum):
     OutlineReport = 'outline_report'
     CustomReport = 'custom_report'
     DetailedReport = 'detailed_report'
-    SubtopicReport = 'subtopic_report' 
+    SubtopicReport = 'subtopic_report'
+    TableReport = 'table_report' 
