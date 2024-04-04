@@ -128,7 +128,7 @@ class Reach:
         """
         context = []
         # Generate Sub-Queries including original query
-        sub_queries = await get_sub_queries(query, self.role, self.cfg) + [query]
+        sub_queries = await get_sub_queries(query, self.role, self.cfg, self.parent_query, self.report_type) + [query]
         await stream_output("logs",
                             f"I will conduct my research based on the following queries: {sub_queries}...",
                             self.websocket)
