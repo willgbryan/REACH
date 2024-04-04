@@ -68,7 +68,7 @@ class Reach:
         else:
             self.context = await self.get_context_by_search(self.query)
 
-         time.sleep(2)
+        time.sleep(2)
 
     async def write_report(self, existing_headers: list = []):
         """
@@ -142,7 +142,7 @@ class Reach:
                 await stream_output("logs", f"📃 {content}", self.websocket)
             else:
                 await stream_output("logs", f"🤷 No content found for '{sub_query}'...", self.websocket)
-         return content
+        return content
 
     async def get_new_urls(self, url_set_input):
         """ Gets the new urls from the given url set.
@@ -188,17 +188,17 @@ class Reach:
         return context_compressor.get_context(query, max_results=8)
     
 
-     ########################################################################################
+    ########################################################################################
 
-     # DETAILED REPORT
+    # DETAILED REPORT
 
-     async def write_introduction(self):
+    async def write_introduction(self):
         # Construct Report Introduction from main topic research
         introduction = await get_report_introduction(self.query, self.context, self.role, self.cfg, self.websocket)
 
         return introduction
 
-     async def get_subtopics(self):
+    async def get_subtopics(self):
         """
         This async function generates subtopics based on user input and other parameters.
         
