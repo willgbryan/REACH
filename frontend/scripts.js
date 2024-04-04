@@ -156,14 +156,17 @@ const Reach = (() => {
 
 
     const updateDownloadLinkPDF = (data) => {
-      const path = data.output;
+      const pdf_path = data.output.pdf;
+      const docx_path = data.output.docx
       console.log("Updating PDF download link to:", path);
-      const downloadLinkPDF = document.getElementById("downloadLinkPDF");
-      downloadLinkPDF.setAttribute("href", path);
-      downloadLinkPDF.removeAttribute('onclick');
-      downloadLinkPDF.classList.remove("disabled");
+      document.getElementById("downloadLink").setAttribute("href", pdf_path);
+      document.getElementById("downloadLinkWord").setAttribute("href", docx_path);
+      // downloadLinkPDF.setAttribute("href", path);
+      // downloadLinkPDF.removeAttribute('onclick');
+      // downloadLinkPDF.classList.remove("disabled");
     };
     
+    // This is broken 
     const updateDownloadLinkCSV = () => {
       console.log("Preparing to download CSV data.");
       // Assuming cleanedDataGlobal contains the CSV data you want to download

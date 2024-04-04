@@ -97,7 +97,8 @@
                     <div class="alert alert-info" role="alert" id="status"></div>
                     <a id="copyToClipboard" onclick="Reach.copyToClipboard()" class="btn btn-secondary mt-3" style="margin-right: 10px;">Copy to clipboard</a>
                     <a id="downloadLinkPDF" href="#" class="btn btn-secondary mt-3" style="margin-right: 10px;" target="_blank">Download as PDF</a>
-                    <a id="downloadLinkWord" href="#" class="btn btn-secondary mt-3" target="_blank">Download as Docx</a>
+                    <!-- HIDING WHILE BUTTON IS BROKEN -->
+                    <!-- <a id="downloadLinkWord" href="#" class="btn btn-secondary mt-3" target="_blank">Download as Docx</a> -->
                     <!-- Copy to clipboard accomplishes the same task. Removing for now. -->
                     <a id="downloadLinkCSV" href="#" class="btn btn-secondary mt-3" target="_blank">Download as CSV</a>
                 </div>
@@ -113,7 +114,7 @@
 <script src="/site/scripts.js"></script>
 <script>
     // const btnChoose = document.getElementById('btnChoose');
-    // const btnShowAuto = document.getElementById('btnShowAuto');
+    const btnShowAuto = document.getElementById('btnShowAuto');
     const autoAgentDiv = document.getElementById('autoAgentDiv');
     const agentChoices = document.getElementsByClassName('agent-choices');
 
@@ -126,12 +127,12 @@
     });
     **/
 
-    // btnShowAuto.addEventListener('click', function () {
-    //     btnShowAuto.style.display = 'none';
-    //     btnChoose.style.display = 'inline-block';
-    //     autoAgentDiv.style.display = 'flex';
-    //     agentChoices[0].style.display = 'none';
-    // });
+    btnShowAuto.addEventListener('click', function () {
+        btnShowAuto.style.display = 'none';
+        btnChoose.style.display = 'inline-block';
+        autoAgentDiv.style.display = 'flex';
+        agentChoices[0].style.display = 'none';
+    });
 </script>
 </body>
 
