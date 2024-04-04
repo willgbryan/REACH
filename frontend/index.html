@@ -68,6 +68,7 @@
                 <div class="form-group d-flex justify-content-between">
                     <select name="report_type" class="form-control w-75" required>
                         <option value="research_report">RESEARCH REPORT</option>
+                        <option value="detailed_report">DEEP REPORT</option>
                         <option value="resource_report">RESOURCE REPORT</option>
                         <option value="outline_report">OUTLINE REPORT</option>
                         <option value="table">TABLE</option>
@@ -96,6 +97,7 @@
                     <div class="alert alert-info" role="alert" id="status"></div>
                     <a id="copyToClipboard" onclick="Reach.copyToClipboard()" class="btn btn-secondary mt-3" style="margin-right: 10px;">Copy to clipboard</a>
                     <a id="downloadLinkPDF" href="#" class="btn btn-secondary mt-3" style="margin-right: 10px;" target="_blank">Download as PDF</a>
+                    <a id="downloadLinkWord" href="#" class="btn btn-secondary mt-3" target="_blank">Download as Docx</a>
                     <!-- Copy to clipboard accomplishes the same task. Removing for now. -->
                     <a id="downloadLinkCSV" href="#" class="btn btn-secondary mt-3" target="_blank">Download as CSV</a>
                 </div>
