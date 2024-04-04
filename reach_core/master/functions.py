@@ -274,7 +274,7 @@ async def stream_output(type, output, websocket=None, logging=True):
         await websocket.send_json({"type": type, "output": output})
 
 
- async def get_report_introduction(query, context, role, config, websocket=None):
+async def get_report_introduction(query, context, role, config, websocket=None):
     try:
         introduction = await create_chat_completion(
             model=config.smart_llm_model,
