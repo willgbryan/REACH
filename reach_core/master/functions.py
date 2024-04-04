@@ -81,7 +81,7 @@ async def choose_agent(query, cfg):
         return "Default Agent", "You are an AI critical thinker research assistant. Your sole purpose is to write well written, critically acclaimed, objective and structured reports on given text."
 
 
-async def get_sub_queries(query, agent_role_prompt, cfg):
+async def get_sub_queries(query: str, agent_role_prompt: str, cfg, parent_query: str, report_type:str):
     """
     Gets the sub queries
     Args:
