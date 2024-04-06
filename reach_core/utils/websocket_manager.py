@@ -1,10 +1,13 @@
 # connect any client to gpt-researcher using websocket
 import asyncio
 import datetime
-from typing import List, Dict
-from fastapi import WebSocket
-from reach_core.master.agent import Reach
+from typing import Dict, List
 
+from fastapi import WebSocket
+
+from reach_core.report_type import BasicReport, DetailedReport
+
+from .enum import ReportType
 
 class WebSocketManager:
     """Manage websockets"""
@@ -58,8 +61,13 @@ async def run_agent(task, report_type, websocket):
     start_time = datetime.datetime.now()
     # add customized JSON config file path here
     config_path = None
-    # run agent
-    researcher = Reach(query=task, report_type=report_type, source_urls=None, config_path=config_path, websocket=websocket)
+    # Instead of running the agent directly run it through the different report type classes
+    if report_type == ReportType.DetailedReport.value:
+        researcher = DetailedReport(query=task, report_type=report_type,
+                                    source_urls=None, config_path=config_path, websocket=websocket)
+    else:
+        researcher = BasicReport(query=task, report_type=report_type,
+                                source_urls=None, config_path=config_path, websocket=websocket)
     report = await researcher.run()
     # measure time
     end_time = datetime.datetime.now()

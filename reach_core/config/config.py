@@ -11,7 +11,7 @@ class Config:
         self.config_file = config_file if config_file else os.getenv('CONFIG_FILE')
         self.retriever = os.getenv('SEARCH_RETRIEVER', "searx")
         self.embedding_provider = os.getenv('EMBEDDING_PROVIDER', 'openai')
-        self.llm_provider = os.getenv('LLM_PROVIDER', "ChatOpenAI")
+        self.llm_provider = os.getenv('LLM_PROVIDER', "openai")
         self.fast_llm_model = os.getenv('FAST_LLM_MODEL', "gpt-3.5-turbo-16k")
         self.smart_llm_model = os.getenv('SMART_LLM_MODEL', "gpt-4-1106-preview")
         self.fast_token_limit = int(os.getenv('FAST_TOKEN_LIMIT', 2000))
@@ -25,9 +25,10 @@ class Config:
         self.memory_backend = os.getenv('MEMORY_BACKEND', "local")
         self.total_words = int(os.getenv('TOTAL_WORDS', 10))
         self.report_format = os.getenv('REPORT_FORMAT', "csv")
-        self.max_iterations = int(os.getenv('MAX_ITERATIONS', 3))
+        self.max_iterations = int(os.getenv('MAX_ITERATIONS', 5))
         self.agent_role = os.getenv('AGENT_ROLE', None)
         self.scraper = os.getenv("SCRAPER", "bs")
+        self.max_subtopics = os.getenv("MAX_SUBTOPICS", 8)
 
         self.load_config_file()
 
