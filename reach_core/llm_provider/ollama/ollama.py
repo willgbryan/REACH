@@ -16,7 +16,7 @@ class OllamaProvider:
         self.temperature = temperature
         self.max_tokens = max_tokens
 
-    async def async_ollama(self, messages, stream, webocket=None):
+    async def get_chat_response(self, messages, stream, webocket=None):
         if not stream:
             # Getting output from the model chain using ainvoke for asynchronous invoking
             response = completion(
