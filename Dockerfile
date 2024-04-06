@@ -1,15 +1,19 @@
 FROM python:3.11.4-slim-bullseye as install-browser
 
 RUN apt-get update \
-    && apt-get satisfy -y \
-    "chromium, chromium-driver (>= 115.0)" \
-    && chromium --version && chromedriver --version
-
-RUN apt-get install -y firefox-esr wget \
+    && apt-get install -y --no-install-recommends \
+       build-essential \
+       chromium \
+       chromium-driver \
+       firefox-esr \
+       git \
+       wget \
+    && chromium --version && chromedriver --version \
     && wget https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz \
     && tar -xvzf geckodriver* \
     && chmod +x geckodriver \
-    && mv geckodriver /usr/local/bin/
+    && mv geckodriver /usr/local/bin/ \
+    && rm -rf /var/lib/apt/lists/*
 
 FROM install-browser as reach-install
 
@@ -32,4 +36,3 @@ COPY --chown=reach:reach ./ ./
 
 EXPOSE 8000
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
-

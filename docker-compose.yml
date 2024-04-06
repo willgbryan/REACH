@@ -1,5 +1,11 @@
 version: '3'
 services:
+  ollama:
+    image: ollama/ollama
+    ports: 
+      - "11434:11434"
+    networks:
+      - reach
   searxng:
     image: searxng/searxng
     volumes:
@@ -12,7 +18,7 @@ services:
     image: reach
     volumes:
       - ./frontend:/usr/src/app/frontend
-      - ./reach_core:/usr/src/app/gpt_researcher
+      - ./reach_core:/usr/src/app/reach_core
     build: ./
     environment:
       SEARX_URL: ${SEARX_HOST}
