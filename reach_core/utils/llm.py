@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
+import asyncio
 from typing import Optional
 
 from colorama import Fore, Style
@@ -20,9 +21,9 @@ def get_provider(llm_provider):
         case "openai":
             from ..llm_provider import OpenAIProvider
             llm_provider = OpenAIProvider
-        case "google":
-            from ..llm_provider import GoogleProvider
-            llm_provider = GoogleProvider
+        case "ollama":
+            from ..llm_provider import OllamaProvider
+            llm_provider = OllamaProvider
         case _:
             raise Exception("LLM provider not found.")
     return llm_provider
@@ -63,9 +64,15 @@ async def create_chat_completion(
     )
     # create response
     for _ in range(10):  # maximum of 10 attempts
-        response = await provider.get_chat_response(
-            messages, stream, websocket
-        )
+        if llm_provider == "openai":
+            response = await provider.get_chat_response(
+                messages, stream, websocket
+            )
+        else:
+            model_response = await provider.get_chat_response(
+                messages, stream, websocket
+            )
+            response = model_response.choices[0].message['content']
         return response
     logging.error("Failed to get response from OpenAI API")
     raise RuntimeError("Failed to get response from OpenAI API")

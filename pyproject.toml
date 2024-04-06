@@ -7,6 +7,7 @@ license = "Proprietary"
 readme = "README.md"
 
 [tool.poetry.dependencies]
+asyncio = ">=3.4.3"
 python = ">=3.10,<4.0"
 beautifulsoup4 = ">=4.12.2"
 colorama = ">=0.4.6"
@@ -38,7 +39,7 @@ mistune = "^3.0.2"
 htmldocx = "^0.0.6"
 python-docx = "^1.1.0"
 langchain-openai = "^0.1.0"
-langchain-google-genai = "^0.0.11"
+litellm = ">=1.31.16"
 
 
 
