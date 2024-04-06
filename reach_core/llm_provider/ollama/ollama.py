@@ -41,15 +41,15 @@ class OllamaProvider:
             stream=True
         )
         async for chunk in response:
-            if chunk is not None
-            response += chunk
-            paragraph += chunk
-            if "\n" in paragraph:
-                if websocket is not None:
-                    await websocket.send_json({"type": "report", "output": paragraph})
-                else:
-                    print(f"{Fore.GREEN}{paragraph}{Style.RESET_ALL}")
-                paragraph = ""
-            print(chunk)
+            if chunk is not None:
+                response += chunk
+                paragraph += chunk
+                if "\n" in paragraph:
+                    if websocket is not None:
+                        await websocket.send_json({"type": "report", "output": paragraph})
+                    else:
+                        print(f"{Fore.GREEN}{paragraph}{Style.RESET_ALL}")
+                    paragraph = ""
+                print(chunk)
         
         return response
