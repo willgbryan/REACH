@@ -10,7 +10,7 @@ from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 
-from gpt_researcher.master.prompts import auto_agent_instructions, generate_subtopics_prompt
+from reach_core.master.prompts import auto_agent_instructions, generate_subtopics_prompt
 
 from .validators import Subtopics
 
