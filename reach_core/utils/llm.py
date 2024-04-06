@@ -20,9 +20,9 @@ def get_provider(llm_provider):
         case "openai":
             from ..llm_provider import OpenAIProvider
             llm_provider = OpenAIProvider
-        case "google":
-            from ..llm_provider import GoogleProvider
-            llm_provider = GoogleProvider
+        case "ollama":
+            from ..llm_provider import OllamaProvider
+            llm_provider = OllamaProvider
         case _:
             raise Exception("LLM provider not found.")
     return llm_provider
