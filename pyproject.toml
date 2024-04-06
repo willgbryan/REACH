@@ -7,6 +7,7 @@ license = "Proprietary"
 readme = "README.md"
 
 [tool.poetry.dependencies]
+asyncio = ">=3.4.3"
 python = ">=3.10,<4.0"
 beautifulsoup4 = ">=4.12.2"
 colorama = ">=0.4.6"
