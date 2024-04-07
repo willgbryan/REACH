@@ -5,6 +5,7 @@ services:
     image: downloads.unstructured.io/unstructured-io/unstructured:latest
     networks:
       - reach
+    # this is a hack to keep the container running
     command: tail -f /dev/null
   ollama:
     image: ollama/ollama
