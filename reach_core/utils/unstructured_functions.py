@@ -17,3 +17,23 @@ def process_pdf(pdf_path: str, container_name: str = "unstructured") -> str:
 
     return output
 
+def process_docx(docx_path: str, container_name: str = "unstructured") -> str:
+
+    copy_command = f"docker cp {docx_path} {container_name}:/tmp"
+    run_command(copy_command)
+
+    python_command = f'docker exec {container_name} python3 -c "from unstructured.partition.docx import partition_docx; elements = partition_docx(filename=\'/tmp/{docx_path.split("/")[-1]}\'); print(\'\\n\\n\'.join([str(el) for el in elements]))"'
+    output = run_command(python_command)
+
+    return output
+
+def process_pptx(pptx_path: str, container_name: str = "unstructured") -> str:
+
+    copy_command = f"docker cp {pptx_path} {container_name}:/tmp"
+    run_command(copy_command)
+
+    python_command = f'docker exec {container_name} python3 -c "from unstructured.partition.pptx import partition_pptx; elements = partition_pptx(filename=\'/tmp/{pptx_path.split("/")[-1]}\'); print(\'\\n\\n\'.join([str(el) for el in elements]))"'
+    output = run_command(python_command)
+
+    return output
+
