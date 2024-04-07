@@ -1,5 +1,11 @@
 version: '3'
 services:
+  unstructured:
+    container_name: unstructured
+    image: downloads.unstructured.io/unstructured-io/unstructured:latest
+    networks:
+      - reach
+    command: tail -f /dev/null
   ollama:
     image: ollama/ollama
     ports: 
