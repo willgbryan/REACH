@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect, File, UploadFile, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
@@ -35,7 +35,6 @@ def startup_event():
 async def read_root(request: Request):
     return templates.TemplateResponse('index.html', {"request": request, "report": None})
 
-
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)
@@ -56,3 +55,16 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         await manager.disconnect(websocket)
 
+@app.post("/upload")
+async def upload_file(file: UploadFile = File(...), task: str = Form(...)):
+    upload_dir = "uploads"
+    if not os.path.isdir(upload_dir):
+        os.makedirs(upload_dir)
+    
+    file_location = f"{upload_dir}/{file.filename}"
+    with open(file_location, "wb+") as file_object:
+        file_object.write(await file.read())
+    
+    # compress on upload here??
+    
+    return {"info": f"File '{file.filename}' uploaded successfully", "task": task}
