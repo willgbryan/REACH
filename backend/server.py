@@ -5,6 +5,7 @@ from pydantic import BaseModel
 import json
 import os
 from reach_core.utils.websocket_manager import WebSocketManager
+from reach_core.utils.unstructured_functions import *
 from .utils import write_md_to_pdf
 
 
@@ -65,6 +66,7 @@ async def upload_file(file: UploadFile = File(...), task: str = Form(...)):
     with open(file_location, "wb+") as file_object:
         file_object.write(await file.read())
     
+    # TODO experiment with migrating unstructured functions processing to happen on upload here
     # compress on upload here??
     
     return {"info": f"File '{file.filename}' uploaded successfully", "task": task}
