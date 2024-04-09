@@ -7,6 +7,16 @@ def run_command(command: str) -> str:
         raise Exception(result.stderr.decode())
     return resutl.stdout.decode()
 
+def process_unstructured(file_path: str) -> str:
+    from unstructured.partition.auto import partition
+
+    elements = partition(filename=file_path)
+    raw_content = "\n\n".join([str(el) for el in elements])
+    source = file_path
+    output_list = [{'source': file_path}, {'raw_content': raw_content}]
+    
+    return output_list
+
 def process_pdf(pdf_path: str, container_name: str = "unstructured") -> str:
 
     copy_command = f"docker cp {pdf_path} {container_name}:/tmp"
