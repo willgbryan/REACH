@@ -13,7 +13,7 @@ def process_unstructured(file_path: str) -> str:
     elements = partition(filename=file_path)
     raw_content = "\n\n".join([str(el) for el in elements])
     source = file_path
-    output_list = [{'source': file_path}, {'raw_content': raw_content}]
+    output_list = [{'url': file_path}, {'raw_content': raw_content}]
     
     return output_list
 
