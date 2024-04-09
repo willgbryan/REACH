@@ -31,3 +31,4 @@ python-docx
 htmldocx
 lxml[html_clean]
 litellm
+unstructured[all-docs]
