@@ -120,9 +120,10 @@ class Reach:
                             self.websocket)
         scraped_sites = scrape_urls(new_search_urls, self.cfg)
         upload_parsed_pdf = await process_unstructured()
+        document_results = await self.get_similar_content_by_query(self.query, upload_parsed_pdf)
+        web_results = await self.get_similar_content_by_query(self.query, scraped_sites)
 
-        # return await self.get_similar_content_by_query(self.query, scraped_sites)
-        return await self.get_similar_content_by_query(self.query, upload_parsed_pdf)
+        return document_results + web_results
 
 
     async def get_context_by_search(self, query):
@@ -141,10 +142,13 @@ class Reach:
         # Run Sub-Queries
         for sub_query in sub_queries:
             await stream_output("logs", f"\nRunning research for '{sub_query}'...", self.websocket)
-            # scraped_sites = await self.scrape_sites_by_query(sub_query)
+            scraped_sites = await self.scrape_sites_by_query(sub_query)
             upload_parsed_pdf = await process_unstructured()
-            # content = await self.get_similar_content_by_query(sub_query, scraped_sites)
-            content = await self.get_similar_content_by_query(sub_query, upload_parsed_pdf)
+            web_content = await self.get_similar_content_by_query(sub_query, scraped_sites)
+            document_content = await self.get_similar_content_by_query(sub_query, upload_parsed_pdf)
+
+            content = web_content + document_content
+
             if content:
                 await stream_output("logs", f"{content}", self.websocket)
             else:
