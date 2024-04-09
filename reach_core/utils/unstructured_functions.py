@@ -12,13 +12,15 @@ def process_unstructured(upload_dir: str = "uploads") -> list:
     import os
 
     output_list = []
-    if os.path.isdir(upload_dir):
-        for filename in os.listdir(upload_dir):
-            file_path = os.path.join(upload_dir, filename)
-            if os.path.isfile(file_path):
-                elements = partition(filename=file_path)
-                raw_content = "\n\n".join([str(el) for el in elements])
-                output_list.append({'url': file_path, 'raw_content': raw_content})
+    for filename in os.listdir(upload_dir):
+        print(f"filename {filename}")
+        file_path = os.path.join(upload_dir, filename)
+        print(f"file path {file_path}")
+        if os.path.isfile(file_path):
+            elements = partition(filename=file_path)
+            raw_content = "\n\n".join([str(el) for el in elements])
+            output_list.append({'url': file_path, 'raw_content': raw_content})
+    print(f"output list: {output_list}")
 
     return output_list
 

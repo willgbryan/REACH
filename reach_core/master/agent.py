@@ -119,7 +119,7 @@ class Reach:
                             f"I will conduct my research based on the following urls: {new_search_urls}...",
                             self.websocket)
         # scraped_sites = scrape_urls(new_search_urls, self.cfg)
-        upload_parsed_pdf = process_unstructured("uploads/OpenAI.pdf")
+        upload_parsed_pdf = process_unstructured()
         # return await self.get_similar_content_by_query(self.query, scraped_sites)
         return await self.get_similar_content_by_query(self.query, upload_parsed_pdf)
 
@@ -141,7 +141,7 @@ class Reach:
         for sub_query in sub_queries:
             await stream_output("logs", f"\nRunning research for '{sub_query}'...", self.websocket)
             # scraped_sites = await self.scrape_sites_by_query(sub_query)
-            upload_parsed_pdf = process_unstructured("uploads/OpenAI.pdf")
+            upload_parsed_pdf = process_unstructured()
             # content = await self.get_similar_content_by_query(sub_query, scraped_sites)
             content = await self.get_similar_content_by_query(sub_query, upload_parsed_pdf)
             if content:
