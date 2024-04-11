@@ -27,4 +27,4 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: reach/reach-core:latest
+          tags: reach13/reach:latest
