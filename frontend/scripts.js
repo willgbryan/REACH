@@ -9,6 +9,7 @@ const Reach = (() => {
       document.getElementById("debugFinishState").addEventListener("click", () => {
         updateState("finished");
       });
+      document.getElementById("fileUpload").addEventListener("change", handleFileUpload);
 
       updateState("initial");
     }
@@ -22,6 +23,36 @@ const Reach = (() => {
       addAgentResponse({ output: "Thinking about research questions for the task..." });
   
       listenToSockEvents();
+    };
+
+    const handleFileUpload = () => {
+      const fileInput = document.getElementById('fileUpload');
+      if (fileInput.files.length > 0) {
+          const file = fileInput.files[0];
+          const formData = new FormData();
+          formData.append('file', file);
+  
+          formData.append('task', 'fileUpload');
+  
+          fetch('/upload', {
+              method: 'POST',
+              body: formData,
+          })
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              return response.json();
+          })
+          .then(data => {
+              console.log('Success:', data);
+          })
+          .catch((error) => {
+              console.error('Error:', error);
+          });
+      } else {
+          console.log("No file selected for upload.");
+      }
     };
   
     const listenToSockEvents = () => {
@@ -282,5 +313,6 @@ const Reach = (() => {
     return {
       startResearch,
       copyToClipboard,
+      handleFileUpload,
     };
   })();

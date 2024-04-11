@@ -23,32 +23,9 @@ def get_retriever(retriever):
 
     """
     match retriever:
-        case "tavily":
-            from reach_core.retrievers import TavilySearch
-            retriever = TavilySearch
-        case "tavily_news":
-            from reach_core.retrievers import TavilyNews
-            retriever = TavilyNews
-        case "google":
-            from reach_core.retrievers import GoogleSearch
-            retriever = GoogleSearch
         case "searx":
             from reach_core.retrievers import SearxSearch
             retriever = SearxSearch
-        case "serpapi":
-            raise NotImplementedError("SerpApiSearch is not fully implemented yet.")
-            from reach_core.retrievers import SerpApiSearch
-            retriever = SerpApiSearch
-        case "googleSerp":
-            from reach_core.retrievers import SerperSearch
-            retriever = SerperSearch
-        case "duckduckgo":
-            from reach_core.retrievers import Duckduckgo
-            retriever = Duckduckgo
-        case "BingSearch":
-            from reach_core.retrievers import BingSearch
-            retriever = BingSearch
-
         case _:
             raise Exception("Retriever not found.")
 
