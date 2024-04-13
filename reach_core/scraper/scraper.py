@@ -33,6 +33,26 @@ class Scraper:
         res = [content for content in contents if content['raw_content'] is not None]
         return res
 
+    def scrape_youtube_transcripts(self, url: str) -> str:
+        """Scrape transcript from a Youtube video url
+        
+        Args:
+            url (str): The video url to scrape
+            
+        Returns:
+            str: The transcript from the video
+        """
+
+        video_id = url.replace('https://www.youtube.com/watch?v=', '')
+        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+        output=''
+
+        for x in transcript:
+            sentence = x['text']
+            output += f' {sentence}'
+
+        return output
+
     def extract_data_from_link(self, link, session):
         """
         Extracts the data from the link
@@ -44,6 +64,8 @@ class Scraper:
             elif "arxiv.org" in link:
                 doc_num = link.split("/")[-1]
                 content = self.scrape_pdf_with_arxiv(doc_num)
+            elif "youtube.com" in link:
+                content = self.scrape_youtube_transcripts(link)
             elif link and self.scraper=="bs":
                 content = self.scrape_text_with_bs(link, session)
             else:
