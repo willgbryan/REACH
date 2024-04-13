@@ -1,6 +1,7 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 from langchain.document_loaders import PyMuPDFLoader
 from langchain.retrievers import ArxivRetriever
+from youtube_transcript_api import YouTubeTranscriptApi
 from functools import partial
 import requests
 from bs4 import BeautifulSoup
@@ -33,6 +34,35 @@ class Scraper:
         res = [content for content in contents if content['raw_content'] is not None]
         return res
 
+    def extract_data_from_link(self, link, session):
+        """
+        Extracts the data from the link
+        """
+        content = ""
+        try:
+            if link.endswith(".pdf"):
+                print('pdf')
+                content = self.scrape_pdf_with_pymupdf(link)
+            elif "arxiv.org" in link:
+                print('arxiv')
+                doc_num = link.split("/")[-1]
+                content = self.scrape_pdf_with_arxiv(doc_num)
+            elif "youtube" in link:
+                print('youtube')
+                content = self.scrape_youtube_transcripts(link)
+            elif link and self.scraper=="bs":
+                print('bs')
+                content = self.scrape_text_with_bs(link, session)
+            else:
+                print('news')
+                content = self.scrape_url_with_newspaper(link)
+
+            if len(content) < 100:
+                return {'url': link, 'raw_content': None}
+            return {'url': link, 'raw_content': content}
+        except Exception as e:
+            return {'url': link, 'raw_content': None}
+
     def scrape_youtube_transcripts(self, url: str) -> str:
         """Scrape transcript from a Youtube video url
         
@@ -52,30 +82,6 @@ class Scraper:
             output += f' {sentence}'
 
         return output
-
-    def extract_data_from_link(self, link, session):
-        """
-        Extracts the data from the link
-        """
-        content = ""
-        try:
-            if link.endswith(".pdf"):
-                content = self.scrape_pdf_with_pymupdf(link)
-            elif "arxiv.org" in link:
-                doc_num = link.split("/")[-1]
-                content = self.scrape_pdf_with_arxiv(doc_num)
-            elif "youtube.com" in link:
-                content = self.scrape_youtube_transcripts(link)
-            elif link and self.scraper=="bs":
-                content = self.scrape_text_with_bs(link, session)
-            else:
-                content = self.scrape_url_with_newspaper(link)
-
-            if len(content) < 100:
-                return {'url': link, 'raw_content': None}
-            return {'url': link, 'raw_content': content}
-        except Exception as e:
-            return {'url': link, 'raw_content': None}
 
     def scrape_text_with_bs(self, link, session):
         response = session.get(link, timeout=4)
