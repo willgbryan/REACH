@@ -20,6 +20,7 @@ def generate_search_queries_prompt(question: str, parent_query: str, report_type
 
     return f'Write {max_iterations} google search queries to search online that form an objective opinion from the following task: "{task}"' \
            f'Use the current date if needed: {datetime.now().strftime("%B %d, %Y")}.\n' \
+           f'Making searches for youtube videos is encouraged for some of the searches.\n' \
            f'Also include in the queries specified task details such as locations, names, etc.\n' \
            f'You must respond with a list of strings in the following format: ["query 1", "query 2", "query 3"].'
 
