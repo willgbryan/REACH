@@ -41,20 +41,15 @@ class Scraper:
         content = ""
         try:
             if link.endswith(".pdf"):
-                print('pdf')
                 content = self.scrape_pdf_with_pymupdf(link)
             elif "arxiv.org" in link:
-                print('arxiv')
                 doc_num = link.split("/")[-1]
                 content = self.scrape_pdf_with_arxiv(doc_num)
             elif "youtube" in link:
-                print('youtube')
                 content = self.scrape_youtube_transcripts(link)
             elif link and self.scraper=="bs":
-                print('bs')
                 content = self.scrape_text_with_bs(link, session)
             else:
-                print('news')
                 content = self.scrape_url_with_newspaper(link)
 
             if len(content) < 100:
