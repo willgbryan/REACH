@@ -170,6 +170,8 @@ def scrape_text_with_selenium(selenium_web_browser: str, user_agent: str, url: s
         # parse the document number from the url
         doc_num = url.split("/")[-1]
         text = scrape_skills.scrape_pdf_with_arxiv(doc_num)
+    elif "youtube" in url:
+        text = scrape_youtube_transcripts(url)
     else:
         # Get the HTML content directly from the browser's DOM
         page_source = driver.execute_script("return document.body.outerHTML;")
