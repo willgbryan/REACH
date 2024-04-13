@@ -58,11 +58,11 @@ async def async_browse(
         await websocket.send_json(
             {
                 "type": "logs",
-                "output": f"🔎 Browsing the {url} for relevant about: {question}...",
+                "output": f"Browsing the {url} for relevant about: {question}...",
             }
         )
     else:
-        print(f"🔎 Browsing the {url} for relevant about: {question}...")
+        print(f"Browsing the {url} for relevant about: {question}...")
 
     try:
         driver, text = await loop.run_in_executor(
@@ -76,11 +76,11 @@ async def async_browse(
             await websocket.send_json(
                 {
                     "type": "logs",
-                    "output": f"📝 Information gathered from url {url}: {summary_text}",
+                    "output": f"Information gathered from url {url}: {summary_text}",
                 }
             )
         else:
-            print(f"📝 Information gathered from url {url}: {summary_text}")
+            print(f"Information gathered from url {url}: {summary_text}")
 
         return f"Information gathered from url {url}: {summary_text}"
     except Exception as e:
