@@ -73,6 +73,7 @@ class Scraper:
         output=''
 
         for x in transcript:
+            #TODO look into preserving timestamps: x format: {'text': 'in the TRX and raptor r that may change', 'start': 158.68, 'duration': 5.479}
             sentence = x['text']
             output += f' {sentence}'
 
