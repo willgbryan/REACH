@@ -1,6 +1,7 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 from langchain.document_loaders import PyMuPDFLoader
 from langchain.retrievers import ArxivRetriever
+from youtube_transcript_api import YouTubeTranscriptApi
 from functools import partial
 import requests
 from bs4 import BeautifulSoup
@@ -44,6 +45,8 @@ class Scraper:
             elif "arxiv.org" in link:
                 doc_num = link.split("/")[-1]
                 content = self.scrape_pdf_with_arxiv(doc_num)
+            elif "youtube" in link:
+                content = self.scrape_youtube_transcripts(link)
             elif link and self.scraper=="bs":
                 content = self.scrape_text_with_bs(link, session)
             else:
@@ -54,6 +57,27 @@ class Scraper:
             return {'url': link, 'raw_content': content}
         except Exception as e:
             return {'url': link, 'raw_content': None}
+
+    def scrape_youtube_transcripts(self, url: str) -> str:
+        """Scrape transcript from a Youtube video url
+        
+        Args:
+            url (str): The video url to scrape
+            
+        Returns:
+            str: The transcript from the video
+        """
+
+        video_id = url.replace('https://www.youtube.com/watch?v=', '')
+        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+        output=''
+
+        for x in transcript:
+            #TODO look into preserving timestamps: x format: {'text': 'in the TRX and raptor r that may change', 'start': 158.68, 'duration': 5.479}
+            sentence = x['text']
+            output += f' {sentence}'
+
+        return output
 
     def scrape_text_with_bs(self, link, session):
         response = session.get(link, timeout=4)

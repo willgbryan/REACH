@@ -16,19 +16,6 @@ class SearxSearch():
         """
         self.query = query
 
-    def get_api_key(self):
-        """
-        Gets the Tavily API key
-        Returns:
-
-        """
-        # Get the API key
-        try:
-            api_key = os.environ["SEARX_URL"]
-        except:
-            raise Exception("Searx URL key not found. Please set the SEARX_URL environment variable. "
-                            "You can get your key from https://searx.space/")
-        return api_key
 
     def search(self, max_results=7):
         """

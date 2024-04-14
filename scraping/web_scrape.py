@@ -58,11 +58,11 @@ async def async_browse(
         await websocket.send_json(
             {
                 "type": "logs",
-                "output": f"🔎 Browsing the {url} for relevant about: {question}...",
+                "output": f"Browsing the {url} for relevant about: {question}...",
             }
         )
     else:
-        print(f"🔎 Browsing the {url} for relevant about: {question}...")
+        print(f"Browsing the {url} for relevant about: {question}...")
 
     try:
         driver, text = await loop.run_in_executor(
@@ -76,11 +76,11 @@ async def async_browse(
             await websocket.send_json(
                 {
                     "type": "logs",
-                    "output": f"📝 Information gathered from url {url}: {summary_text}",
+                    "output": f"Information gathered from url {url}: {summary_text}",
                 }
             )
         else:
-            print(f"📝 Information gathered from url {url}: {summary_text}")
+            print(f"Information gathered from url {url}: {summary_text}")
 
         return f"Information gathered from url {url}: {summary_text}"
     except Exception as e:
@@ -170,6 +170,8 @@ def scrape_text_with_selenium(selenium_web_browser: str, user_agent: str, url: s
         # parse the document number from the url
         doc_num = url.split("/")[-1]
         text = scrape_skills.scrape_pdf_with_arxiv(doc_num)
+    elif "youtube" in url:
+        text = scrape_youtube_transcripts(url)
     else:
         # Get the HTML content directly from the browser's DOM
         page_source = driver.execute_script("return document.body.outerHTML;")

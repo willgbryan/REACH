@@ -32,3 +32,4 @@ htmldocx
 lxml[html_clean]
 litellm
 unstructured[all-docs]
+youtube-transcript-api
