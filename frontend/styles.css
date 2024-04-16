@@ -189,17 +189,19 @@ input[type="text"], select.form-control {
 
 .d-flex.align-items-center > * {
     margin-right: 25px;
+    margin-bottom: 20px;
 }
 
 .d-flex.align-items-center > *:last-child {
     margin-right: 0;
+    margin-bottom: 20px;
 }
 
 .agent_question {
     background-color: #000000;
     font-size: 1.2rem;
     font-weight: 500;
-    margin-bottom: 0.5rem;
+    margin-bottom: 40px;
 }
 
 footer {
@@ -281,3 +283,39 @@ footer {
     background-color: #000000; /* Darker shade on hover for visual feedback */
 }
 
+.checkbox-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px; /* Adjust spacing as needed */
+  }
+  
+  .box {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .box input {
+    display: none;
+  }
+  
+  .box svg {
+    overflow: visible;
+    margin-left: 50px; /* Space between text and checkbox */
+  }
+  
+  .path {
+    fill: none;
+    stroke: white;
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease;
+    stroke-dasharray: 241 9999999;
+    stroke-dashoffset: 0;
+  }
+  
+  .box input:checked ~ svg .path {
+    stroke-dasharray: 70.5096664428711 9999999;
+    stroke-dashoffset: -262.2723388671875;
+  }

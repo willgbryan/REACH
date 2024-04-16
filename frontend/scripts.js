@@ -20,9 +20,10 @@ const Reach = (() => {
       updateState("in_progress")
       accumulatedData = '';
   
-      addAgentResponse({ output: "Thinking about research questions for the task..." });
-  
-      listenToSockEvents();
+      const selectedSources = Array.from(document.querySelectorAll('input[name="source"]:checked')).map(input => input.value);
+      console.log("Selected sources:", selectedSources); // Debugging
+
+      listenToSockEvents(selectedSources);
     };
 
     const handleFileUpload = () => {
