@@ -4,6 +4,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 import json
 import os
+from typing import List
 from reach_core.utils.websocket_manager import WebSocketManager
 from reach_core.utils.unstructured_functions import *
 from .utils import write_md_to_pdf
