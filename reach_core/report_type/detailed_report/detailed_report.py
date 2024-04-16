@@ -8,10 +8,11 @@ from reach_core.master.functions import (add_source_urls, extract_headers,
 
 
 class DetailedReport():
-    def __init__(self, query: str, report_type: str, source_urls, config_path: str, websocket: WebSocket, subtopics=[]):
+    def __init__(self, query: str, report_type: str, source_urls, sources, config_path: str, websocket: WebSocket, subtopics=[]):
         self.query = query
         self.report_type = report_type
         self.source_urls = source_urls
+        self.sources = sources
         self.config_path = config_path
         self.websocket = websocket
         self.subtopics = subtopics
