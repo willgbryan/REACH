@@ -67,7 +67,7 @@ async def run_agent(task, report_type, sources, websocket):
                                     source_urls=None, sources=sources, config_path=config_path, websocket=websocket)
     else:
         researcher = BasicReport(query=task, report_type=report_type,
-                                source_urls=None, sources=sources, onfig_path=config_path, websocket=websocket)
+                                source_urls=None, sources=sources, config_path=config_path, websocket=websocket)
     report = await researcher.run()
     # measure time
     end_time = datetime.datetime.now()
