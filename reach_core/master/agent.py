@@ -16,7 +16,7 @@ class Reach:
          query: str, 
          report_type: str=ReportType.ResearchReport.value,
          source_urls=None, 
-         sources,
+         sources=["WEB"],
          config_path=None, 
          websocket=None,
          agent=None,
@@ -72,8 +72,10 @@ class Reach:
             self.context += await process_unstructured()
         elif ("FILES" in self.sources):
             self.context = await process_unstructured()
-        else self.source_urls:
-            self.context = await self.get_context_by_urls(self.source_urls)
+        else:
+            self.context = await self.get_context_by_search(self.query)
+        # else self.source_urls:
+        #     self.context = await self.get_context_by_urls(self.source_urls)
 
         time.sleep(2)
 
@@ -153,6 +155,7 @@ class Reach:
                 await stream_output("logs", f"{content}", self.websocket)
             else:
                 await stream_output("logs", f"No content found for '{sub_query}'...", self.websocket)
+        print(f"Collected content: {content}")
         return content
 
 
@@ -180,6 +183,8 @@ class Reach:
                 await stream_output("logs", f"{content}", self.websocket)
             else:
                 await stream_output("logs", f"No content found for '{sub_query}'...", self.websocket)
+        print(f"Collected content: {content}")
+
         return content
 
     async def get_new_urls(self, url_set_input):
