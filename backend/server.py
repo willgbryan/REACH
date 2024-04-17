@@ -4,6 +4,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 import json
 import os
+from typing import List
 from reach_core.utils.websocket_manager import WebSocketManager
 from reach_core.utils.unstructured_functions import *
 from .utils import write_md_to_pdf
@@ -13,6 +14,7 @@ class ResearchRequest(BaseModel):
     task: str
     report_type: str
     agent: str
+    sources: List[str] = []
 
 
 app = FastAPI()
@@ -46,8 +48,10 @@ async def websocket_endpoint(websocket: WebSocket):
                 json_data = json.loads(data[6:])
                 task = json_data.get("task")
                 report_type = json_data.get("report_type")
+                sources = json_data.get("sources", [])
+                
                 if task and report_type:
-                    report = await manager.start_streaming(task, report_type, websocket)
+                    report = await manager.start_streaming(task, report_type, sources, websocket)
                     path = await write_md_to_pdf(report)
                     await websocket.send_json({"type": "path", "output": path})
                 else:

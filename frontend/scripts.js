@@ -19,9 +19,7 @@ const Reach = (() => {
       document.getElementById("reportContainer").innerHTML = "";
       updateState("in_progress")
       accumulatedData = '';
-  
-      addAgentResponse({ output: "Thinking about research questions for the task..." });
-  
+
       listenToSockEvents();
     };
 
@@ -82,11 +80,13 @@ const Reach = (() => {
         const task = document.querySelector('input[name="task"]').value;
         const report_type = document.querySelector('select[name="report_type"]').value;
         const agent = document.querySelector('input[name="agent"]:checked').value;
+        const selectedSources = Array.from(document.querySelectorAll('input[name="source"]:checked')).map(input => input.value);
   
         const requestData = {
           task: task,
           report_type: report_type,
           agent: agent,
+          sources: selectedSources
         };
   
         socket.send(`start ${JSON.stringify(requestData)}`);

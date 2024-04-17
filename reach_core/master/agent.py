@@ -16,6 +16,7 @@ class Reach:
          query: str, 
          report_type: str=ReportType.ResearchReport.value,
          source_urls=None, 
+         sources=["WEB"],
          config_path=None, 
          websocket=None,
          agent=None,
@@ -41,6 +42,7 @@ class Reach:
         self.retriever = get_retriever(self.cfg.retriever)
         self.context = []
         self.source_urls = source_urls
+        self.sources = sources
         self.memory = Memory(self.cfg.embedding_provider)
         self.visited_urls = visited_urls
 
@@ -59,15 +61,22 @@ class Reach:
             Report
         """
         print(f"Running research for '{self.query}'...")
+        print(f"Sources: {self.sources}")
         # Generate Agent
         self.agent, self.role = await choose_agent(self.query, self.cfg)
         await stream_output("logs", self.agent, self.websocket)
 
         # If specified, the researcher will use the given urls as the context for the research.
-        if self.source_urls:
-            self.context = await self.get_context_by_urls(self.source_urls)
+        if ("WEB" in self.sources) and ("FILES" in self.sources):
+            self.context = await self.get_context_by_search(self.query)
+            self.context += await self.get_context_by_file_uploads(self.query)
+        elif ("FILES" in self.sources):
+            self.context = await self.get_context_by_file_uploads(self.query)
+            print(f"Returned context: {self.context}")
         else:
             self.context = await self.get_context_by_search(self.query)
+        # else self.source_urls:
+        #     self.context = await self.get_context_by_urls(self.source_urls)
 
         time.sleep(2)
 
@@ -119,11 +128,36 @@ class Reach:
                             f"I will conduct my research based on the following urls: {new_search_urls}...",
                             self.websocket)
         scraped_sites = scrape_urls(new_search_urls, self.cfg)
-        upload_parsed_pdf = await process_unstructured()
-        document_results = await self.get_similar_content_by_query(self.query, upload_parsed_pdf)
         web_results = await self.get_similar_content_by_query(self.query, scraped_sites)
 
-        return document_results + web_results
+        return web_results
+
+    async def get_context_by_file_uploads(self, query):
+        """
+           Generates the context for the research task by searching the query and scraping the results
+           from the uploaded files
+        Returns:
+            context: List of context
+        """
+        context = []
+        sub_queries = await get_sub_queries(query, self.role, self.cfg, self.parent_query, self.report_type) + [query]
+        await stream_output("logs",
+                            f"I will conduct my research based on the following queries: {sub_queries}...",
+                            self.websocket)
+
+        for sub_query in sub_queries:
+            await stream_output("logs", f"\nRunning research for '{sub_query}'...", self.websocket)
+            upload_parsed_pdf = await process_unstructured()
+            document_content = await self.get_similar_content_by_query(sub_query, upload_parsed_pdf)
+
+            content = document_content
+
+            if content:
+                await stream_output("logs", f"{content}", self.websocket)
+            else:
+                await stream_output("logs", f"No content found for '{sub_query}'...", self.websocket)
+        print(f"Collected content: {content}")
+        return content
 
 
     async def get_context_by_search(self, query):
@@ -133,7 +167,6 @@ class Reach:
             context: List of context
         """
         context = []
-        # Generate Sub-Queries including original query
         sub_queries = await get_sub_queries(query, self.role, self.cfg, self.parent_query, self.report_type) + [query]
         await stream_output("logs",
                             f"I will conduct my research based on the following queries: {sub_queries}...",
@@ -143,16 +176,16 @@ class Reach:
         for sub_query in sub_queries:
             await stream_output("logs", f"\nRunning research for '{sub_query}'...", self.websocket)
             scraped_sites = await self.scrape_sites_by_query(sub_query)
-            upload_parsed_pdf = await process_unstructured()
             web_content = await self.get_similar_content_by_query(sub_query, scraped_sites)
-            document_content = await self.get_similar_content_by_query(sub_query, upload_parsed_pdf)
 
-            content = web_content + document_content
+            content = web_content
 
             if content:
                 await stream_output("logs", f"{content}", self.websocket)
             else:
                 await stream_output("logs", f"No content found for '{sub_query}'...", self.websocket)
+        print(f"Collected content: {content}")
+
         return content
 
     async def get_new_urls(self, url_set_input):

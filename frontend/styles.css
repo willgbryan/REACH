@@ -113,23 +113,13 @@
 }
 
 .reach {
-    font-size: 0.8rem; /* Adjust to match your design */
+    font-size: 0.8rem;
     position: relative;
     color: #000000; /* A dark grey color, seems not completely black */
     letter-spacing: 5px; /* Increase letter-spacing */
     top: -100px; /* Y positioning, adjust as needed */
     right: -370px; /* X positioning, adjust as needed */
 }
-
-/* Adjust the down arrow style */
-/* .down-arrow {
-    font-size: 2rem;
-    color: #333; 
-    position: absolute;
-    bottom: 20px; 
-    left: 50%;
-    transform: translateX(-50%);
-} */
 
 body {
     font-family: 'Inter', sans-serif;
@@ -176,7 +166,7 @@ input[type="text"], select.form-control {
     color: #FFFFFF;
     border: 1px solid #FFFFFF;
     border-radius: 0px;
-    width: 75%;
+    width: 50%;
 }
 
 .btn-primary {
@@ -189,17 +179,19 @@ input[type="text"], select.form-control {
 
 .d-flex.align-items-center > * {
     margin-right: 25px;
+    margin-bottom: 20px;
 }
 
 .d-flex.align-items-center > *:last-child {
     margin-right: 0;
+    margin-bottom: 20px;
 }
 
 .agent_question {
     background-color: #000000;
     font-size: 1.2rem;
     font-weight: 500;
-    margin-bottom: 0.5rem;
+    margin-bottom: 40px;
 }
 
 footer {
@@ -281,3 +273,39 @@ footer {
     background-color: #000000; /* Darker shade on hover for visual feedback */
 }
 
+.checkbox-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px; /* Adjust spacing as needed */
+  }
+  
+  .box {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .box input {
+    display: none;
+  }
+  
+  .box svg {
+    overflow: visible;
+    margin-left: 50px; /* Space between text and checkbox */
+  }
+  
+  .path {
+    fill: none;
+    stroke: white;
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease;
+    stroke-dasharray: 241 9999999;
+    stroke-dashoffset: 0;
+  }
+  
+  .box input:checked ~ svg .path {
+    stroke-dasharray: 70.5096664428711 9999999;
+    stroke-dashoffset: -262.2723388671875;
+  }
