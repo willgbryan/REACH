@@ -113,23 +113,13 @@
 }
 
 .reach {
-    font-size: 0.8rem; /* Adjust to match your design */
+    font-size: 0.8rem;
     position: relative;
     color: #000000; /* A dark grey color, seems not completely black */
     letter-spacing: 5px; /* Increase letter-spacing */
     top: -100px; /* Y positioning, adjust as needed */
     right: -370px; /* X positioning, adjust as needed */
 }
-
-/* Adjust the down arrow style */
-/* .down-arrow {
-    font-size: 2rem;
-    color: #333; 
-    position: absolute;
-    bottom: 20px; 
-    left: 50%;
-    transform: translateX(-50%);
-} */
 
 body {
     font-family: 'Inter', sans-serif;
@@ -176,7 +166,7 @@ input[type="text"], select.form-control {
     color: #FFFFFF;
     border: 1px solid #FFFFFF;
     border-radius: 0px;
-    width: 75%;
+    width: 50%;
 }
 
 .btn-primary {

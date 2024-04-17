@@ -69,9 +69,10 @@ class Reach:
         # If specified, the researcher will use the given urls as the context for the research.
         if ("WEB" in self.sources) and ("FILES" in self.sources):
             self.context = await self.get_context_by_search(self.query)
-            self.context += await process_unstructured()
+            self.context += await self.get_context_by_file_uploads(self.query)
         elif ("FILES" in self.sources):
-            self.context = await process_unstructured()
+            self.context = await self.get_context_by_file_uploads(self.query)
+            print(f"Returned context: {self.context}")
         else:
             self.context = await self.get_context_by_search(self.query)
         # else self.source_urls:
@@ -131,7 +132,7 @@ class Reach:
 
         return web_results
 
-    async def get_context_by_file_uploads(self):
+    async def get_context_by_file_uploads(self, query):
         """
            Generates the context for the research task by searching the query and scraping the results
            from the uploaded files
