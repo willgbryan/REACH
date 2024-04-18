@@ -166,7 +166,7 @@ input[type="text"], select.form-control {
     color: #FFFFFF;
     border: 1px solid #FFFFFF;
     border-radius: 0px;
-    width: 50%;
+    width: 80%;
 }
 
 .btn-primary {
@@ -185,6 +185,10 @@ input[type="text"], select.form-control {
 .d-flex.align-items-center > *:last-child {
     margin-right: 0;
     margin-bottom: 20px;
+}
+
+.form-group.d-flex.justify-content-between {
+    width: 100%; /* Make full width to align with the text input field */
 }
 
 .agent_question {
@@ -275,26 +279,32 @@ footer {
 
 .checkbox-group {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px; /* Adjust spacing as needed */
-  }
-  
-  .box {
+    justify-content: flex-end; /* Aligns the boxes to the right */
+    margin-bottom: 0%; /* Adjust spacing as needed */
+}
+
+.box {
     cursor: pointer;
     display: flex;
     align-items: center;
-  }
-  
-  .box input {
+    margin-left: 30px; /* Adjusts space between boxes when aligned to the right */
+    gap: 10px; /* Adds space between the text and its box */
+}
+
+.box:first-child {
+    margin-left: 0; /* Ensures the first box doesn't have extra space on the left */
+}
+
+.box input {
     display: none;
-  }
-  
-  .box svg {
+}
+
+.box svg {
     overflow: visible;
-    margin-left: 50px; /* Space between text and checkbox */
-  }
-  
-  .path {
+    margin-right: 20px; /* Adjusted space between text and checkbox when aligned to the right */
+}
+
+.path {
     fill: none;
     stroke: white;
     stroke-width: 6;
@@ -303,9 +313,9 @@ footer {
     transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease;
     stroke-dasharray: 241 9999999;
     stroke-dashoffset: 0;
-  }
-  
-  .box input:checked ~ svg .path {
+}
+
+.box input:checked ~ svg .path {
     stroke-dasharray: 70.5096664428711 9999999;
     stroke-dashoffset: -262.2723388671875;
-  }
+}
