@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import '../styles/MainForm.css';
+import '../styles/MainForm.css'; //TODO
 
 function MainForm() {
   const [task, setTask] = useState('');
