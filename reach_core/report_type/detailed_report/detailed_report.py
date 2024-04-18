@@ -18,7 +18,7 @@ class DetailedReport():
         self.subtopics = subtopics
 
         # A parent task assistant
-        self.main_task_assistant = Reach(self.query, self.report_type, self.source_urls, self.config_path, self.websocket)
+        self.main_task_assistant = Reach(self.query, self.report_type, self.source_urls, self.sources, self.config_path, self.websocket)
 
         self.existing_headers = []
         # This is a global variable to store the entire context accumulated at any point through searching and scraping
