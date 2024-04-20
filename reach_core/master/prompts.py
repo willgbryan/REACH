@@ -77,7 +77,7 @@ def generate_resource_report_prompt(question, context, report_format="apa", tota
            'Ensure that the report is well-structured, informative, in-depth, and follows Markdown syntax.\n' \
            'Include relevant facts, figures, and numbers whenever available.\n' \
            'The report should have a minimum length of 700 words.\n' \
-            'You MUST include all relevant source urls as well as files if a filepath is shown as a source url.'\
+            'You MUST include all relevant source urls as well as files if a filepath is shown as a Source:.'\
             'Every url should be hyperlinked: [url website](url), file names can be displayed.'
 
 def generate_custom_report_prompt(query_prompt, context, report_format="apa", total_words=2000):
