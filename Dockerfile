@@ -18,6 +18,7 @@ RUN apt-get update \
        libreoffice \
        pandoc \
        cmake \
+       ffmpeg \
     && chromium --version && chromedriver --version \
     && wget https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz \
     && tar -xvzf geckodriver* \
