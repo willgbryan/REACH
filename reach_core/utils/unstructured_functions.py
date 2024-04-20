@@ -1,5 +1,6 @@
 import os
 import subprocess
+from typing import List, Dict
 from unstructured.partition.auto import partition
 
 def run_command(command: str) -> str:
@@ -9,7 +10,7 @@ def run_command(command: str) -> str:
         raise Exception(result.stderr.decode())
     return resutl.stdout.decode()
 
-async def process_unstructured(upload_dir: str = "uploads") -> list:
+async def process_unstructured(upload_dir: str = "uploads") -> List[Dict(str, str)]:
 
     output_list = []
     if os.path.exists(upload_dir):
@@ -22,7 +23,7 @@ async def process_unstructured(upload_dir: str = "uploads") -> list:
                 raw_content = "\n\n".join([str(el) for el in elements])
                 output_list.append({'url': file_path, 'raw_content': raw_content})
     else:
-        print(f"The directory {upload_dir} does not exist.")
+        print(f"No uploads found. This function was called incorrectly.")
 
     return output_list
 
