@@ -10,6 +10,9 @@ const Reach = (() => {
         updateState("finished");
       });
       document.getElementById("fileUpload").addEventListener("change", handleFileUpload);
+      document.getElementById("fileUploadBtn").addEventListener("click", () => {
+        document.getElementById("fileUpload").click();
+    });
 
       updateState("initial");
     }

@@ -1,0 +1,21 @@
+body {
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+  line-height: 1.6;
+  background-color: #000;
+}
+
+input, select, #output, #reportContainer {
+  background-color: rgba(255,255,255,0.1);
+  border: none;
+  color: #000000;
+  transition: all .3s ease-in-out;
+}
+
+input[type="text"], select.form-control {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 0px;
+  width: 50%;
+}

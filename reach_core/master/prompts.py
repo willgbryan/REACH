@@ -33,7 +33,7 @@ def generate_report_prompt(question, context, report_format="apa", total_words=2
     """
 
     return f'Information: """{context}"""\n\n' \
-           f'Using the above information, answer the following' \
+           f'Using ONLY the above information, answer the following' \
            f' query or task: "{question}" in a detailed report --' \
            " The report should focus on the answer to the query, should be well structured, informative," \
            f" in depth and comprehensive, with facts and numbers if available and a minimum of {total_words} words.\n" \
@@ -42,8 +42,10 @@ def generate_report_prompt(question, context, report_format="apa", total_words=2
            f"Use an unbiased and journalistic tone. \n" \
            "You MUST determine your own concrete and valid opinion based on the given information. Do NOT deter to general and meaningless conclusions.\n" \
            f"You MUST write all used source urls at the end of the report as references, and make sure to not add duplicated sources, but only one reference for each.\n" \
+           f"You may come across Source: that are filepaths, be sure to include the name of the file in the references as well.\n" \
            """
-            Additionally, you MUST include hyperlinks to the relevant URLs wherever they are referenced in the report : 
+            Additionally, you MUST include hyperlinks to the relevant URLs wherever they are referenced in the report :
+            It is critical that you use only the provided Information to generate your report.
         
             eg:    
                 # Report Header
@@ -68,15 +70,15 @@ def generate_resource_report_prompt(question, context, report_format="apa", tota
     Returns:
         str: The resource report prompt for the given question and research summary.
     """
-    return f'"""{context}"""\n\nBased on the above information, generate a bibliography recommendation report for the following' \
+    return f'"""{context}"""\n\nBased on ONLY the above information, generate a bibliography recommendation report for the following' \
            f' question or topic: "{question}". The report should provide a detailed analysis of each recommended resource,' \
            ' explaining how each source can contribute to finding answers to the research question.\n' \
            'Focus on the relevance, reliability, and significance of each source.\n' \
            'Ensure that the report is well-structured, informative, in-depth, and follows Markdown syntax.\n' \
            'Include relevant facts, figures, and numbers whenever available.\n' \
            'The report should have a minimum length of 700 words.\n' \
-            'You MUST include all relevant source urls.'\
-            'Every url should be hyperlinked: [url website](url)'
+            'You MUST include all relevant source urls as well as files if a filepath is shown as a Source:.'\
+            'Every url should be hyperlinked: [url website](url), file names can be displayed.'
 
 def generate_custom_report_prompt(query_prompt, context, report_format="apa", total_words=2000):
     return f'"{context}"\n\n{query_prompt}'
@@ -89,7 +91,7 @@ def generate_outline_report_prompt(question, context, report_format="apa", total
     Returns: str: The outline report prompt for the given question and research summary
     """
 
-    return f'"""{context}""" Using the above information, generate an outline for a research report in Markdown syntax' \
+    return f'"""{context}""" Using ONLY the above information, generate an outline for a research report in Markdown syntax' \
            f' for the following question or topic: "{question}". The outline should provide a well-structured framework' \
            ' for the research report, including the main sections, subsections, and key points to be covered.' \
            ' The research report should be detailed, informative, in-depth, and a minimum of 1,200 words.' \
@@ -103,7 +105,7 @@ def generate_table_prompt(question, context, report_format="csv", total_words=10
     Returns: str: The table prompt for the given question and research summary
     """
 
-    return f'"""{context}""" Using the above information, generate a list of comma separated values.' \
+    return f'"""{context}""" Using ONLY the above information, generate a list of comma separated values.' \
            f' for the following question or topic: "{question}". The list should provide a column row structure and values for each in the table.' \
            f' The table should be detailed, informative, in-depth, and a minimum of {total_words} rows.' \
            'It is REQUIRED that the output only be valid .csv format. Commas that are not used to separate discrete values (like commas in sentences) should be replaced with a blank space.'
@@ -232,7 +234,7 @@ def generate_subtopic_report_prompt(
 
 def generate_report_introduction(question: str, research_summary: str = "") -> str:
     return f"""{research_summary}\n 
-        Using the above latest information, Prepare a detailed report introduction on the topic -- {question}.
+        Using ONLY the above latest information, Prepare a detailed report introduction on the topic -- {question}.
         - The introduction should be succinct, well-structured, informative with markdown syntax.
         - As this introduction will be part of a larger report, do NOT include any other sections, which are generally present in a report.
         - The introduction should be preceded by an H1 heading with a suitable topic for the entire report.

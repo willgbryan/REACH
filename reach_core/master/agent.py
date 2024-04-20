@@ -156,7 +156,6 @@ class Reach:
                 await stream_output("logs", f"{content}", self.websocket)
             else:
                 await stream_output("logs", f"No content found for '{sub_query}'...", self.websocket)
-        print(f"Collected content: {content}")
         return content
 
 
