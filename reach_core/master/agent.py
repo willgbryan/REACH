@@ -148,10 +148,12 @@ class Reach:
 
         for sub_query in sub_queries:
             await stream_output("logs", f"\nRunning research for '{sub_query}'...", self.websocket)
-            upload_parsed_documents = await process_unstructured()
-            upload_parsed_audio = await parse_text_from_audio()
+            parsed_documents = await process_unstructured()
+            parsed_audio = await parse_text_from_audio()
 
-            parsed_content = upload_parsed_documents + upload_parsed_audio
+            print(f"Audio content: {upload_parsed_audio}")
+
+            parsed_content = parsed_documents + parsed_audio
 
             document_content = await self.get_similar_content_by_query(sub_query, parsed_content)
 
