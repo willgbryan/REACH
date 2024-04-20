@@ -1,3 +1,4 @@
+import os
 import whisper
 from typing import List, Dict
 
