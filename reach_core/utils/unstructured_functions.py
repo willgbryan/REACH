@@ -10,7 +10,7 @@ def run_command(command: str) -> str:
         raise Exception(result.stderr.decode())
     return resutl.stdout.decode()
 
-async def process_unstructured(upload_dir: str = "uploads") -> List[Dict(str, str)]:
+async def process_unstructured(upload_dir: str = "uploads") -> List[Dict[str, str]]:
 
     output_list = []
     if os.path.exists(upload_dir):

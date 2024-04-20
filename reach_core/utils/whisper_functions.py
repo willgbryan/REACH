@@ -1,7 +1,7 @@
 import whisper
 from typing import List, Dict
 
-async def parse_text_from_audio(upload_dir: str = "uploads", model: str = "base") -> List[Dict(str, str)]:
+async def parse_text_from_audio(upload_dir: str = "uploads", model: str = "base") -> List[Dict[str, str]]:
     """
     Function for creating a list of source and contents (text) given an input .mp3, .wav, or .flac
 
