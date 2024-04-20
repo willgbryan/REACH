@@ -151,7 +151,7 @@ class Reach:
             parsed_documents = await process_unstructured()
             parsed_audio = await parse_text_from_audio()
 
-            print(f"Audio content: {upload_parsed_audio}")
+            print(f"Audio content: {parsed_audio}")
 
             parsed_content = parsed_documents + parsed_audio
 
