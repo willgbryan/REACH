@@ -17,8 +17,8 @@ services:
   reach:
     image: reach
     volumes:
-      - ./reach-react-app:/usr/src/app/react_app
-      # - ./frontend:/usr/src/app/frontend
+      # - ./reach-react-app:/usr/src/app/react_app
+      - ./frontend:/usr/src/app/frontend
       - ./reach_core:/usr/src/app/reach_core
     build: ./
     environment:
