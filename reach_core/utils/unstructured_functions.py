@@ -17,6 +17,7 @@ async def process_unstructured(upload_dir: str = "uploads") -> list:
             file_path = os.path.join(upload_dir, filename)
             if os.path.isfile(file_path):
                 # TODO plenty of room to investigate different extraction methods, times, and strategies
+                # TODO list element extraction strategies
                 elements = partition(filename=file_path, strategy='fast')
                 raw_content = "\n\n".join([str(el) for el in elements])
                 output_list.append({'url': file_path, 'raw_content': raw_content})

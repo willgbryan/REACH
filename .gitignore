@@ -69,6 +69,7 @@ venv.bak/
 cython_debug/
 .pytest_cache/
 reach_env/
+node_modules/
 
 # temp
 pyproject.toml/

@@ -19,10 +19,13 @@ class ResearchRequest(BaseModel):
 
 app = FastAPI()
 
+# #TODO nothing todo just tagging as preserved for now while react migration is in progress
 app.mount("/site", StaticFiles(directory="./frontend"), name="site")
 app.mount("/static", StaticFiles(directory="./frontend/static"), name="static")
 
 templates = Jinja2Templates(directory="./frontend")
+# app.mount("/", StaticFiles(directory="reach-react-app/build", html=True), name="react_app")
+
 
 manager = WebSocketManager()
 

@@ -1,0 +1,107 @@
+.landing {
+    display: flex;
+    justify-content: center;
+    z-index: 0;
+    align-items: center;
+    height: 75vh;
+    color: #000;
+    flex-direction: column;
+    position: relative;
+    background-color: #fffaf2;
+    overflow: hidden;
+}
+
+.landing .content {
+    max-width: 2000px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 15vh;
+    position: relative;
+}
+
+.top-text,
+.bottom-text {
+    font-size: 0.8rem;
+    position: relative;
+    color: #000;
+    letter-spacing: 5px;
+    margin: 50px 0;
+}
+
+.top-text {
+    top: -20px;
+    right: 345px;
+}
+
+.bottom-text {
+    top: -30px;
+    right: 325px;
+}
+
+.text-highlight {
+    position: relative;
+    color: #fffaf2;
+    font-weight: 700;
+    display: inline;
+    top: -50px;
+    right: 348px;
+}
+
+.text-highlight::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: 1.2em;
+    background-color: #000;
+}
+
+.version-tag {
+    background-color: #ff7300;
+    position: absolute;
+    top: 0.2em;
+    right: 600px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.version-number {
+    color: #fff;
+    position: relative;
+    top: -2px;
+}
+
+.main-text {
+    display: block;
+    font-weight: 700;
+    margin-top: -60px;
+    color: #fffaf2;
+    position: relative;
+}
+
+.main-text::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.reach {
+    font-size: 0.8rem;
+    position: relative;
+    color: #000;
+    letter-spacing: 5px;
+    top: -100px;
+    right: -370px;
+}

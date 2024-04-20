@@ -166,7 +166,7 @@ input[type="text"], select.form-control {
     color: #FFFFFF;
     border: 1px solid #FFFFFF;
     border-radius: 0px;
-    width: 50%;
+    width: 75%;
 }
 
 .btn-primary {
@@ -185,6 +185,10 @@ input[type="text"], select.form-control {
 .d-flex.align-items-center > *:last-child {
     margin-right: 0;
     margin-bottom: 20px;
+}
+
+.form-group.d-flex.justify-content-between {
+    width: 100%; /* Make full width to align with the text input field */
 }
 
 .agent_question {
@@ -273,39 +277,61 @@ footer {
     background-color: #000000; /* Darker shade on hover for visual feedback */
 }
 
+.task-definition {
+    display: flex; /* Use flexbox to align items in a row */
+    align-items: center; /* Align items vertically in the center */
+    margin-right: -20px; /* Add a right margin to create a gap between the task definition and the checkboxes */
+}
+
 .checkbox-group {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px; /* Adjust spacing as needed */
-  }
-  
-  .box {
+    display: flex; /* Use flexbox to align checkboxes in a row */
+    align-items: center; /* Align items vertically in the center */
+    gap: 20px; /* Space between checkboxes */
+    justify-content: flex-end; /* Align checkboxes to the right */
+    flex-grow: 1; /* Allow the checkbox group to take up the remaining space */
+}
+
+.container-for-task-and-checkboxes {
+    display: flex; /* Display children (task definition and checkbox group) in a row */
+    align-items: center; /* Align children vertically in the center */
+    justify-content: space-between; /* Space between children */
+    width: 100%; /* Take the full width of the parent container */
+    flex-wrap: wrap; /* Allow items to wrap to the next line on small screens */
+}
+
+.box {
     cursor: pointer;
     display: flex;
-    align-items: center;
-  }
-  
-  .box input {
+    align-items: flex-end;
+    gap: 10px; /* Adds space between the text and its box */
+    font-size: 20px;
+}
+
+.box:first-child {
+    margin-left: 0; /* Ensures the first box doesn't have extra space on the left */
+}
+
+.box input {
     display: none;
-  }
-  
-  .box svg {
+}
+
+.box svg {
     overflow: visible;
-    margin-left: 50px; /* Space between text and checkbox */
-  }
-  
-  .path {
+    margin-right: 20px; /* Adjusted space between text and checkbox when aligned to the right */
+}
+
+.path {
     fill: none;
     stroke: white;
-    stroke-width: 6;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    stroke-width: 3;
+    stroke-linecap: square;
+    stroke-linejoin: square;
     transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease;
     stroke-dasharray: 241 9999999;
     stroke-dashoffset: 0;
-  }
-  
-  .box input:checked ~ svg .path {
+}
+
+.box input:checked ~ svg .path {
     stroke-dasharray: 70.5096664428711 9999999;
     stroke-dashoffset: -262.2723388671875;
-  }
+}
