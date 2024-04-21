@@ -5,6 +5,7 @@ from reach_core.context.compression import ContextCompressor
 from reach_core.memory import Memory
 from reach_core.utils.enum import ReportType
 from reach_core.utils.unstructured_functions import *
+from reach_core.utils.whisper_functions import *
 
 
 class Reach:
@@ -147,8 +148,14 @@ class Reach:
 
         for sub_query in sub_queries:
             await stream_output("logs", f"\nRunning research for '{sub_query}'...", self.websocket)
-            upload_parsed_pdf = await process_unstructured()
-            document_content = await self.get_similar_content_by_query(sub_query, upload_parsed_pdf)
+            parsed_documents = await process_unstructured()
+            parsed_audio = await parse_text_from_audio()
+
+            print(f"Audio content: {parsed_audio}")
+
+            parsed_content = parsed_documents + parsed_audio
+
+            document_content = await self.get_similar_content_by_query(sub_query, parsed_content)
 
             content = document_content
 
