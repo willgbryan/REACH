@@ -19,3 +19,6 @@ input[type="text"], select.form-control {
   border-radius: 0px;
   width: 50%;
 }
+.hexagon.is-over {
+  transform: translateY(-10px);
+}

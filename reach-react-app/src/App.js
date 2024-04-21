@@ -1,17 +1,14 @@
 import React from 'react';
-import './App.css';
-import Header from './components/Header';
-import MainForm from './components/MainForm';
-import Footer from './components/Footer';
-
+import Header from './Header';
+import HexagonalGrid from './HexagonalGrid';
+import CollapsiblePanel from './CollapsiblePanel';
 function App() {
   return (
     <div className="App">
       <Header />
-      <MainForm />
-      <Footer />
+      <HexagonalGrid />
+      <CollapsiblePanel />
     </div>
   );
 }
-
 export default App;
