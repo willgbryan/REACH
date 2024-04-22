@@ -69,11 +69,11 @@ class Reach:
 
         # If specified, the researcher will use the given urls as the context for the research.
         if ("WEB" in self.sources) and ("FILES" in self.sources):
-            self.context = await self.get_context_by_search(self.query)
-            self.context += await self.get_context_by_file_uploads(self.query)
+            search_context = await self.get_context_by_search(self.query)
+            file_context = await self.get_context_by_file_uploads(self.query)
+            self.context = search_context + file_context
         elif ("FILES" in self.sources):
             self.context = await self.get_context_by_file_uploads(self.query)
-            print(f"Returned context: {self.context}")
         else:
             self.context = await self.get_context_by_search(self.query)
         # else self.source_urls:
@@ -150,8 +150,6 @@ class Reach:
             await stream_output("logs", f"\nRunning research for '{sub_query}'...", self.websocket)
             parsed_documents = await process_unstructured()
             parsed_audio = await parse_text_from_audio()
-
-            print(f"Audio content: {parsed_audio}")
 
             parsed_content = parsed_documents + parsed_audio
 
