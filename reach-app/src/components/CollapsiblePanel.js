@@ -1,28 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDrag } from 'react-dnd';
 import { FaSearch, FaTable, FaFileAlt, FaInternetExplorer, FaTerminal } from 'react-icons/fa';
+
+function DraggableIcon({ Icon, type }) {
+  const [, drag] = useDrag(() => ({
+    type: type, // Unique type for each icon
+    item: { id: type },
+  }));
+
+  // Render different items based on type
+  const content = type === 'icon' ? <FaFileAlt /> : 'File';
+
+  return <div ref={drag} className="draggable-item">{content}</div>;
+}
+
 function CollapsiblePanel() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [{ isDragging }, drag] = useDrag({
-    item: { type: 'icon' },
-    collect: monitor => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  });
-  const togglePanel = () => {
-    setIsOpen(!isOpen);
-  };
   return (
-    <div className={`collapsible-panel ${isOpen ? 'open' : ''}`}>
-      <button onClick={togglePanel}>Toggle Panel</button>
-      <input type="text" placeholder="Search..." />
-      <div className="icons">
-        <FaFileAlt ref={drag} />
-        <FaTable ref={drag} />
-        <FaInternetExplorer ref={drag} />
-        <FaTerminal ref={drag} />
-      </div>
+    <div className="collapsible-panel">
+      <DraggableIcon Icon={FaFileAlt} type="file" />
+      <DraggableIcon Icon={FaTable} type="table" />
+      <DraggableIcon Icon={FaInternetExplorer} type="internet" />
+      <DraggableIcon Icon={FaTerminal} type="terminal" />
+      {/* Add more icons as needed */}
     </div>
   );
 }
+
 export default CollapsiblePanel;

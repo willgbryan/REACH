@@ -1,14 +1,13 @@
+// App.js
 import React from 'react';
-import Header from './components/Header';
-import HexagonalGrid from './components/HexagonalGrid';
-import CollapsiblePanel from './components/CollapsiblePanel';
+import DropzoneHexagonGrid from './components/DropzoneHexagonGrid';
+
 function App() {
   return (
     <div className="App">
-      <Header />
-      <HexagonalGrid />
-      <CollapsiblePanel />
+      <DropzoneHexagonGrid />
     </div>
   );
 }
+
 export default App;
