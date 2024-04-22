@@ -180,9 +180,7 @@ class Reach:
         for sub_query in sub_queries:
             await stream_output("logs", f"\nRunning research for '{sub_query}'...", self.websocket)
             scraped_sites = await self.scrape_sites_by_query(sub_query)
-            web_content = await self.get_similar_content_by_query(sub_query, scraped_sites)
-
-            content = web_content
+            content = await self.get_similar_content_by_query(sub_query, scraped_sites)
 
             if content:
                 await stream_output("logs", f"{content}", self.websocket)

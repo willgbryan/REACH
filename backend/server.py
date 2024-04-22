@@ -20,11 +20,11 @@ class ResearchRequest(BaseModel):
 app = FastAPI()
 
 # #TODO nothing todo just tagging as preserved for now while react migration is in progress
-app.mount("/site", StaticFiles(directory="./frontend"), name="site")
-app.mount("/static", StaticFiles(directory="./frontend/static"), name="static")
+# app.mount("/site", StaticFiles(directory="./frontend"), name="site")
+# app.mount("/static", StaticFiles(directory="./frontend/static"), name="static")
 
-templates = Jinja2Templates(directory="./frontend")
-# app.mount("/", StaticFiles(directory="reach-react-app/build", html=True), name="react_app")
+# templates = Jinja2Templates(directory="./frontend")
+app.mount("/", StaticFiles(directory="reach-app/build", html=True), name="react_app")
 
 
 manager = WebSocketManager()
@@ -37,9 +37,9 @@ def startup_event():
         os.makedirs("outputs")
     app.mount("/outputs", StaticFiles(directory="outputs"), name="outputs")
 
-@app.get("/")
-async def read_root(request: Request):
-    return templates.TemplateResponse('index.html', {"request": request, "report": None})
+# @app.get("/")
+# async def read_root(request: Request):
+#     return templates.TemplateResponse('index.html', {"request": request, "report": None})
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):

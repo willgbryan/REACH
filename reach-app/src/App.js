@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from './Header';
-import HexagonalGrid from './HexagonalGrid';
-import CollapsiblePanel from './CollapsiblePanel';
+import Header from './components/Header';
+import HexagonalGrid from './components/HexagonalGrid';
+import CollapsiblePanel from './components/CollapsiblePanel';
 function App() {
   return (
     <div className="App">
