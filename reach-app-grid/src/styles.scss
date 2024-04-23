@@ -1,0 +1,140 @@
+* {
+  border: none;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  background-color: #E0E5EC; /* Added to apply the color to the entire webpage */
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+body,
+#root,
+.app,
+.scene {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app .scene {
+  height: 80%;
+}
+
+.grid {
+  border: solid 1px #E0E5EC;
+  border-radius: 10px;
+  box-shadow: -3px -3px 12px #FFFFFF, 5px 5px 12px #A3B1C6;
+  transform-style: preserve-3d;
+  transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg);
+}
+
+.row {
+  height: 30px;
+  width: 600px;
+  display: flex;
+  flex-direction: row;
+  pointer-events: none;
+}
+
+button {
+  background: transparent;
+}
+
+.tile {
+  border: none 1px #E0E5EC;
+  border-radius: 5px;
+  border-style: none;
+  height: 30px;
+  width: 30px;
+  pointer-events: auto;
+  position: relative;
+  cursor: pointer;
+  outline: none; // not good
+}
+
+.tile:hover {
+  background-color: #FF7300;
+}
+
+#copy.player {
+  position: relative;
+  height: 30px;
+  width: 30px;
+  transform-origin: 0 0;
+  transform-style: preserve-3d;
+  perspective: 800px;
+  transform: translate(17px, -17px);
+
+  .side {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    background: #E0E5EC;
+    border: 1px solid #E0E5EC;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .front {
+    transform: translateZ(14px);
+  }
+  .top {
+    transform: rotateX(90deg) translateZ(14px);
+  }
+  .right {
+    transform: rotateY(90deg) translateZ(14px);
+  }
+  .left {
+    transform: rotateY(-90deg) translateZ(14px);
+  }
+  .bottom {
+    transform: rotateX(-90deg) translateZ(14px);
+  }
+  .back {
+    transform: rotateY(-180deg) translateZ(14px);
+  }
+}
+
+// #org.player {
+//   position: relative;
+//   height: 30px;
+//   width: 30px;
+//   transform-style: preserve-3d;
+//   perspective: 800px;
+//   transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg);
+
+//   .side {
+//     position: absolute;
+//     width: 30px;
+//     height: 30px;
+//     background: rgba(100, 100, 100, 0.5);
+//     border: 1px solid red;
+//     text-align: center;
+//   }
+
+//   .front {
+//     transform: translateZ(15px);
+//   }
+//   .top {
+//     transform: rotateX(90deg) translateZ(15px);
+//   }
+//   .right {
+//     transform: rotateY(90deg) translateZ(15px);
+//   }
+//   .left {
+//     transform: rotateY(-90deg) translateZ(15px);
+//   }
+//   .bottom {
+//     transform: rotateX(-90deg) translateZ(15px);
+//   }
+//   .back {
+//     transform: rotateY(-180deg) translateZ(15px);
+//   }
+// }

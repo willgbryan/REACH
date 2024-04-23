@@ -24,7 +24,7 @@ app = FastAPI()
 # app.mount("/static", StaticFiles(directory="./frontend/static"), name="static")
 
 # templates = Jinja2Templates(directory="./frontend")
-app.mount("/", StaticFiles(directory="reach-app/build", html=True), name="react_app")
+app.mount("/", StaticFiles(directory="reach-app-grid/build", html=True), name="react_app")
 
 
 manager = WebSocketManager()
