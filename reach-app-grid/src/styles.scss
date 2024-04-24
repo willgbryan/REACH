@@ -1,10 +1,13 @@
 * {
   border: none;
-  border-radius: 10px;
+  border-radius: 20px;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   background-color: #E0E5EC; /* Added to apply the color to the entire webpage */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
 }
 
 html,
@@ -30,11 +33,44 @@ body,
 
 .grid {
   border: solid 1px #E0E5EC;
-  border-radius: 10px;
-  box-shadow: -3px -3px 20px rgba(255, 255, 255, 0.8), 3px 3px 20px rgba(163, 177, 198, 0.8);  
+  border-radius: 20px;
+  box-shadow: -6px -6px 20px rgba(255, 255, 255, 0.5), 6px 6px 20px rgba(163, 177, 198, 0.5);  
   transform-style: preserve-3d;
   transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg);
 }
+
+.REACH-text-field-3d {
+  // Apply the same 3D transformation to the text field
+  transform-style: preserve-3d;
+  transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg) translateZ(-100px);
+  margin-top: 20px; // Adjust as needed for spacing
+  font-size: 40px; // Adjust as needed
+  color: #8d98a4; // Adjust as needed
+  width: 100%; // Adjust as needed
+  text-align: center; // Center the text horizontally
+  position: absolute; // Ensure it doesn't affect the layout of other elements
+  top: 45%; // Adjust to position below everything
+  left: 20%;
+  transform-origin: center; // Adjust the origin of transformation if needed
+  z-index: 0; // Ensure it is rendered below other elements
+}
+
+.PROVISIONAL-text-field-3d {
+  // Apply the same 3D transformation to the text field
+  transform-style: preserve-3d;
+  transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg) translateZ(-100px);
+  margin-top: 20px; // Adjust as needed for spacing
+  font-size: 20px; // Adjust as needed
+  color: #8d98a4; // Adjust as needed
+  width: 100%; // Adjust as needed
+  text-align: center; // Center the text horizontally
+  position: absolute; // Ensure it doesn't affect the layout of other elements
+  top: 46.5%; // Adjust to position below everything
+  left: 23.5%;
+  transform-origin: center; // Adjust the origin of transformation if needed
+  z-index: 0; // Ensure it is rendered below other elements
+}
+
 
 .row {
   height: 30px;
@@ -69,47 +105,45 @@ button {
   width: 300px;
   z-index: 1000;
   border-radius: 5px;
-  background-color: rgba(19, 19, 19, 0.7);
+  background-color: rgba(163, 177, 198, 0.8);
 }
 
-#copy.player {
-  position: relative;
-  height: 30px;
-  width: 30px;
-  transform-origin: 0 0;
-  transform-style: preserve-3d;
-  perspective: 800px;
-  transform: translate(17px, -17px);
+// #copy.player {
+//   position: relative;
+//   height: 30px;
+//   width: 30px;
+//   transform-origin: 0 0;
+//   transform-style: preserve-3d;
+//   perspective: 800px;
+//   transform: translate(17px, -17px);
 
-  .side {
-    position: absolute;
-    width: 28px;
-    height: 28px;
-    background: #E0E5EC;
-    border: 1px solid #E0E5EC;
-    border-radius: 10px;
-    text-align: center;
-  }
+//   .side {
+//     position: absolute;
+//     width: 28px;
+//     height: 28px;
+//     background: none;
+//     text-align: center;
+//   }
 
-  .front {
-    transform: translateZ(14px);
-  }
-  .top {
-    transform: rotateX(90deg) translateZ(14px);
-  }
-  .right {
-    transform: rotateY(90deg) translateZ(14px);
-  }
-  .left {
-    transform: rotateY(-90deg) translateZ(14px);
-  }
-  .bottom {
-    transform: rotateX(-90deg) translateZ(14px);
-  }
-  .back {
-    transform: rotateY(-180deg) translateZ(14px);
-  }
-}
+//   .front {
+//     transform: translateZ(14px);
+//   }
+//   .top {
+//     transform: rotateX(90deg) translateZ(14px);
+//   }
+//   .right {
+//     transform: rotateY(90deg) translateZ(14px);
+//   }
+//   .left {
+//     transform: rotateY(-90deg) translateZ(14px);
+//   }
+//   .bottom {
+//     transform: rotateX(-90deg) translateZ(14px);
+//   }
+//   .back {
+//     transform: rotateY(-180deg) translateZ(14px);
+//   }
+// }
 
 // #org.player {
 //   position: relative;

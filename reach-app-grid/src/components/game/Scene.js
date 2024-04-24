@@ -13,7 +13,7 @@ function Scene() {
   const [{ row, col }, dispatch] = useReducer(reducer, initialState);
   const [popupVisible, setPopupVisible] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-
+  const [tileColor, setTileColor] = useState({});
 
   const handleTileClick = (r, t) => (event) => {
     dispatch({
@@ -23,8 +23,12 @@ function Scene() {
         col: t
       }
     });
-    setPopupPosition({ x: r, y: t });
+    setPopupPosition({ x: t, y: r });
     setPopupVisible(true);
+  };
+
+  const handleUploadSuccess = () => {
+    setTileColor({ ...tileColor, [`${row},${col}`]: "#131313" });
   };
 
   const closePopup = () => setPopupVisible(false);
@@ -48,7 +52,9 @@ function Scene() {
             </Row>
           ))}
       </Grid>
-      <PopupMenu visible={popupVisible} position={popupPosition} onClose={closePopup} />
+      <div className="REACH-text-field-3d">&lt;REACH-001&gt;</div>
+      <div className="PROVISIONAL-text-field-3d">PROVISONAL</div>
+      <PopupMenu visible={popupVisible} position={popupPosition} onClose={closePopup} onUploadSuccess={handleUploadSuccess} />  
     </div>
   );
 }
