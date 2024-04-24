@@ -3,13 +3,6 @@ import subprocess
 from typing import List, Dict
 from unstructured.partition.auto import partition
 
-def run_command(command: str) -> str:
-
-    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-    if result.stderr:
-        raise Exception(result.stderr.decode())
-    return resutl.stdout.decode()
-
 async def process_unstructured(upload_dir: str = "uploads") -> List[Dict[str, str]]:
 
     output_list = []
