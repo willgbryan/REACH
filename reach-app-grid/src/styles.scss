@@ -1,5 +1,6 @@
 * {
   border: none;
+  border-radius: 10px;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -30,7 +31,7 @@ body,
 .grid {
   border: solid 1px #E0E5EC;
   border-radius: 10px;
-  box-shadow: -3px -3px 12px #FFFFFF, 5px 5px 12px #A3B1C6;
+  box-shadow: -3px -3px 20px rgba(255, 255, 255, 0.8), 3px 3px 20px rgba(163, 177, 198, 0.8);  
   transform-style: preserve-3d;
   transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg);
 }
@@ -60,7 +61,15 @@ button {
 }
 
 .tile:hover {
-  background-color: #FF7300;
+  background-color: #ff7300;
+}
+
+.popup-menu{
+  height: 150px;
+  width: 300px;
+  z-index: 1000;
+  border-radius: 5px;
+  background-color: rgba(19, 19, 19, 0.7);
 }
 
 #copy.player {

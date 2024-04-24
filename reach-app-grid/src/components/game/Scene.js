@@ -1,16 +1,21 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 
 import { Grid, Row } from "./Battleground";
 import Tile from "./Tile";
 
 import { reducer, initialState } from "../../state";
 
+import PopupMenu from "./PopupMenu";
+
 import CONSTANTS from "../../utils/constants";
 
 function Scene() {
   const [{ row, col }, dispatch] = useReducer(reducer, initialState);
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
-  const handleTileClick = (r, t) => () => {
+
+  const handleTileClick = (r, t) => (event) => {
     dispatch({
       type: "MOVE",
       payload: {
@@ -18,7 +23,11 @@ function Scene() {
         col: t
       }
     });
+    setPopupPosition({ x: r, y: t });
+    setPopupVisible(true);
   };
+
+  const closePopup = () => setPopupVisible(false);
 
   return (
     <div className="scene">
@@ -39,6 +48,7 @@ function Scene() {
             </Row>
           ))}
       </Grid>
+      <PopupMenu visible={popupVisible} position={popupPosition} onClose={closePopup} />
     </div>
   );
 }
