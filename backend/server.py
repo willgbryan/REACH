@@ -4,6 +4,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 import json
 import os
+import aiofiles
 from typing import List
 from reach_core.utils.websocket_manager import WebSocketManager
 from reach_core.utils.unstructured_functions import *
@@ -78,13 +79,18 @@ async def upload_file(file: UploadFile = File(...), task: str = Form(...)):
     parsed_documents = await process_unstructured()
 
     parsed_content = parsed_audio + parsed_documents
-    
-    parsed_uploads_path = f"{upload_dir}/parsed_uploads.txt"
+
+    parsed_uploads_path = f"{upload_dir}/parsed_uploads.json"
     if not os.path.exists(parsed_uploads_path):
         async with aiofiles.open(parsed_uploads_path, "w") as new_file:
-            await new_file.write("")  # Create the file if it doesn't exist
+            await new_file.write("[]")
     
-    async with aiofiles.open(parsed_uploads_path, "a") as parsed_uploads_file:
-        await parsed_uploads_file.write(parsed_content)
+    async with aiofiles.open(parsed_uploads_path, "r+") as parsed_uploads_file:
+        existing_content = await parsed_uploads_file.read()
+        existing_data = json.loads(existing_content) if existing_content else []
+        existing_data += parsed_content
+        await parsed_uploads_file.seek(0)
+        await parsed_uploads_file.write(json.dumps(existing_data))
+        await parsed_uploads_file.truncate()
     
     return {"info": f"File '{file.filename}' uploaded successfully", "task": task, "parsed_info": f"Data written to {parsed_uploads_path}"}

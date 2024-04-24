@@ -1,4 +1,6 @@
 import time
+import aiofiles
+from typing import List, Dict
 from reach_core.config import Config
 from reach_core.master.functions import *
 from reach_core.context.compression import ContextCompressor
@@ -147,6 +149,13 @@ class Reach:
         for sub_query in sub_queries:
             await stream_output("logs", f"\nRunning research for '{sub_query}'...", self.websocket)
 
+            parsed_content: List[Dict[str, str]] = []
+            parsed_uploads_path = "uploads/parsed_uploads.json"
+            async with aiofiles.open(parsed_uploads_path, "r") as file:
+                content = await file.read()
+                if content:
+                    parsed_content = json.loads(content)
+                    
             document_content = await self.get_similar_content_by_query(sub_query, parsed_content)
 
             content = document_content
