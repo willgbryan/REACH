@@ -2,11 +2,11 @@ FROM node:14 as build
 
 WORKDIR /app
 
-COPY reach-app-grid/package.json reach-app-grid/package-lock.json ./
+COPY package.json package-lock.json ./
 
 RUN npm install
 
-COPY reach-app-grid/ ./
+COPY . ./
 
 RUN npm run build
 
