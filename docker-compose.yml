@@ -19,8 +19,6 @@ services:
     image: reach13/reach:latest
     volumes:
       - ./reach-app-grid:/usr/src/app/react_app
-      # - ./frontend:/usr/src/app/frontend
-      # - ./reach_core:/usr/src/app/reach_core
     environment:
       SEARX_URL: ${SEARX_HOST}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
@@ -28,6 +26,16 @@ services:
       - "8000:8000"
     networks:
       - reach
+  reach-frontend:
+    build:
+      context: ./reach-app-grid
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:80"
+    networks:
+      - reach
+    environment:
+      - REACT_APP_BACKEND_URL=http://reach:8000
 
 networks:
   reach:
