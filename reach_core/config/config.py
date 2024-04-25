@@ -10,13 +10,13 @@ class Config:
         """Initialize the config class."""
         self.config_file = config_file if config_file else os.getenv("CONFIG_FILE")
         self.retriever = os.getenv("SEARCH_RETRIEVER", "searx")
-        self.embedding_provider = os.getenv("EMBEDDING_PROVIDER", "openai")
-        self.llm_provider = os.getenv("LLM_PROVIDER", "openai")
+        self.embedding_provider = os.getenv("EMBEDDING_PROVIDER", "ollama")
+        self.llm_provider = os.getenv("LLM_PROVIDER", "ollama")
         self.fast_llm_model = os.getenv(
-            "FAST_LLM_MODEL", "gpt-3.5-turbo-16k"
+            "FAST_LLM_MODEL", "llama3:instruct"
         )  # mistral:instruct
         self.smart_llm_model = os.getenv(
-            "SMART_LLM_MODEL", "gpt-4-1106-preview"
+            "SMART_LLM_MODEL", "llama3:instruct"
         )  # mistral:instruct
         self.fast_token_limit = int(os.getenv("FAST_TOKEN_LIMIT", 2000))
         self.smart_token_limit = int(os.getenv("SMART_TOKEN_LIMIT", 4000))
