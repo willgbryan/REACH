@@ -22,7 +22,8 @@ def generate_search_queries_prompt(question: str, parent_query: str, report_type
            f'Use the current date if needed: {datetime.now().strftime("%B %d, %Y")}.\n' \
            f'Making searches for youtube videos is required.\n' \
            f'Also include in the queries specified task details such as locations, names, etc.\n' \
-           f'You must respond with a list of strings in the following format: ["query 1", "query 2", "query 3"].'
+           f'You must respond with a list of strings in the following format: ["query 1", "query 2", "query 3"].\n' \
+           f'Return only the list of strings.'
 
 
 def generate_report_prompt(question, context, report_format="apa", total_words=2000):
