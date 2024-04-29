@@ -58,7 +58,8 @@ def generate_report_prompt(question, context, report_format="apa", total_words=2
             relevant results that answer the query accurately. Place these citations at the end \
             of the sentence or paragraph that reference them.\n"\
             f"Please do your best, this is very important to my career. " \
-            f"Assume that the current date is {datetime.now().strftime('%B %d, %Y')}"
+            f"Assume that the current date is {datetime.now().strftime('%B %d, %Y')}" \
+            f"Return only the report."
 
 
 def generate_resource_report_prompt(question, context, report_format="apa", total_words=2000):
@@ -79,7 +80,8 @@ def generate_resource_report_prompt(question, context, report_format="apa", tota
            'Include relevant facts, figures, and numbers whenever available.\n' \
            'The report should have a minimum length of 700 words.\n' \
             'You MUST include all relevant source urls as well as files if a filepath is shown as a Source:.'\
-            'Every url should be hyperlinked: [url website](url), file names can be displayed.'
+            'Every url should be hyperlinked: [url website](url), file names can be displayed.'\
+            'Return only the report.'
 
 def generate_custom_report_prompt(query_prompt, context, report_format="apa", total_words=2000):
     return f'"{context}"\n\n{query_prompt}'
@@ -96,7 +98,8 @@ def generate_outline_report_prompt(question, context, report_format="apa", total
            f' for the following question or topic: "{question}". The outline should provide a well-structured framework' \
            ' for the research report, including the main sections, subsections, and key points to be covered.' \
            ' The research report should be detailed, informative, in-depth, and a minimum of 1,200 words.' \
-           ' Use appropriate Markdown syntax to format the outline and ensure readability.'
+           ' Use appropriate Markdown syntax to format the outline and ensure readability.'\
+           ' Return only the report.'
 
 
 def generate_table_prompt(question, context, report_format="csv", total_words=10):
@@ -109,7 +112,8 @@ def generate_table_prompt(question, context, report_format="csv", total_words=10
     return f'"""{context}""" Using ONLY the above information, generate a list of comma separated values.' \
            f' for the following question or topic: "{question}". The list should provide a column row structure and values for each in the table.' \
            f' The table should be detailed, informative, in-depth, and a minimum of {total_words} rows.' \
-           'It is REQUIRED that the output only be valid .csv format. Commas that are not used to separate discrete values (like commas in sentences) should be replaced with a blank space.'
+           'It is REQUIRED that the output only be valid .csv format. Commas that are not used to separate discrete values (like commas in sentences) should be replaced with a blank space.'\
+           'Return only formatted output.'
 
 def get_report_by_type(report_type):
      report_type_mapping = {
@@ -127,7 +131,8 @@ def auto_agent_instructions():
     return """
         This task involves researching a given topic, regardless of its complexity or the availability of a definitive answer. The research is conducted by a specific server, defined by its type and role, with each server requiring distinct instructions.
         Agent
-        The server is determined by the field of the topic and the specific name of the server that could be utilized to research the topic provided. Agents are categorized by their area of expertise, and each server type is associated with a corresponding emoji.
+        The server is determined by the field of the topic and the specific name of the server that could be utilized to research the topic provided. Agents are categorized by their area of expertise, and each server type is associated with a corresponding emoji.\
+        Return only the response as outlined in the examples.
 
         examples:
         task: "should I invest in apple stocks?"
@@ -183,6 +188,7 @@ def generate_subtopics_prompt() -> str:
                 
                 "IMPORTANT!":
                 - Every subtopic MUST be relevant to the main topic and provided research data ONLY!
+                - Return only the requested output in the specified format.
                 
                 {format_instructions}
             """
@@ -230,6 +236,8 @@ def generate_subtopic_report_prompt(
     "IMPORTANT!":
     - The focus MUST be on the main topic! You MUST Leave out any information un-related to it!
     - Must NOT have any introduction, conclusion, summary or reference section.
+    - Return only the requested output in the specified format.
+                
     """
 
 
@@ -241,5 +249,6 @@ def generate_report_introduction(question: str, research_summary: str = "") -> s
         - The introduction should be preceded by an H1 heading with a suitable topic for the entire report.
         - You must include hyperlinks with markdown syntax ([url website](url)) related to the sentences wherever necessary.
         Assume that the current date is {datetime.now(timezone.utc).strftime('%B %d, %Y')} if required.
+        Return only the requested output in the specified format.
     """
 
