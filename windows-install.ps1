@@ -1,14 +1,22 @@
-$installerUrl = "https://desktop.docker.com/win/stable/Docker%20Desktop%20Installer.exe"
-$installerPath = "C:\Temp\DockerDesktopInstaller.exe"
+$dockerPath = Get-Command "docker" -ErrorAction SilentlyContinue
 
-New-Item -ItemType Directory -Force -Path "C:\Temp"
+if ($dockerPath -eq $null) {
+    Write-Output "Docker Desktop is not installed. Proceeding with installation..."
 
-Write-Output "Downloading Docker Desktop installer..."
-Invoke-WebRequest -Uri $installerUrl -OutFile $installerPath
+    $installerUrl = "https://desktop.docker.com/win/stable/Docker%20Desktop%20Installer.exe"
+    $installerPath = "C:\Temp\DockerDesktopInstaller.exe"
 
-Write-Output "Starting Docker Desktop installation..."
-Start-Process -FilePath $installerPath -ArgumentList "install --quiet" -NoNewWindow -Wait
-Write-Output "Docker Desktop installed."
+    New-Item -ItemType Directory -Force -Path "C:\Temp"
+
+    Write-Output "Downloading Docker Desktop installer..."
+    Invoke-WebRequest -Uri $installerUrl -OutFile $installerPath
+
+    Write-Output "Starting Docker Desktop installation..."
+    Start-Process -FilePath $installerPath -ArgumentList "install --quiet" -NoNewWindow -Wait
+    Write-Output "Docker Desktop installed."
+} else {
+    Write-Output "Docker Desktop is already installed."
+}
 
 $dirPath = "C:\DockerApp"
 New-Item -ItemType Directory -Force -Path $dirPath
