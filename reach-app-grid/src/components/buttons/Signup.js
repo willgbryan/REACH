@@ -10,6 +10,34 @@ if (!supabaseKey) {
 
 const supabase = supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
+const EmailInput = ({ setEmail }) => (
+  <input
+    className="signup-form__input signup-form__email"
+    type="email"
+    placeholder="Email"
+    onChange={(e) => setEmail(e.target.value)}
+  />
+);
+
+const PasswordInput = ({ setPassword }) => (
+  <input
+    className="signup-form__input signup-form__password"
+    type="password"
+    placeholder="Password"
+    onChange={(e) => setPassword(e.target.value)}
+  />
+);
+
+const SubmitButton = ({ handleSignup, email, password }) => (
+  <button
+    className="signup-button signup-form__submit signup-form__submit-btn"
+    onClick={handleSignup}
+    disabled={!email || !password}
+  >
+    Submit
+  </button>
+);
+
 const SignupForm = ({ isVisible, onSignupSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,23 +66,9 @@ const SignupForm = ({ isVisible, onSignupSuccess }) => {
 
   return (
     <div className="signup-form">
-      <input
-        className="signup-form__input"
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        className="signup-form__input"
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button className="signup-button signup-form__submit" onClick={handleSignup} disabled={!email || !password}>
-        <i className={`arrow ${email && password ? 'active' : ''}`}></i>
-      </button>
+      <EmailInput setEmail={setEmail} />
+      <PasswordInput setPassword={setPassword} />
+      <SubmitButton handleSignup={handleSignup} email={email} password={password} />
     </div>
   );
 };
@@ -66,10 +80,10 @@ const SignupButton = () => {
   const handleSignupSuccess = () => setShowForm(false);
 
   return (
-    <div>
-      <button className="signup-button" onClick={handleShowForm}>Sign up</button>
+    <>
+      {!showForm && <button className="signup-button signup-button__trigger" onClick={handleShowForm}>Sign up</button>}
       <SignupForm isVisible={showForm} onSignupSuccess={handleSignupSuccess} />
-    </div>
+    </>
   );
 };
 

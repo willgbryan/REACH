@@ -5,6 +5,7 @@ import StatusBar from "./components/ui/StatusBar";
 import SignupButton from "./components/buttons/Signup";
 
 function App() {
+
   return (
     <div className="app">
       <StatusBar />

@@ -134,30 +134,14 @@ body,
   }
 }
 
-.signup-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  background-color: var(--white);
-  border-radius: 10px;
-  box-shadow: $shadow;
-  position: absolute;
-  top: 25%;
-  left: 0%;
-  transform: translateX(-50%);
-  z-index: 10;
-  grid-column: 3 / 4;
-  grid-row: 3 / 4;
-}
-
 .signup-form__input {
+  transform-style: preserve-3d;
+  transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg) translateZ(-100px);
   width: 20.4rem;
   height: 4rem;
   border: none;
   border-radius: 1rem;
-  font-size: 1.4rem;
+  font-size: 20px;
   padding-left: 1.4rem;
   box-shadow: $inner-shadow;
   background: none;
@@ -167,6 +151,18 @@ body,
 
   &::placeholder { color: var(--greyLight-3); }
   &:focus { outline: none; box-shadow: $shadow; }
+}
+
+.signup-form__input--email {
+  position: absolute;
+  top: 23px;
+  left: 20px;
+}
+
+.signup-form__input--password {
+  position: absolute;
+  top: 18px;
+  left: 23px;
 }
 
 .row {
