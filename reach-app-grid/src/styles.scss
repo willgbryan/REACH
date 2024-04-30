@@ -134,7 +134,26 @@ body,
   }
 }
 
-.signup-form__input {
+// .signup-form__input {
+//   transform-style: preserve-3d;
+//   transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg) translateZ(-100px);
+//   width: 20.4rem;
+//   height: 4rem;
+//   border: none;
+//   border-radius: 1rem;
+//   font-size: 20px;
+//   padding-left: 1.4rem;
+//   box-shadow: $inner-shadow;
+//   background: none;
+//   font-family: inherit;
+//   color: var(--greyDark);
+//   margin-bottom: 1rem;
+
+//   &::placeholder { color: var(--greyLight-3); }
+//   &:focus { outline: none; box-shadow: $shadow; }
+// }
+
+.signup-form__password{
   transform-style: preserve-3d;
   transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg) translateZ(-100px);
   width: 20.4rem;
@@ -148,21 +167,34 @@ body,
   font-family: inherit;
   color: var(--greyDark);
   margin-bottom: 1rem;
+  position: absolute;
+  top: 18%;
+  left: 23%;
 
   &::placeholder { color: var(--greyLight-3); }
   &:focus { outline: none; box-shadow: $shadow; }
 }
 
-.signup-form__input--email {
+.signup-form__email{
+  transform-style: preserve-3d;
+  transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg) translateZ(-100px);
+  width: 20.4rem;
+  height: 4rem;
+  border: none;
+  border-radius: 1rem;
+  font-size: 20px;
+  padding-left: 1.4rem;
+  box-shadow: $inner-shadow;
+  background: none;
+  font-family: inherit;
+  color: var(--greyDark);
+  margin-bottom: 1rem;
   position: absolute;
-  top: 23px;
-  left: 20px;
-}
+  top: 23%;
+  left: 20%;
 
-.signup-form__input--password {
-  position: absolute;
-  top: 18px;
-  left: 23px;
+  &::placeholder { color: var(--greyLight-3); }
+  &:focus { outline: none; box-shadow: $shadow; }
 }
 
 .row {
