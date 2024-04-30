@@ -54,7 +54,7 @@ function Scene() {
       </Grid>
       <div className="REACH-text-field-3d">&lt;REACH-001&gt;</div>
       <div className="PROVISIONAL-text-field-3d">PROVISONAL</div>
-      <PopupMenu visible={popupVisible} position={popupPosition} onClose={closePopup} onUploadSuccess={handleUploadSuccess} />  
+      {/* <PopupMenu visible={popupVisible} position={popupPosition} onClose={closePopup} onUploadSuccess={handleUploadSuccess} />   */}
     </div>
   );
 }

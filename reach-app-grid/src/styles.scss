@@ -1,10 +1,27 @@
+:root {
+  --primary-light: #8abdff;
+  --primary: #6d5dfc;
+  --primary-dark: #5b0eeb;
+  
+  --white: rgba(255, 255, 255, 0.6);
+  --greyLight-1: #E4EBF5;
+  --greyLight-2: #c8d0e7;
+  --greyLight-3: rgba(163, 177, 198, 0.5);
+  --greyDark: #9baacf;
+}
+
+$shadow: .3rem .3rem .6rem var(--greyLight-2), 
+-.2rem -.2rem .5rem var(--white);
+$inner-shadow: inset .2rem .2rem .5rem var(--greyLight-2), 
+inset -.2rem -.2rem .5rem var(--white);
+
 * {
   border: none;
   border-radius: 20px;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  background-color: #E0E5EC; /* Added to apply the color to the entire webpage */
+  background-color: var(--greyLight-1);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -32,45 +49,125 @@ body,
 }
 
 .grid {
-  border: solid 1px #E0E5EC;
+  border: solid 1px var(--greyLight-1);
   border-radius: 20px;
-  box-shadow: -6px -6px 20px rgba(255, 255, 255, 0.5), 6px 6px 20px rgba(163, 177, 198, 0.5);  
+  box-shadow: -6px -6px 20px var(--white), 6px 6px 20px var(--greyLight-3);  
   transform-style: preserve-3d;
   transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg);
 }
 
 .REACH-text-field-3d {
-  // Apply the same 3D transformation to the text field
   transform-style: preserve-3d;
   transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg) translateZ(-100px);
-  margin-top: 20px; // Adjust as needed for spacing
-  font-size: 40px; // Adjust as needed
-  color: #8d98a4; // Adjust as needed
-  width: 100%; // Adjust as needed
-  text-align: center; // Center the text horizontally
-  position: absolute; // Ensure it doesn't affect the layout of other elements
-  top: 45%; // Adjust to position below everything
+  margin-top: 20px;
+  font-size: 40px;
+  color: var(--greyDark);
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 45%;
   left: 20%;
-  transform-origin: center; // Adjust the origin of transformation if needed
-  z-index: 0; // Ensure it is rendered below other elements
+  transform-origin: center;
+  z-index: 0;
 }
 
 .PROVISIONAL-text-field-3d {
-  // Apply the same 3D transformation to the text field
   transform-style: preserve-3d;
   transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg) translateZ(-100px);
-  margin-top: 20px; // Adjust as needed for spacing
-  font-size: 20px; // Adjust as needed
-  color: #8d98a4; // Adjust as needed
-  width: 100%; // Adjust as needed
-  text-align: center; // Center the text horizontally
-  position: absolute; // Ensure it doesn't affect the layout of other elements
-  top: 46.5%; // Adjust to position below everything
+  margin-top: 20px;
+  font-size: 20px;
+  color: var(--greyDark);
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 46.5%;
   left: 23.5%;
-  transform-origin: center; // Adjust the origin of transformation if needed
-  z-index: 0; // Ensure it is rendered below other elements
+  transform-origin: center;
+  z-index: 0;
 }
 
+.signup-button {
+  width: 15rem;
+  height: 4rem;
+  border-radius: 1rem;
+  box-shadow: $shadow;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: .3s ease;
+  position: absolute;
+  transform-style: preserve-3d;
+  transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg) translateZ(-100px);
+  transform-origin: center;
+  top: 20%;
+  left: 25%;
+
+  &__primary {
+    grid-column: 1 / 2;
+    grid-row: 4 / 5;
+    background: var(--primary);
+    box-shadow: inset .2rem .2rem 1rem var(--primary-light), 
+                inset -.2rem -.2rem 1rem var(--primary-dark),
+                $shadow;
+    color: var(--greyLight-1);
+
+    &:hover { color: var(--white); }
+    &:active {
+      box-shadow: inset .2rem .2rem 1rem var(--primary-dark), 
+                  inset -.2rem -.2rem 1rem var(--primary-light);
+    }
+  }
+
+  &__secondary {
+    grid-column: 1 / 2;
+    grid-row: 5 / 6;
+    color: var(--greyDark);
+    &:hover { color: var(--primary); }
+    &:active {
+      box-shadow: $inner-shadow;
+    }
+  }
+
+  p { 
+    font-size: 1.6rem;
+  }
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: var(--white);
+  border-radius: 10px;
+  box-shadow: $shadow;
+  position: absolute;
+  top: 25%;
+  left: 0%;
+  transform: translateX(-50%);
+  z-index: 10;
+  grid-column: 3 / 4;
+  grid-row: 3 / 4;
+}
+
+.signup-form__input {
+  width: 20.4rem;
+  height: 4rem;
+  border: none;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+  padding-left: 1.4rem;
+  box-shadow: $inner-shadow;
+  background: none;
+  font-family: inherit;
+  color: var(--greyDark);
+  margin-bottom: 1rem;
+
+  &::placeholder { color: var(--greyLight-3); }
+  &:focus { outline: none; box-shadow: $shadow; }
+}
 
 .row {
   height: 30px;
@@ -85,7 +182,7 @@ button {
 }
 
 .tile {
-  border: none 1px #E0E5EC;
+  border: none 1px var(--greyLight-2);
   border-radius: 5px;
   border-style: none;
   height: 30px;
@@ -93,11 +190,11 @@ button {
   pointer-events: auto;
   position: relative;
   cursor: pointer;
-  outline: none; // not good
+  outline: none;
 }
 
 .tile:hover {
-  background-color: #ff7300;
+  background-color: var(--primary);
 }
 
 .popup-menu{
@@ -107,79 +204,5 @@ button {
   width: 300px;
   z-index: 1000;
   border-radius: 5px;
-  background-color: rgba(163, 177, 198, 0.8);
+  background-color: rgba(var(--greyLight-3), 0.8);
 }
-
-// #copy.player {
-//   position: relative;
-//   height: 30px;
-//   width: 30px;
-//   transform-origin: 0 0;
-//   transform-style: preserve-3d;
-//   perspective: 800px;
-//   transform: translate(17px, -17px);
-
-//   .side {
-//     position: absolute;
-//     width: 28px;
-//     height: 28px;
-//     background: none;
-//     text-align: center;
-//   }
-
-//   .front {
-//     transform: translateZ(14px);
-//   }
-//   .top {
-//     transform: rotateX(90deg) translateZ(14px);
-//   }
-//   .right {
-//     transform: rotateY(90deg) translateZ(14px);
-//   }
-//   .left {
-//     transform: rotateY(-90deg) translateZ(14px);
-//   }
-//   .bottom {
-//     transform: rotateX(-90deg) translateZ(14px);
-//   }
-//   .back {
-//     transform: rotateY(-180deg) translateZ(14px);
-//   }
-// }
-
-// #org.player {
-//   position: relative;
-//   height: 30px;
-//   width: 30px;
-//   transform-style: preserve-3d;
-//   perspective: 800px;
-//   transform: rotateX(60deg) rotateY(0deg) rotateZ(-45deg);
-
-//   .side {
-//     position: absolute;
-//     width: 30px;
-//     height: 30px;
-//     background: rgba(100, 100, 100, 0.5);
-//     border: 1px solid red;
-//     text-align: center;
-//   }
-
-//   .front {
-//     transform: translateZ(15px);
-//   }
-//   .top {
-//     transform: rotateX(90deg) translateZ(15px);
-//   }
-//   .right {
-//     transform: rotateY(90deg) translateZ(15px);
-//   }
-//   .left {
-//     transform: rotateY(-90deg) translateZ(15px);
-//   }
-//   .bottom {
-//     transform: rotateX(-90deg) translateZ(15px);
-//   }
-//   .back {
-//     transform: rotateY(-180deg) translateZ(15px);
-//   }
-// }
