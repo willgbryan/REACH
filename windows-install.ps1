@@ -38,7 +38,6 @@ services:
     networks:
       - reach
   reach:
-    build: .
     image: reach13/reach:latest
     volumes:
       # - ./reach-react-app:/usr/src/app/react_app
