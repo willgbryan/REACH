@@ -41,7 +41,7 @@ services:
     image: reach13/reach:latest
     environment:
       SEARX_URL: "http://searxng:8080"
-      OPENAI_API_KEY: "<key>"
+      OPENAI_API_KEY: "key"
     ports:
       - "8000:8000"
     networks:
@@ -65,19 +65,20 @@ Write-Output "Docker Compose project built."
 
 Write-Output "Starting the application..."
 docker-compose up -d
-Write-Output "Application is running."
+Write-Output "Application start successful, waiting for entrypoint.sh execution..."
 
-$containerName = "searxng"
+$serviceName = "searxng"
 
 Start-Sleep -Seconds 10
 
-docker cp "C:\reach-app-001\searxng\settings.yml" ${containerName}:/etc/searxng/settings.yml
+$cmdJson = "sed -i '/- html/a\ \ \ \ - json' /etc/searxng/settings.yml"
 
-$cmd = 'sed -i ''/formats:/,+1 {/formats:/n; s/.*/    - html\n    - json/}'' /etc/searxng/settings.yml'
-docker exec $containerName sh -c $cmd
+docker-compose -f $dirPath\docker-compose.yml exec -T $serviceName sh -c $cmdJson
 
-docker restart $containerName
+docker-compose -f $dirPath\docker-compose.yml restart $serviceName
 
-Write-Output "Custom settings.yml applied and container restarted."
+Write-Output "Custom settings.yml updated with '- json'."
 
 Write-Output "Installation and setup complete!"
+
+Read-Host -Prompt "Press Enter to exit"
