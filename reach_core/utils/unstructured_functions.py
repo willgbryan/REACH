@@ -2,6 +2,7 @@ import os
 import subprocess
 from typing import List, Dict
 from unstructured.partition.auto import partition
+import logging
 
 async def process_unstructured(upload_dir: str = "uploads") -> List[Dict[str, str]]:
 
@@ -12,11 +13,14 @@ async def process_unstructured(upload_dir: str = "uploads") -> List[Dict[str, st
             if (os.path.isfile(file_path) and not file_path.endswith(('.mp3', '.wav', '.flac'))):
                 # TODO plenty of room to investigate different extraction methods, times, and strategies
                 # TODO list element extraction strategies
-                elements = partition(filename=file_path, strategy='auto')
+                try:
+                    elements = partition(filename=file_path, strategy='fast')
+                except Exception as e:
+                    logging.error(f"Fast strategy failed for {file_path} with error: {e}")
+                    elements = partition(filename=file_path, strategy='auto')
                 raw_content = "\n\n".join([str(el) for el in elements])
                 output_list.append({'url': file_path, 'raw_content': raw_content})
     else:
         print(f"No uploads found. This function was called incorrectly.")
 
     return output_list
-
