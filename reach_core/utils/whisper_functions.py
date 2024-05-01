@@ -23,7 +23,7 @@ async def parse_text_from_audio(upload_dir: str = "uploads", model: str = "base"
         for filename in os.listdir(upload_dir):
             file_path = os.path.join(upload_dir, filename)
             if os.path.isfile(file_path) and file_path.endswith(('.mp3', '.wav', '.flac')):
-                model = whisper.load_model("base")
+                model = whisper.load_model("tiny")
                 result = model.transcribe(file_path)
                 raw_content = result["text"]
                 output_list.append({'url': file_path, 'raw_content': raw_content})
