@@ -18,7 +18,7 @@ if ($dockerPath -eq $null) {
     Write-Output "Docker Desktop is already installed."
 }
 
-$dirPath = "C:\DockerApp"
+$dirPath = "C:\reach-app-001"
 New-Item -ItemType Directory -Force -Path $dirPath
 $composeContent = @"
 version: '3'
