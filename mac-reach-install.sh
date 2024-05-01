@@ -15,8 +15,6 @@ services:
       - reach
   searxng:
     image: searxng/searxng:latest
-    volumes:
-      - ./searxng/settings.yml:/etc/searxng/settings.yml
     environment:
       SEARXNG_SECRET: "STLsecret"
     ports:

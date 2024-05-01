@@ -31,8 +31,6 @@ services:
       - reach
   searxng:
     image: searxng/searxng:latest
-    volumes:
-      - ./searxng/settings.yml:/etc/searxng/settings.yml
     environment:
       SEARXNG_SECRET: "STLsecret"
     ports:
@@ -41,10 +39,6 @@ services:
       - reach
   reach:
     image: reach13/reach:latest
-    # volumes:
-    #   - ./reach-react-app:/usr/src/app/react_app
-    #   - ./frontend:/usr/src/app/frontend
-    #   - ./reach_core:/usr/src/app/reach_core
     environment:
       SEARX_URL: "http://searxng:8080"
       OPENAI_API_KEY: "<key>"
@@ -72,5 +66,18 @@ Write-Output "Docker Compose project built."
 Write-Output "Starting the application..."
 docker-compose up -d
 Write-Output "Application is running."
+
+$containerName = "searxng"
+
+Start-Sleep -Seconds 10
+
+docker cp "C:\reach-app-001\searxng\settings.yml" $containerName:/etc/searxng/settings.yml
+
+$cmd = "sed -i '/formats:/,+1 {/formats:/n; s/.*/    - html\n    - json/}' /etc/searxng/settings.yml"
+docker exec $containerName sh -c $cmd
+
+docker restart $containerName
+
+Write-Output "Custom settings.yml applied and container restarted."
 
 Write-Output "Installation and setup complete!"
