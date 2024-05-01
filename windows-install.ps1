@@ -34,7 +34,7 @@ services:
     volumes:
       - ./searxng/settings.yml:/etc/searxng/settings.yml
     environment:
-      - SEARXNG_SECRET: "STLsecret"
+      SEARXNG_SECRET: "STLsecret"
     ports:
       - "8080:8080"
     networks:
