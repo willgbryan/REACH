@@ -71,9 +71,9 @@ $containerName = "searxng"
 
 Start-Sleep -Seconds 10
 
-docker cp "C:\reach-app-001\searxng\settings.yml" $containerName:/etc/searxng/settings.yml
+docker cp "C:\reach-app-001\searxng\settings.yml" ${containerName}:/etc/searxng/settings.yml
 
-$cmd = "sed -i '/formats:/,+1 {/formats:/n; s/.*/    - html\n    - json/}' /etc/searxng/settings.yml"
+$cmd = 'sed -i ''/formats:/,+1 {/formats:/n; s/.*/    - html\n    - json/}'' /etc/searxng/settings.yml'
 docker exec $containerName sh -c $cmd
 
 docker restart $containerName
