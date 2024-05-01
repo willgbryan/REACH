@@ -52,4 +52,15 @@ echo "Starting the application..."
 docker-compose up -d
 echo "Application is running."
 
+containerName="searxng"
+
+sleep 10
+
+cmd="sed -i '/formats:/,+1 {/formats:/n; s/.*/    - html\n    - json/}' /etc/searxng/settings.yml"
+docker exec $containerName sh -c "$cmd"
+
+docker restart $containerName
+
+echo "Custom settings.yml applied and container restarted."
+
 echo "Installation and setup complete!"
