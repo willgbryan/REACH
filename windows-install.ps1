@@ -39,10 +39,14 @@ services:
       - reach
   reach:
     image: reach13/reach:latest
-    volumes:
-      # - ./reach-react-app:/usr/src/app/react_app
-      - ./frontend:/usr/src/app/frontend
-      - ./reach_core:/usr/src/app/reach_core
+    # volumes:
+    #   - ./reach-react-app:/usr/src/app/react_app
+    #   - ./frontend:/usr/src/app/frontend
+    #   - ./reach_core:/usr/src/app/reach_core
+    environment:
+      SEARX_URL: "http://searxng:8080"
+      SEARXNG_SECRET: "STLsecret"
+      OPENAI_API_KEY: "<key>"
     ports:
       - "8000:8000"
     networks:
@@ -57,8 +61,6 @@ $composeFile = Join-Path -Path $dirPath -ChildPath "docker-compose.yml"
 $composeContent | Out-File -FilePath $composeFile
 Write-Output "Docker Compose file created."
 
-[System.Environment]::SetEnvironmentVariable("SEARX_HOST", "http://searxng:8080", [System.EnvironmentVariableTarget]::Machine)
-[System.Environment]::SetEnvironmentVariable("OPENAI_API_KEY", "ADD VALUE", [System.EnvironmentVariableTarget]::Machine)
 Write-Output "Environment variables configured."
 
 Write-Output "Building Docker Compose project..."
