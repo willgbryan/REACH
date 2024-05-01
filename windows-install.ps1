@@ -33,6 +33,8 @@ services:
     image: searxng/searxng:latest
     volumes:
       - ./searxng/settings.yml:/etc/searxng/settings.yml
+    environment:
+      - SEARXNG_SECRET: "STLsecret"
     ports:
       - "8080:8080"
     networks:
@@ -45,7 +47,6 @@ services:
     #   - ./reach_core:/usr/src/app/reach_core
     environment:
       SEARX_URL: "http://searxng:8080"
-      SEARXNG_SECRET: "STLsecret"
       OPENAI_API_KEY: "<key>"
     ports:
       - "8000:8000"
