@@ -28,13 +28,17 @@ const Reach = (() => {
 
     const handleFileUpload = () => {
       const fileInput = document.getElementById('fileUpload');
+      const uploadButton = document.getElementById('fileUploadBtn');
       if (fileInput.files.length > 0) {
-          const file = fileInput.files[0];
           const formData = new FormData();
-          formData.append('file', file);
-  
+          for (const file of fileInput.files) {
+              formData.append('files', file);
+          }
           formData.append('task', 'fileUpload');
-  
+    
+          uploadButton.textContent = 'PARSING';
+          uploadButton.disabled = true;
+    
           fetch('/upload', {
               method: 'POST',
               body: formData,
@@ -47,12 +51,16 @@ const Reach = (() => {
           })
           .then(data => {
               console.log('Success:', data);
+              uploadButton.textContent = 'UPLOAD';
+              uploadButton.disabled = false;
           })
           .catch((error) => {
               console.error('Error:', error);
+              uploadButton.textContent = 'UPLOAD';
+              uploadButton.disabled = false;
           });
       } else {
-          console.log("No file selected for upload.");
+          console.log("No file or directory selected for upload.");
       }
     };
   

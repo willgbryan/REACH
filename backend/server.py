@@ -66,31 +66,43 @@ async def websocket_endpoint(websocket: WebSocket):
         await manager.disconnect(websocket)
 
 @app.post("/upload")
-async def upload_file(file: UploadFile = File(...), task: str = Form(...)):
+async def upload_files(files: List[UploadFile] = File(...), task: str = Form(...)):
     upload_dir = "uploads"
     if not os.path.isdir(upload_dir):
         os.makedirs(upload_dir)
-    
-    file_location = f"{upload_dir}/{file.filename}"
-    with open(file_location, "wb+") as file_object:
-        file_object.write(await file.read())
-    
-    parsed_audio = await parse_text_from_audio()
-    parsed_documents = await process_unstructured()
 
-    parsed_content = parsed_audio + parsed_documents
+    async def handle_file(file):
+        file_location = f"{upload_dir}/{file.filename}"
+        with open(file_location, "wb+") as file_object:
+            content = await file.read()
+            file_object.write(content)
+        return file_location
+
+    uploaded_files_info = []
+    for file in files:
+        file_location = await handle_file(file)
+        uploaded_files_info.append({"filename": file.filename, "location": file_location})
+        print(f"Uploaded: {file.filename} to {file_location}")
+
+    parsed_contents = []
+    for uploaded_file_info in uploaded_files_info:
+        # Assuming parse_text_from_audio and process_unstructured can handle file paths
+        parsed_audio = await parse_text_from_audio()
+        parsed_documents = await process_unstructured()
+        parsed_content = parsed_audio + parsed_documents
+        parsed_contents.extend(parsed_content)
 
     parsed_uploads_path = f"{upload_dir}/parsed_uploads.json"
     if not os.path.exists(parsed_uploads_path):
         async with aiofiles.open(parsed_uploads_path, "w") as new_file:
             await new_file.write("[]")
-    
+
     async with aiofiles.open(parsed_uploads_path, "r+") as parsed_uploads_file:
         existing_content = await parsed_uploads_file.read()
         existing_data = json.loads(existing_content) if existing_content else []
-        existing_data += parsed_content
+        existing_data += parsed_contents
         await parsed_uploads_file.seek(0)
         await parsed_uploads_file.write(json.dumps(existing_data))
         await parsed_uploads_file.truncate()
-    
-    return {"info": f"File '{file.filename}' uploaded successfully", "task": task, "parsed_info": f"Data written to {parsed_uploads_path}"}
+
+    return {"info": f"Files uploaded successfully", "task": task, "parsed_info": f"Data written to {parsed_uploads_path}"}
