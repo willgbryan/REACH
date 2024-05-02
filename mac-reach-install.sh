@@ -56,11 +56,14 @@ containerName="searxng"
 
 sleep 10
 
-cmd="sed -i '/formats:/,+1 {/formats:/n; s/.*/    - html\n    - json/}' /etc/searxng/settings.yml"
-docker exec $containerName sh -c "$cmd"
+cmdJson="sed -i '/- html/a\ \ \ \ - json' /etc/searxng/settings.yml"
 
-docker restart $containerName
+docker-compose -f "$dirPath/docker-compose.yml" exec -T $containerName sh -c "$cmdJson"
 
-echo "Custom settings.yml applied and container restarted."
+docker-compose -f "$dirPath/docker-compose.yml" restart $containerName
+
+echo "Custom settings.yml updated with '- json'."
 
 echo "Installation and setup complete!"
+
+read -p "Press Enter to exit"
