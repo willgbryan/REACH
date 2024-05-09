@@ -1,3 +1,4 @@
+import os
 import asyncio
 from reach_core.utils.llm import *
 from reach_core.scraper import Scraper
@@ -71,11 +72,21 @@ async def get_sub_queries(query: str, agent_role_prompt: str, cfg, parent_query:
 
     """
     max_research_iterations = cfg.max_iterations if cfg.max_iterations else 1
+
+    uploaded_files = [f for f in os.listdir("uploads") if os.path.isfile(os.path.join("uploads", f))]
     response = await create_chat_completion(
         model=cfg.smart_llm_model,
         messages=[
             {"role": "system", "content": f"{agent_role_prompt}"},
-            {"role": "user", "content": generate_search_queries_prompt(query, parent_query, report_type, max_iterations=max_research_iterations)}],
+            {"role": "user", "content": generate_search_queries_prompt(
+                query, 
+                parent_query, 
+                report_type, 
+                uploaded_files,
+                max_iterations=max_research_iterations
+                )
+            }
+        ],
         temperature=0,
         llm_provider=cfg.llm_provider
     )

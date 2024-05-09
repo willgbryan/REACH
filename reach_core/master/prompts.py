@@ -1,16 +1,20 @@
+import json
+from typing import List
 from datetime import datetime, timezone
 
 from reach_core.utils.enum import ReportType
 
-def generate_search_queries_prompt(question: str, parent_query: str, report_type: str, max_iterations: int=3,):
-    """ Generates the search queries prompt for the given question.
+def generate_search_queries_prompt(question: str, parent_query: str, report_type: str, uploaded_files: List[str], max_iterations: int=3) -> str:
+    """ Generates the search queries prompt for the given question in JSON format.
     Args: 
         question (str): The question to generate the search queries prompt for
         parent_query (str): The main question (only relevant for detailed reports)
         report_type (str): The report type
+        uploaded_files (List[str]): List of uploaded files
         max_iterations (int): The maximum number of search queries to generate
     
-    Returns: str: The search queries prompt for the given question
+    Returns: 
+        str: The search queries prompt for the given question in JSON format
     """
 
     if report_type == ReportType.DetailedReport.value:
@@ -18,10 +22,15 @@ def generate_search_queries_prompt(question: str, parent_query: str, report_type
     else:
         task = question
 
-    return f'Write {max_iterations} google search queries to search online that form an objective opinion from the following task: "{task}"' \
-           f'Use the current date if needed: {datetime.now().strftime("%B %d, %Y")}.\n' \
-           f'Also include in the queries specified task details such as locations, names, etc.\n' \
-           f'You must respond with a list of strings in the following format: ["query 1", "query 2", "query 3"].'
+    prompt = {
+        "task": f"Write {max_iterations} google search queries to search online that form an objective opinion from the following task: \"{task}\"",
+        "date_needed": f"Use the current date if needed: {datetime.now().strftime('%B %d, %Y')}.",
+        "files_info": f"Files can be present and questions can be asked about them. Uploaded files if any: {uploaded_files}",
+        "additional_instructions": "Also include in the queries specified task details such as locations, names, etc.",
+        "response_format": "You must respond with a list of strings in the following format: [\"query 1\", \"query 2\", \"query 3\"]."
+    }
+
+    return json.dumps(prompt, ensure_ascii=False)
 
 
 def generate_report_prompt(question, context, report_format="apa", total_words=2000):
