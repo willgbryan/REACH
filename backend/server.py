@@ -79,7 +79,7 @@ async def upload_files(files: List[UploadFile] = File(...), task: str = Form(...
             file_object.write(content)
         
         if file.filename.endswith(".mp4"):
-            mp3_paths = await mp4_to_mp3([file_location])
+            mp3_paths = await mp4_to_mp3(file_location)
             os.remove(file_location)
             file_location = mp3_paths[0]
         
