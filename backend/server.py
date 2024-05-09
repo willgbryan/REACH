@@ -9,6 +9,7 @@ from typing import List
 from reach_core.utils.websocket_manager import WebSocketManager
 from reach_core.utils.unstructured_functions import *
 from reach_core.utils.whisper_functions import *
+from reach_core.utils.mp3_from_mp4 import mp4_to_mp3
 from .utils import write_md_to_pdf
 
 
@@ -76,6 +77,12 @@ async def upload_files(files: List[UploadFile] = File(...), task: str = Form(...
         with open(file_location, "wb+") as file_object:
             content = await file.read()
             file_object.write(content)
+        
+        if file.filename.endswith(".mp4"):
+            mp3_paths = await mp4_to_mp3(file_location)
+            os.remove(file_location)
+            file_location = mp3_paths[0]
+        
         return file_location
 
     uploaded_files_info = []
@@ -86,7 +93,6 @@ async def upload_files(files: List[UploadFile] = File(...), task: str = Form(...
 
     parsed_contents = []
     for uploaded_file_info in uploaded_files_info:
-        # Assuming parse_text_from_audio and process_unstructured can handle file paths
         parsed_audio = await parse_text_from_audio()
         parsed_documents = await process_unstructured()
         parsed_content = parsed_audio + parsed_documents
