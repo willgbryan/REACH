@@ -52,8 +52,7 @@ def generate_report_prompt(question, context, report_format="apa", total_words=2
            f"You MUST write all used source urls at the end of the report as references, and make sure to not add duplicated sources, but only one reference for each.\n" \
            f"You may come across Source: that are filepaths, be sure to include the name of the file in the references as well.\n" \
            """
-            Additionally, you MUST include hyperlinks to the relevant URLs wherever they are referenced in the report :
-            It is critical that you use only the provided Information to generate your report.
+            Every url should be hyperlinked: [url website](url)"\
         
             eg:    
                 # Report Header
@@ -61,9 +60,8 @@ def generate_report_prompt(question, context, report_format="apa", total_words=2
                 This is a sample text. ([url website](url))
             """\
             f"You MUST write the report in {report_format} format.\n " \
-            f"Cite search results using inline notations. Only cite the most \
-            relevant results that answer the query accurately. Place these citations at the end \
-            of the sentence or paragraph that reference them.\n"\
+            f"'You MUST include all relevant source urls.'\
+             'Every url should be hyperlinked: [url website](url)'\n"\
             f"Please do your best, this is very important to my career. " \
             f"Assume that the current date is {datetime.now().strftime('%B %d, %Y')}"
 
