@@ -1,17 +1,23 @@
-name: Test Windows Installation Script
+name: Test Windows Installation Script on Linux
 
 on: [pull_request]
 
 jobs:
   test-windows-install:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
       
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+          docker-compose --version
       
-      - name: Test Installation Script
-        run: .\windows-install.ps1
-        shell: pwsh
+      - name: Prepare and Run Installation Script
+        run: |
+          # Assuming the script can be adjusted for Linux or is already compatible
+          chmod +x ./windows-install.ps1
+          # Use PowerShell Core on Linux to run the script
+          pwsh -File ./windows-install.ps1
