@@ -9,6 +9,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Cleanup Docker Resources
+        run: |
+          docker image prune -af
+          docker volume prune -f
+          docker container prune -f
+          docker system prune -af
+
       - name: Install Docker Compose
         run: |
           sudo apt-get update
