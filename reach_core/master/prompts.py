@@ -32,6 +32,38 @@ def generate_search_queries_prompt(question: str, parent_query: str, report_type
 
     return json.dumps(prompt, ensure_ascii=False)
 
+def generate_paragraph_prompt(question, context, report_format="apa", total_words=200):
+    """ Generates the paragraph prompt for the given question and research summary.
+    Args: question (str): The question to generate the report prompt for
+            research_summary (str): The research summary to generate the paragraph prompt for
+    Returns: str: The paragraph prompt for the given question and research summary
+    """
+
+    return f'Information: """{context}"""\n\n' \
+           f'Using ONLY the above information, answer the following' \
+           f' query or task: "{question}" in a detailed single paragraph --' \
+           " The single paragraph should focus on the answer to the query, should be well structured, informative," \
+           f" concise yet comprehensive, with facts and numbers if available and a minimum of {total_words} words.\n" \
+           "You should strive to write the paragraph concisely using all relevant and necessary information provided.\n" \
+           "You must write the paragraph with markdown syntax.\n " \
+           f"Use an unbiased and journalistic tone. \n" \
+           "You MUST determine your own concrete and valid opinion based on the given information. Do NOT deter to general and meaningless conclusions.\n" \
+           f"You MUST write all used source urls at the end of the paragraph as references, and make sure to not add duplicated sources, but only one reference for each.\n" \
+           f"You may come across Source: that are filepaths, be sure to include the name of the file in the references as well.\n" \
+           """
+            Every url should be hyperlinked: [url website](url)"\
+        
+            eg:    
+                # Paragraph Header
+                
+                This is a sample text. ([url website](url))
+            """\
+            f"You MUST write the paragraph in {report_format} format.\n " \
+            f"'You MUST include all relevant source urls.'\
+             'Every url should be hyperlinked: [url website](url)'\n"\
+            f"Please do your best, this is very important to my career. " \
+            f"Assume that the current date is {datetime.now().strftime('%B %d, %Y')}"
+
 
 def generate_report_prompt(question, context, report_format="apa", total_words=2000):
     """ Generates the report prompt for the given question and research summary.
@@ -118,6 +150,7 @@ def generate_table_prompt(question, context, report_format="csv", total_words=10
 
 def get_report_by_type(report_type):
      report_type_mapping = {
+        ReportType.Paragraph.value: generate_paragraph_prompt,
         ReportType.ResearchReport.value: generate_report_prompt,
         ReportType.ResourceReport.value: generate_resource_report_prompt,
         ReportType.OutlineReport.value: generate_outline_report_prompt,

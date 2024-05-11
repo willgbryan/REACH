@@ -1,6 +1,7 @@
 from enum import Enum
 
 class ReportType(Enum):
+    Paragraph = 'paragraph'
     ResearchReport = 'research_report'
     ResourceReport = 'resource_report'
     OutlineReport = 'outline_report'
