@@ -1,0 +1,30 @@
+name: Test macOS Installation Script on Linux
+
+on: [pull_request]
+
+jobs:
+  test-mac-install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Cleanup Docker Resources
+        run: |
+          docker image prune -af
+          docker volume prune -f
+          docker container prune -f
+          docker system prune -af
+
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+          docker-compose --version
+
+      - name: Run Installation Script
+        run: |
+          chmod +x ./mac-reach-install.sh
+          ./mac-reach-install.sh
+        env:
+          REACH_APP_DIR: ${{ github.workspace }}/reach-app-001

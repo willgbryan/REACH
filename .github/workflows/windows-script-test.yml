@@ -1,0 +1,21 @@
+name: Test Windows Installation Script on Linux
+
+on: [pull_request]
+
+jobs:
+  test-windows-install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+          docker-compose --version
+      
+      - name: Prepare and Run Installation Script
+        run: |
+          chmod +x ./windows-install.ps1
+          pwsh -File ./windows-install.ps1
