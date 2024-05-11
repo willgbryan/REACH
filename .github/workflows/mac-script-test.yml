@@ -1,0 +1,14 @@
+name: Test macOS Installation Script
+
+on: [pull_request]
+
+jobs:
+  test-mac-install:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Test Installation Script
+        run: |
+          chmod +x ./mac-reach-install.sh
+          ./mac-reach-install.sh

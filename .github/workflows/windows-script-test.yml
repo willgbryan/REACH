@@ -1,0 +1,13 @@
+name: Test Windows Installation Script
+
+on: [pull_request]
+
+jobs:
+  test-windows-install:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Test Installation Script
+        run: .\windows-install.ps1
+        shell: pwsh
