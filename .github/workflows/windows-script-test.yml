@@ -17,7 +17,5 @@ jobs:
       
       - name: Prepare and Run Installation Script
         run: |
-          # Assuming the script can be adjusted for Linux or is already compatible
           chmod +x ./windows-install.ps1
-          # Use PowerShell Core on Linux to run the script
           pwsh -File ./windows-install.ps1

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dirPath="/Users/$(whoami)/reach-app-001"
+dirPath="${REACH_APP_DIR:-/Users/$(whoami)/reach-app-001}"
 
 mkdir -p "$dirPath"
 
