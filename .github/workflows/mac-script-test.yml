@@ -8,24 +8,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
-      - name: Install Docker
+
+      - name: Install Docker Compose
         run: |
-          brew install docker docker-compose
-          docker --version
+          brew install docker-compose
           docker-compose --version
 
-      - name: Start Docker Daemon
-        run: open /Applications/Docker.app
-
-      - name: Wait for Docker
-        run: |
-          while ! docker system info > /dev/null 2>&1; do
-            echo "Waiting for Docker to start..."
-            sleep 1
-          done
-
-      - name: Test Installation Script
+      - name: Run Installation Script
         run: |
           chmod +x ./mac-reach-install.sh
           ./mac-reach-install.sh
