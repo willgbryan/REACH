@@ -80,5 +80,3 @@ docker-compose -f $dirPath\docker-compose.yml restart $serviceName
 Write-Output "Custom settings.yml updated with '- json'."
 
 Write-Output "Installation and setup complete!"
-
-Read-Host -Prompt "Press Enter to exit"

@@ -65,5 +65,3 @@ docker-compose -f "$dirPath/docker-compose.yml" restart $containerName
 echo "Custom settings.yml updated with '- json'."
 
 echo "Installation and setup complete!"
-
-read -p "Press Enter to exit"
