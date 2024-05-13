@@ -1,5 +1,11 @@
 # Dev Guide
 
+## Join the Linear Project:
+[Linear Signup Link](https://linear.app/reachai/join/ebdf66a96b63ba4de5a9006eecda14b1?s=4).
+
+    - After clicking on an open issue, CMD + Shift + . will copy the issue name.
+    - Creating a new branch and pasting the issue as the branch name will link the task to the Git project automatically.
+
 ## Prerequisites
 
 1. **Docker Desktop**: You will need Docker Desktop installed to manage the Docker containers. 
