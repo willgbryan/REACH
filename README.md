@@ -4,14 +4,25 @@
 [Linear Signup Link](https://linear.app/reachai/join/ebdf66a96b63ba4de5a9006eecda14b1?s=4).
 
 - After clicking on an open issue, CMD + Shift + . will copy the issue name.
-- Creating a new branch and pasting the issue as the branch name will link the task to the Git project automatically.
+- Creating a new bran
+
+## This Repo contains submodules:
+
+- To properly clone all resources run:
+```sh
+git clone --recurse-submodules https://github.com/willgbryan/REACH.git
+```
+- If you have already cloned the repo without the submodules you can run:
+```sh
+git submodule update --init --recursive
+```
 
 ## Prerequisites
 
 1. **Docker Desktop**: You will need Docker Desktop installed to manage the Docker containers. 
 2. **Docker Compose**: Docker Compose is used for defining and running multi-container Docker applications.
 
-## Installation
+## Installations
 
 ### Step 1: Install Docker Desktop
 
