@@ -24,6 +24,9 @@ def get_provider(llm_provider):
         case "ollama":
             from ..llm_provider import OllamaProvider
             llm_provider = OllamaProvider
+        case "llama-cpp":
+            from ..llm_provider import CplusplusProvider
+            llm_provider = CplusplusProvider
         case _:
             raise Exception("LLM provider not found.")
     return llm_provider
