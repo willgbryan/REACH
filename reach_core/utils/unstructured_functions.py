@@ -28,7 +28,7 @@ async def process_unstructured(upload_dir: str = "uploads") -> List[Dict[str, st
 
 #TODO check logic for: if salesforce is connected, cast username, private key, and consumer key to envs below
 #TODO test function and add return typing
-async def process_salesforce():
+async def process_salesforce(username: str, consumer_key: str, private_key: str) -> str:
     """
     To connect to Salesforce, make sure to specify:
     - username: Salesforce username, usually looks like an email.
