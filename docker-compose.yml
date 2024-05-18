@@ -1,10 +1,19 @@
 services:
   # ollama:
-  #   image: ollama/ollama:latest
-  #   ports: 
-  #     - "11434:11434"
-  #   networks:
-  #     - reach
+  #     image: ollama/ollama:latest
+  #     volumes:
+  #       - ./Modelfile:/Modelfile
+  #       - ./Hermes-2-Pro-Llama-3-8B-F16.gguf:/models/Hermes-2-Pro-Llama-3-8B-F16.gguf
+  #     ports: 
+  #       - "11434:11434"
+  #     networks:
+  #       - reach
+  ollama:
+    image: ollama/ollama:latest
+    ports: 
+      - "11434:11434"
+    networks:
+      - reach
   searxng:
     image: searxng/searxng:latest
     volumes:

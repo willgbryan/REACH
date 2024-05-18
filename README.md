@@ -78,4 +78,24 @@ Once Docker and the environment variables are set, you can build and run your pr
    ```sh
    docker system prune
    ```
+## Using a custom .gguf model with Ollama
+   - Download the model weights from huggingface and copy them into the root of the project.
+   - Mount the model weights to the Docker image in the `docker-compose.yml`. An example is included in the file.
+   - Modify the `Modelfile` to reflect the path to the mounted model weights.
+   - Ensure `config.py` has the following set for the models and providers:
+   ```python
+      self.embedding_provider = os.getenv("EMBEDDING_PROVIDER", "ollama")
+      self.llm_provider = os.getenv("LLM_PROVIDER", "ollama")
+         self.fast_llm_model = os.getenv(
+               "FAST_LLM_MODEL", "<build name from ollama build>"
+         )
+         self.smart_llm_model = os.getenv(
+               "SMART_LLM_MODEL", "<build name from ollama build>"
+         )
+   ```
+   - Fire up the containers with `docker compose build` and then `docker compose up -d`
+   - Navigate to the ollama container `exec` tab and run:
+   ```sh
+   ollama create <build name from ollama build> -f Modelfile
+   ```
    
