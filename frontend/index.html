@@ -39,7 +39,7 @@
     </style>
 </head>
 
-<div class="modal" id="salesforceModal">
+<!-- <div class="modal" id="salesforceModal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Enter Salesforce Credentials</h2>
@@ -50,6 +50,18 @@
             <input type="text" id="consumerKey" name="consumerKey"><br><br>
             <label for="privateKey">Private Key Path:</label>
             <input type="text" id="privateKey" name="privateKey"><br><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div> -->
+
+<div class="modal" id="salesforceModal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Enter Salesforce Credentials</h2>
+        <form id="salesforceForm">
+            <label for="access_token">Access Token</label>
+            <input type="text" id="access_token" name="access_token"><br><br>
             <button type="submit">Submit</button>
         </form>
     </div>

@@ -36,3 +36,6 @@ youtube-transcript-api
 git+https://github.com/openai/whisper.git
 aiofiles 
 moviepy
+hubspot-api-client
+setuptools
+simsimd

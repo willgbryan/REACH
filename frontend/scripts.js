@@ -25,25 +25,43 @@ const Reach = (() => {
       }
     });
     
-    document.getElementById('salesforceForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const username = document.getElementById('username').value;
-        const consumerKey = document.getElementById('consumerKey').value;
-        const privateKey = document.getElementById('privateKey').value;
+    // document.getElementById('salesforceForm').addEventListener('submit', function(e) {
+    //     e.preventDefault();
+    //     const username = document.getElementById('username').value;
+    //     const consumerKey = document.getElementById('consumerKey').value;
+    //     const privateKey = document.getElementById('privateKey').value;
         
-        // Assuming you have an endpoint set up to handle these
-        fetch('/setEnvironmentVariables', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, consumerKey, privateKey }),
-        }).then(response => {
-            console.log('Environment variables set');
-            document.getElementById('salesforceModal').style.display = 'none';
-        }).catch(error => {
-            console.error('Error setting environment variables:', error);
-        });
+    //     // Assuming you have an endpoint set up to handle these
+    //     fetch('/setEnvironmentVariables', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({ username, consumerKey, privateKey }),
+    //     }).then(response => {
+    //         console.log('Environment variables set');
+    //         document.getElementById('salesforceModal').style.display = 'none';
+    //     }).catch(error => {
+    //         console.error('Error setting environment variables:', error);
+    //     });
+    // });
+
+    document.getElementById('salesforceForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const access_token = document.getElementById('access_token').value;
+      // Assuming you have an endpoint set up to handle these
+      fetch('/setEnvironmentVariables', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ access_token }),
+      }).then(response => {
+          console.log('Environment variables set');
+          document.getElementById('salesforceModal').style.display = 'none';
+      }).catch(error => {
+          console.error('Error setting environment variables:', error);
+      });
     });
     
     document.querySelector('.close').addEventListener('click', function() {

@@ -184,7 +184,7 @@ class Reach:
             await stream_output("logs", f"\nRunning research for '{sub_query}'...", self.websocket)
 
             parsed_content: List[Dict[str, str]] = []
-            parsed_systems_path = "uploads/parsed_systems.json"
+            parsed_systems_path = "hubspot/parsed_app.json"
             async with aiofiles.open(parsed_systems_path, "r") as file:
                 content = await file.read()
                 if content:
