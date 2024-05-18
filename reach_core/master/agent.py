@@ -68,16 +68,17 @@ class Reach:
         await stream_output("logs", self.agent, self.websocket)
 
         # If specified, the researcher will use the given urls as the context for the research.
-        if ("WEB" in self.sources) and ("FILES" in self.sources):
-            self.context = await self.get_context_by_search(self.query)
-            self.context += await self.get_context_by_file_uploads(self.query)
-        elif ("FILES" in self.sources):
-            self.context = await self.get_context_by_file_uploads(self.query)
-            print(f"Returned context: {self.context}")
-        else:
-            self.context = await self.get_context_by_search(self.query)
-        # else self.source_urls:
-        #     self.context = await self.get_context_by_urls(self.source_urls)
+        self.context = []
+        for source in self.sources:
+            if source == "WEB":
+                self.context += await self.get_context_by_search(self.query)
+            if source == "FILES":
+                self.context += await self.get_context_by_file_uploads(self.query)
+            if source == "SYSTEMS":
+                self.context += await self.get_context_by_systems(self.query)
+
+        if self.source_urls:
+            self.context += await self.get_context_by_urls(self.source_urls)
 
         time.sleep(2)
 
@@ -152,6 +153,39 @@ class Reach:
             parsed_content: List[Dict[str, str]] = []
             parsed_uploads_path = "uploads/parsed_uploads.json"
             async with aiofiles.open(parsed_uploads_path, "r") as file:
+                content = await file.read()
+                if content:
+                    parsed_content = json.loads(content)
+                    
+            document_content = await self.get_similar_content_by_query(sub_query, parsed_content)
+
+            content = document_content
+
+            if content:
+                await stream_output("logs", f"{content}", self.websocket)
+            else:
+                await stream_output("logs", f"No content found for '{sub_query}'...", self.websocket)
+        return content
+    
+    async def get_context_by_systems(self, query):
+        """
+           Generates the context for the research task by searching the query and scraping the results
+           from the available system connections
+        Returns:
+            context: List of context
+        """
+        context = []
+        sub_queries = await get_sub_queries(query, self.role, self.cfg, self.parent_query, self.report_type) + [query]
+        await stream_output("logs",
+                            f"I will conduct my research based on the following queries: {sub_queries}...",
+                            self.websocket)
+
+        for sub_query in sub_queries:
+            await stream_output("logs", f"\nRunning research for '{sub_query}'...", self.websocket)
+
+            parsed_content: List[Dict[str, str]] = []
+            parsed_systems_path = "uploads/parsed_systems.json"
+            async with aiofiles.open(parsed_systems_path, "r") as file:
                 content = await file.read()
                 if content:
                     parsed_content = json.loads(content)

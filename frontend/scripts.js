@@ -17,6 +17,39 @@ const Reach = (() => {
       updateState("initial");
     }
 
+    document.querySelector('input[name="source"][value="SYSTEMS"]').addEventListener('change', function(e) {
+      if (e.target.checked) {
+          document.getElementById('salesforceModal').style.display = 'block';
+      } else {
+          document.getElementById('salesforceModal').style.display = 'none';
+      }
+    });
+    
+    document.getElementById('salesforceForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const consumerKey = document.getElementById('consumerKey').value;
+        const privateKey = document.getElementById('privateKey').value;
+        
+        // Assuming you have an endpoint set up to handle these
+        fetch('/setEnvironmentVariables', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, consumerKey, privateKey }),
+        }).then(response => {
+            console.log('Environment variables set');
+            document.getElementById('salesforceModal').style.display = 'none';
+        }).catch(error => {
+            console.error('Error setting environment variables:', error);
+        });
+    });
+    
+    document.querySelector('.close').addEventListener('click', function() {
+        document.getElementById('salesforceModal').style.display = 'none';
+    });
+
     const startResearch = () => {
       document.getElementById("output").innerHTML = "";
       document.getElementById("reportContainer").innerHTML = "";
@@ -25,6 +58,7 @@ const Reach = (() => {
 
       listenToSockEvents();
     };
+
 
     const handleFileUpload = () => {
       const fileInput = document.getElementById('fileUpload');

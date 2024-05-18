@@ -19,6 +19,11 @@ class ResearchRequest(BaseModel):
     agent: str
     sources: List[str] = []
 
+class SalesforceCredentials(BaseModel):
+    username: str
+    consumer_key: str
+    private_key_path: str
+
 
 app = FastAPI()
 
@@ -65,6 +70,13 @@ async def websocket_endpoint(websocket: WebSocket):
 
     except WebSocketDisconnect:
         await manager.disconnect(websocket)
+
+@app.post("/setEnvironmentVariables")
+async def set_environment_variables(credentials: SalesforceCredentials):
+    os.environ['SALESFORCE_USERNAME'] = credentials.username
+    os.environ['SALESFORCE_CONSUMER_KEY'] = credentials.consumer_key
+    os.environ['SALESFORCE_PRIVATE_KEY_PATH'] = credentials.private_key_path
+    return {"message": "Environment variables set successfully"}
 
 @app.post("/upload")
 async def upload_files(files: List[UploadFile] = File(...), task: str = Form(...)):
