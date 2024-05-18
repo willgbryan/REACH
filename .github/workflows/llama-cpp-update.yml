@@ -19,10 +19,14 @@ jobs:
 
       - name: Commit changes
         run: |
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
+          git config --global user.email "will@extendyourreach.ai"
+          git config --global user.name "Will"
           git add .
-          git commit -m "Update all submodules"
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update all submodules"
+          fi
 
       - name: Push changes
         uses: ad-m/github-push-action@master
