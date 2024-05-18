@@ -38,4 +38,4 @@ aiofiles
 moviepy
 hubspot-api-client
 setuptools
-simsimd
+simsimd == 3.7.7
