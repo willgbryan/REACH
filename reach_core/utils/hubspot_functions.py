@@ -11,6 +11,19 @@ async def process_hubspot_crm_objects(credentials: str) -> List[Dict[Any, Any]]:
 
     output_list = []
 
+    available_objects = [
+        "calls",
+        "communications",
+        "emails",
+        "feedback_submissions",
+        "goals",
+        "meetings",
+        "notes",
+        "postal_mail",
+        "tasks",
+        "taxes",
+    ]
+
     try:
         if (all_contacts := api_client.crm.contacts.get_all()):
             output_list.extend([{'url': 'hubspot_contacts', 'raw_content': str(contact.to_dict())} for contact in all_contacts])
@@ -34,66 +47,26 @@ async def process_hubspot_crm_objects(credentials: str) -> List[Dict[Any, Any]]:
             output_list.extend([{'url': 'hubspot_tickets', 'raw_content': str(ticket.to_dict())} for ticket in all_tickets])
     except Exception as e:
         print(f"Failed to fetch tickets: {e}")
+
+    try:
+        if (all_line_items := api_client.crm.line_items.get_all()):
+            output_list.extend([{'url': 'hubspot_line_items', 'raw_content': str(line_item.to_dict())} for line_item in all_line_items])
+    except Exception as e:
+        print(f"Failed to fetch tickets: {e}")
     
     try:
-        if (all_dealsplits := api_client.crm.dealsplits.get_all()):
-            output_list.extend([{'url': 'hubspot_dealsplits', 'raw_content': str(dealsplits.to_dict())} for dealsplits in all_dealsplits])
+        if (all_owners := api_client.crm.owners.get_all()):
+            output_list.extend([{'url': 'hubspot_owners', 'raw_content': str(owner.to_dict())} for owner in all_owners])
     except Exception as e:
         print(f"Failed to fetch tickets: {e}")
 
-    try:
-        if (all_feedback_submissions := api_client.crm.objects.feedback_submissions.get_all()):
-            output_list.extend([{'url': 'hubspot_feedback_submissions', 'raw_content': str(feedback_submission.to_dict())} for feedback_submission in all_feedback_submissions])
-    except Exception as e:
-        print(f"Failed to fetch feedback submissions: {e}")
-
-    try:
-        if (all_goals := api_client.crm.objects.goals.get_all()):
-            output_list.extend([{'url': 'hubspot_feedback_submissions', 'raw_content': str(goal.to_dict())} for goal in all_goals])
-    except Exception as e:
-        print(f"Failed to fetch goals: {e}")
-
-    try:
-        if (all_calls := api_client.crm.objets.calls.get_all()):
-            output_list.extend([{'url': 'hubspot_feedback_submissions', 'raw_content': str(call.to_dict())} for call in all_calls])
-    except Exception as e:
-        print(f"Failed to fetch calls: {e}")
-
-    try:
-        if (all_communications := api_client.crm.objects.communications.get_all()):
-            output_list.extend([{'url': 'hubspot_feedback_submissions', 'raw_content': str(communication.to_dict())} for communication in all_communications])
-    except Exception as e:
-        print(f"Failed to fetch communications: {e}")
+    for object_type in available_objects:
+        try:
+            if (all_objects := api_client.crm.objects.get_all(object_type = object_type)):
+                output_list.extend([{'url': 'hubspot_objects', 'raw_content': str(object.to_dict())} for object in all_objects])
+        except Exception as e:
+            print(f"Failed to fetch tickets: {e}")
     
-    try:
-        if (all_emails := api_client.crm.objects.emails.get_all()):
-            output_list.extend([{'url': 'hubspot_feedback_submissions', 'raw_content': str(email.to_dict())} for email in all_emails])
-    except Exception as e:
-        print(f"Failed to fetch emails: {e}")
-
-    try:
-        if (all_meetings := api_client.crm.objects.meetings.get_all()):
-            output_list.extend([{'url': 'hubspot_feedback_submissions', 'raw_content': str(meeting.to_dict())} for meeting in all_meetings])
-    except Exception as e:
-        print(f"Failed to fetch meetings: {e}")
-
-    try:
-        if (all_notes := api_client.crm.objects.notes.get_all()):
-            output_list.extend([{'url': 'hubspot_feedback_submissions', 'raw_content': str(note.to_dict())} for note in all_notes])
-    except Exception as e:
-        print(f"Failed to fetch notes: {e}")
-    
-    try:
-        if (all_postal_mail := api_client.crm.objects.postal_mail.get_all()):
-            output_list.extend([{'url': 'hubspot_feedback_submissions', 'raw_content': str(postal_mail.to_dict())} for postal_mail in all_postal_mail])
-    except Exception as e:
-        print(f"Failed to fetch postal_mail: {e}")
-
-    try:
-        if (all_tasks := api_client.crm.objects.tasks.get_all()):
-            output_list.extend([{'url': 'hubspot_feedback_submissions', 'raw_content': str(task.to_dict())} for task in all_tasks])
-    except Exception as e:
-        print(f"Failed to fetch tasks: {e}")
 
     print(f"content: {output_list}")
     return output_list
