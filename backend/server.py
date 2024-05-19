@@ -8,9 +8,11 @@ import aiofiles
 from typing import List
 from reach_core.utils.websocket_manager import WebSocketManager
 from reach_core.utils.unstructured_functions import *
+from reach_core.utils.hubspot_functions import *
 from reach_core.utils.whisper_functions import *
 from reach_core.utils.mp3_from_mp4 import mp4_to_mp3
 from .utils import write_md_to_pdf
+from datetime import datetime
 
 
 class ResearchRequest(BaseModel):
@@ -19,6 +21,37 @@ class ResearchRequest(BaseModel):
     agent: str
     sources: List[str] = []
 
+class SalesforceCredentials(BaseModel):
+    username: str
+    consumer_key: str
+    private_key_path: str
+
+class HubspotCredentials(BaseModel):
+    access_token: str
+
+def make_serializable(data):
+    if isinstance(data, dict):
+        return {key: make_serializable(value) for key, value in data.items()}
+    elif isinstance(data, list):
+        return [make_serializable(item) for item in data]
+    elif isinstance(data, datetime):
+        return data.isoformat()
+    elif hasattr(data, '__dict__'):  # For custom objects
+        return {key: make_serializable(value) for key, value in data.__dict__.items()}
+    else:
+        return data
+
+def make_serializable(data):
+    if isinstance(data, dict):
+        return {key: make_serializable(value) for key, value in data.items()}
+    elif isinstance(data, list):
+        return [make_serializable(item) for item in data]
+    elif isinstance(data, datetime):
+        return data.isoformat()
+    elif hasattr(data, '__dict__'):
+        return {key: make_serializable(value) for key, value in data.__dict__.items()}
+    else:
+        return data
 
 app = FastAPI()
 
@@ -65,6 +98,64 @@ async def websocket_endpoint(websocket: WebSocket):
 
     except WebSocketDisconnect:
         await manager.disconnect(websocket)
+
+# @app.post("/setEnvironmentVariables")
+# async def set_environment_variables(credentials: SalesforceCredentials):
+
+#     parsed_contents = await process_salesforce(
+#         username=credentials.username,
+#         consumer_key=credentials.consumer_key,
+#         private_key=credentials.private_key_path
+#     )
+    
+#     parsed_contents = make_serializable(parsed_contents)
+
+#     salesforce_dir = "salesforce"
+#     if not os.path.isdir(salesforce_dir):
+#         os.makedirs(salesforce_dir)
+
+#     parsed_uploads_path = f"{salesforce_dir}/parsed_app.json"
+#     if not os.path.exists(parsed_uploads_path):
+#         async with aiofiles.open(parsed_uploads_path, "w") as new_file:
+#             await new_file.write("[]")
+
+#     async with aiofiles.open(parsed_uploads_path, "r+") as parsed_uploads_file:
+#         existing_content = await parsed_uploads_file.read()
+#         existing_data = json.loads(existing_content) if existing_content else []
+#         existing_data.extend(parsed_contents)
+#         await parsed_uploads_file.seek(0)
+#         await parsed_uploads_file.write(json.dumps(existing_data))
+#         await parsed_uploads_file.truncate()
+
+
+#     return {"message": "Environment variables set successfully and app processed"}
+
+@app.post("/setEnvironmentVariables")
+async def set_environment_variables(credentials: HubspotCredentials):
+    
+    parsed_contents = await process_hubspot_crm_objects(credentials=credentials.access_token)
+
+    parsed_contents = make_serializable(parsed_contents)
+
+    hubspot_dir = "hubspot"
+    if not os.path.isdir(hubspot_dir):
+        os.makedirs(hubspot_dir)
+
+    parsed_uploads_path = f"{hubspot_dir}/parsed_app.json"
+    if not os.path.exists(parsed_uploads_path):
+        async with aiofiles.open(parsed_uploads_path, "w") as new_file:
+            await new_file.write("[]")
+
+    async with aiofiles.open(parsed_uploads_path, "r+") as parsed_uploads_file:
+        existing_content = await parsed_uploads_file.read()
+        existing_data = json.loads(existing_content) if existing_content else []
+        existing_data.extend(parsed_contents)
+        await parsed_uploads_file.seek(0)
+        await parsed_uploads_file.write(json.dumps(existing_data))
+        await parsed_uploads_file.truncate()
+
+
+    return {"message": "Environment variables set successfully and app processed"}
 
 @app.post("/upload")
 async def upload_files(files: List[UploadFile] = File(...), task: str = Form(...)):
