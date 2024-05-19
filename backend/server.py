@@ -133,7 +133,7 @@ async def websocket_endpoint(websocket: WebSocket):
 @app.post("/setEnvironmentVariables")
 async def set_environment_variables(credentials: HubspotCredentials):
     
-    parsed_contents = await process_hubspot_private_app(credentials=credentials.access_token)
+    parsed_contents = await process_hubspot_crm_objects(credentials=credentials.access_token)
 
     parsed_contents = make_serializable(parsed_contents)
 
