@@ -1,4 +1,8 @@
 "use client"
+
+import React, { useEffect } from 'react';
+import { Boxes } from "@/components/ui/background-boxes";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button"
 import { TooltipTrigger, TooltipContent, Tooltip, TooltipProvider } from "@/components/ui/tooltip"
 import {
@@ -73,114 +77,9 @@ export function MainPage() {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Drawer>
-                <DrawerTrigger asChild>
                   <Button aria-label="Settings" className="rounded-lg" size="icon" variant="ghost">
                     <Settings2Icon className="size-5" />
                   </Button>
-                </DrawerTrigger>
-                <DrawerContent className="max-h-[80vh]">
-                  <DrawerHeader>
-                    <DrawerTitle>Configuration</DrawerTitle>
-                    <DrawerDescription>Configure the settings for the model and messages.</DrawerDescription>
-                  </DrawerHeader>
-                  <form className="grid w-full items-start gap-6 overflow-auto p-4 pt-0">
-                    <fieldset className="grid gap-6 rounded-lg border p-4">
-                      <legend className="-ml-1 px-1 text-sm font-medium">Settings</legend>
-                      <div className="grid gap-3">
-                        <Label htmlFor="model">Model</Label>
-                        <Select>
-                          <SelectTrigger className="items-start [&_[data-description]]:hidden" id="model">
-                            <SelectValue placeholder="Select a model" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="genesis">
-                              <div className="flex items-start gap-3 text-muted-foreground">
-                                <RabbitIcon className="size-5" />
-                                <div className="grid gap-0.5">
-                                  <p>
-                                    Neural
-                                    <span className="font-medium text-foreground">Genesis</span>
-                                  </p>
-                                  <p className="text-xs" data-description>
-                                    Our fastest model for general use cases.
-                                  </p>
-                                </div>
-                              </div>
-                            </SelectItem>
-                            <SelectItem value="explorer">
-                              <div className="flex items-start gap-3 text-muted-foreground">
-                                <BirdIcon className="size-5" />
-                                <div className="grid gap-0.5">
-                                  <p>
-                                    Neural
-                                    <span className="font-medium text-foreground">Explorer</span>
-                                  </p>
-                                  <p className="text-xs" data-description>
-                                    Performance and speed for efficiency.
-                                  </p>
-                                </div>
-                              </div>
-                            </SelectItem>
-                            <SelectItem value="quantum">
-                              <div className="flex items-start gap-3 text-muted-foreground">
-                                <TurtleIcon className="size-5" />
-                                <div className="grid gap-0.5">
-                                  <p>
-                                    Neural
-                                    <span className="font-medium text-foreground">Quantum</span>
-                                  </p>
-                                  <p className="text-xs" data-description>
-                                    The most powerful model for complex computations.
-                                  </p>
-                                </div>
-                              </div>
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="grid gap-3">
-                        <Label htmlFor="temperature">Temperature</Label>
-                        <Input id="temperature" placeholder="0.4" type="number" />
-                      </div>
-                      <div className="grid gap-3">
-                        <Label htmlFor="top-p">Top P</Label>
-                        <Input id="top-p" placeholder="0.7" type="number" />
-                      </div>
-                      <div className="grid gap-3">
-                        <Label htmlFor="top-k">Top K</Label>
-                        <Input id="top-k" placeholder="0.0" type="number" />
-                      </div>
-                    </fieldset>
-                    <fieldset className="grid gap-6 rounded-lg border p-4">
-                      <legend className="-ml-1 px-1 text-sm font-medium">Messages</legend>
-                      <div className="grid gap-3">
-                        <Label htmlFor="role">Role</Label>
-                        <Select defaultValue="system">
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a role" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="system">System</SelectItem>
-                            <SelectItem value="user">User</SelectItem>
-                            <SelectItem value="assistant">Assistant</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="grid gap-3">
-                        <Label htmlFor="content">Content</Label>
-                        <Textarea id="content" placeholder="You are a..." />
-                      </div>
-                    </fieldset>
-                    <DrawerFooter>
-                      <Button>Submit</Button>
-                      <DrawerClose>
-                        <Button variant="outline">Cancel</Button>
-                      </DrawerClose>
-                  </DrawerFooter>
-                  </form>
-                </DrawerContent>
-              </Drawer>
               </TooltipTrigger>
               <TooltipContent side="right" sideOffset={5}>
                 Settings
@@ -223,12 +122,17 @@ export function MainPage() {
         </header>
         <main className="grid flex-1 gap-4 overflow-auto p-4">
           <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 lg:col-span-2">
-            <Badge className="absolute right-3 top-3" variant="outline">
-              Output
-            </Badge>
             <div className="flex-1" />
+            <div className="h-full relative w-full overflow-hidden bg-muted/50 flex flex-col items-center justify-center rounded-lg z-10">
+                <div className="absolute inset-0 w-full h-full bg-muted/50 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+                <Boxes />
+            </div>
+            <Badge className="absolute right-3 top-3 z-20" variant="secondary">
+              Canvas
+            </Badge>
+
             <form
-              className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring"
+              className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring z-10"
               x-chunk="dashboard-03-chunk-1"
             >
               <Label className="sr-only" htmlFor="message">
