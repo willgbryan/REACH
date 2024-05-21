@@ -2,22 +2,10 @@
 
 import React, { useEffect } from 'react';
 import { Boxes } from "@/components/ui/background-boxes";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button"
 import { TooltipTrigger, TooltipContent, Tooltip, TooltipProvider } from "@/components/ui/tooltip"
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer"
+
 import { Label } from "@/components/ui/label"
-import { SelectValue, SelectTrigger, SelectItem, SelectContent, Select } from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { JSX, SVGProps } from "react"
@@ -121,10 +109,10 @@ export function MainPage() {
           </Button>
         </header>
         <main className="grid flex-1 gap-4 overflow-auto p-4">
-          <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 lg:col-span-2">
+          <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl p-4 lg:col-span-2">
             <div className="flex-1" />
-            <div className="h-full relative w-full overflow-hidden bg-muted/50 flex flex-col items-center justify-center rounded-lg z-10">
-                <div className="absolute inset-0 w-full h-full bg-muted/50 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+            <div className="h-full relative w-full overflow-hidden flex flex-col items-center justify-center rounded-lg z-10">
+                <div className="absolute inset-0 w-full h-full [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
                 <Boxes />
             </div>
             <Badge className="absolute right-3 top-3 z-20" variant="secondary">

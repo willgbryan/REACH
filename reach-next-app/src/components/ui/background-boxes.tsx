@@ -1,11 +1,19 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
+import DialogOnClick from "@/components/ui/on-click-dialog";
 
 export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const rows = new Array(150).fill(1);
   const cols = new Array(100).fill(1);
+
+  const handleBoxClick = () => {
+    setIsDialogOpen(true);
+  };
+
+  
   let colors = [
     // "--sky-300",
     // "--pink-300",
@@ -35,7 +43,7 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
       {rows.map((_, i) => (
         <motion.div
           key={`row` + i}
-          className="w-16 h-8  border-l  border-muted/50 relative"
+          className="w-16 h-8 relative"
         >
           {cols.map((_, j) => (
             <motion.div
@@ -47,7 +55,8 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
                 transition: { duration: 2 },
               }}
               key={`col` + j}
-              className="w-16 h-8  border-r border-t relative"
+              className="w-16 h-8 relative"
+              onClick={handleBoxClick}
             >
               {j % 2 === 0 && i % 2 === 0 ? (
                 // <svg
@@ -69,6 +78,7 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
           ))}
         </motion.div>
       ))}
+      <DialogOnClick isOpen={isDialogOpen} onOpenChange={setIsDialogOpen} />
     </div>
   );
 };
