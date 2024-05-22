@@ -23,10 +23,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DialogClose } from "@radix-ui/react-dialog";
-import React from "react";
 import { createClient } from "@supabase/supabase-js";
+import React from "react";
 import { processUploadFiles } from "@/services/api";
-import { useToast } from "@/components/ui/use-toast";
 
 export default function DialogOnClick({
   isOpen,
@@ -39,7 +38,6 @@ export default function DialogOnClick({
 }) {
   const [selectedDataSource, setSelectedDataSource] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
-  const { toast } = useToast();
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey =
@@ -51,6 +49,7 @@ export default function DialogOnClick({
     throw new Error("Missing env variables.");
   }
 
+  // TODO implement user auth and only allow uploads to valid orgs, remove ServiceKey global
   const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     auth: {
       autoRefreshToken: true,
@@ -87,16 +86,14 @@ export default function DialogOnClick({
         throw error;
       }
 
-      console.log("File uploaded to Supabase successfully!");
+      alert("File uploaded to Supabase successfully!");
 
       const backendResponse = await processUploadFiles([file], "test");
       console.log("Backend upload response:", backendResponse);
+      alert("Backend upload successful");
+
 
       onFileUpload();
-
-      toast({
-        description: "Your file has been uploaded successfully.",
-      });
     } catch (error) {
       console.error("Error uploading file:", error);
     }
@@ -161,3 +158,4 @@ export default function DialogOnClick({
     </Dialog>
   );
 }
+
