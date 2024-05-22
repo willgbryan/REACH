@@ -6,27 +6,33 @@ import DialogOnClick from "@/components/ui/on-click-dialog";
 
 export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [clickedBox, setClickedBox] = useState<{ row: number; col: number } | null>(null);
+  const [uploadedBoxes, setUploadedBoxes] = useState<{ row: number; col: number }[]>([]);
   const rows = new Array(150).fill(1);
   const cols = new Array(100).fill(1);
 
-  const handleBoxClick = () => {
+  const handleBoxClick = (row: number, col: number) => {
+    setClickedBox({ row, col });
     setIsDialogOpen(true);
   };
 
-  
+  const handleFileUpload = () => {
+    if (clickedBox) {
+      setUploadedBoxes((prev) => [...prev, clickedBox]);
+      setClickedBox(null);
+    }
+    setIsDialogOpen(false);
+  };
+
   let colors = [
-    // "--sky-300",
-    // "--pink-300",
-    // "--green-300",
-    // "--yellow-300",
-    // "--red-300",
     "--purple-300",
-    // "--blue-300",
-    // "--indigo-300",
-    // "--violet-300",
   ];
   const getRandomColor = () => {
     return colors[Math.floor(Math.random() * colors.length)];
+  };
+
+  const isBoxUploaded = (row: number, col: number) => {
+    return uploadedBoxes.some(box => box.row === row && box.col === col);
   };
 
   return (
@@ -41,10 +47,7 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
       {...rest}
     >
       {rows.map((_, i) => (
-        <motion.div
-          key={`row` + i}
-          className="w-16 h-8 relative"
-        >
+        <motion.div key={`row${i}`} className="w-16 h-8 relative">
           {cols.map((_, j) => (
             <motion.div
               whileHover={{
@@ -54,31 +57,106 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
               animate={{
                 transition: { duration: 2 },
               }}
-              key={`col` + j}
+              key={`col${j}`}
               className="w-16 h-8 relative"
-              onClick={handleBoxClick}
+              onClick={() => handleBoxClick(i, j)}
             >
-              {j % 2 === 0 && i % 2 === 0 ? (
-                // <svg
-                //   xmlns="http://www.w3.org/2000/svg"
-                //   fill="none"
-                //   viewBox="0 0 24 24"
-                //   strokeWidth="1.5"
-                //   stroke="currentColor"
-                //   className="absolute h-6 w-10 -top-[14px] -left-[22px] text-slate-700 stroke-[1px] pointer-events-none"
-                // >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 6v12m6-6H6"
-                  />
-                // </svg>
+              {isBoxUploaded(i, j) ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  viewBox="0 0 192 192"
+                  width="192"
+                  height="192"
+                  preserveAspectRatio="xMidYMid meet"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    transform: "translate3d(0px, 0px, 0px)",
+                  }}
+                  id="File"
+                >
+                  <defs>
+                    <clipPath id="__lottie_element_2369">
+                      <rect width="192" height="192" x="0" y="0" />
+                    </clipPath>
+                  </defs>
+                  <g clipPath="url(#__lottie_element_2369)">
+                    <g transform="matrix(1,0,0,1,74.44400024414062,116.71900177001953)" opacity="1" style={{ display: "none" }}>
+                      <g opacity="1" transform="matrix(1,0,0,1,0,0)">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          fillOpacity="0"
+                          stroke="rgb(7,5,6)"
+                          strokeOpacity="1"
+                          strokeWidth="10.228"
+                          d="M35.48699951171875,5.113999843597412 C35.48699951171875,5.113999843597412 5.113999843597412,5.113999843597412 5.113999843597412,5.113999843597412"
+                        />
+                      </g>
+                    </g>
+                    <g transform="matrix(1,0,0,1,74.44400024414062,96.0530014038086)" opacity="1" style={{ display: "none" }}>
+                      <g opacity="1" transform="matrix(1,0,0,1,0,0)">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          fillOpacity="0"
+                          stroke="rgb(7,5,6)"
+                          strokeOpacity="1"
+                          strokeWidth="10.228"
+                          d="M35.48699951171875,5.113999843597412 C35.48699951171875,5.113999843597412 5.113999843597412,5.113999843597412 5.113999843597412,5.113999843597412"
+                        />
+                      </g>
+                    </g>
+                    <g transform="matrix(1,0,0,1,74.44400024414062,75.38600158691406)" opacity="1" style={{ display: "block" }}>
+                      <g opacity="1" transform="matrix(1,0,0,1,0,0)">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          fillOpacity="0"
+                          stroke="rgb(7,5,6)"
+                          strokeOpacity="1"
+                          strokeWidth="10.228"
+                          d="M10.175999641418457,5.113999843597412 C10.175999641418457,5.113999843597412 5.113999843597412,5.113999843597412 5.113999843597412,5.113999843597412"
+                        />
+                      </g>
+                    </g>
+                    <g transform="matrix(1,0,0,1,33.7400016784668,23.93000030517578)" opacity="1" style={{ display: "block" }}>
+                      <g opacity="1" transform="matrix(1,0,0,1,61.00400161743164,72.06999969482422)">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          fillOpacity="0"
+                          stroke="rgb(7,5,6)"
+                          strokeOpacity="1"
+                          strokeWidth="10.228"
+                          d="M35.435001373291016,-15.5 C35.435001373291016,-15.5 35.435001373291016,36.16699981689453 35.435001373291016,36.16699981689453 C35.435001373291016,41.874000549316406 30.902000427246094,46.5 25.31100082397461,46.5 C25.31100082397461,46.5 -25.31100082397461,46.5 -25.31100082397461,46.5 C-30.902000427246094,46.5 -35.435001373291016,41.874000549316406 -35.435001373291016,36.16699981689453 C-35.435001373291016,36.16699981689453 -35.435001373291016,-36.16699981689453 -35.435001373291016,-36.16699981689453 C-35.435001373291016,-41.874000549316406 -30.902000427246094,-46.5 -25.31100082397461,-46.5 C-25.31100082397461,-46.5 5.063000202178955,-46.5 5.063000202178955,-46.5"
+                        />
+                      </g>
+                      <g opacity="1" transform="matrix(1,0,0,1,81.25299835205078,41.06999969482422)">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          fillOpacity="0"
+                          stroke="rgb(7,5,6)"
+                          strokeOpacity="1"
+                          strokeWidth="10.228"
+                          d="M15.185999870300293,15.5 C15.185999870300293,15.5 -5.061999797821045,15.5 -5.061999797821045,15.5 C-10.654000282287598,15.5 -15.185999870300293,10.87399959564209 -15.185999870300293,5.166999816894531 C-15.185999870300293,5.166999816894531 -15.185999870300293,-15.5 -15.185999870300293,-15.5 C-15.185999870300293,-15.5 15.185999870300293,15.5 15.185999870300293,15.5z"
+                        />
+                      </g>
+                    </g>
+                  </g>
+                </svg>
               ) : null}
             </motion.div>
           ))}
         </motion.div>
       ))}
-      <DialogOnClick isOpen={isDialogOpen} onOpenChange={setIsDialogOpen} />
+      <DialogOnClick
+        isOpen={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        onFileUpload={handleFileUpload}
+      />
     </div>
   );
 };

@@ -45,16 +45,6 @@ export function MainPage() {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button aria-label="API" className="rounded-lg" size="icon" variant="ghost">
-                  <FileCode2Icon className="size-5" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="right" sideOffset={5}>
-                API
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
                 <Button aria-label="Documentation" className="rounded-lg" size="icon" variant="ghost">
                   <BookIcon className="size-5" />
                 </Button>
@@ -70,7 +60,7 @@ export function MainPage() {
                   </Button>
               </TooltipTrigger>
               <TooltipContent side="right" sideOffset={5}>
-                Settings
+                Configuration
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
