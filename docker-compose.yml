@@ -13,7 +13,7 @@ services:
     ports: 
       - "11434:11434"
     networks:
-      - reach
+      - reach-network
   searxng:
     image: searxng/searxng:latest
     volumes:
@@ -21,22 +21,29 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - reach
+      - reach-network
+  reach-next-app:
+    build: ./reach-next-app
+    image: reach-next-app:latest
+    volumes:
+      - ./reach-next-app:/usr/src/app/reach-next-app
+    ports:
+      - "3000:3000"
+    networks:
+      - reach-network
   reach:
-    build: .
+    build: ./backend
     image: reach13/reach:latest
     volumes:
-      # - ./reach-react-app:/usr/src/app/react_app
-      - ./frontend:/usr/src/app/frontend
-      - ./reach_core:/usr/src/app/reach_core
+      - ./backend:/usr/src/app/backend
     environment:
       SEARX_URL: ${SEARX_HOST}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
     ports:
       - "8000:8000"
     networks:
-      - reach
+      - reach-network
 
 networks:
-  reach:
+  reach-network:
     driver: bridge

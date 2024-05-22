@@ -25,6 +25,7 @@ import {
 import { DialogClose } from "@radix-ui/react-dialog";
 import { createClient } from "@supabase/supabase-js";
 import React from "react";
+import { processUploadFiles } from "@/services/api";
 
 export default function DialogOnClick({
   isOpen,
@@ -85,7 +86,12 @@ export default function DialogOnClick({
         throw error;
       }
 
-      alert("File uploaded successfully!");
+      alert("File uploaded to Supabase successfully!");
+
+      const backendResponse = await processUploadFiles([file], "test");
+      console.log("Backend upload response:", backendResponse);
+
+      alert("File uploaded to backend successfully!");
       onFileUpload();
     } catch (error) {
       console.error("Error uploading file:", error);
