@@ -135,7 +135,6 @@ export default function DialogOnClick({
                 </CardHeader>
                 <CardContent className="space-y-2">
                 <div className="grid gap-4 py-4">
-
                     <div className="grid grid-cols-4 items-center">
                         <Select onValueChange={(value) => setSelectedDataSource(value)}>
                         <SelectTrigger className="col-span-4">
@@ -143,7 +142,6 @@ export default function DialogOnClick({
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                            <SelectItem value="Prompt">Prompt</SelectItem>
                             <SelectItem value="Files">Files</SelectItem>
                             <SelectItem value="Systems">Systems</SelectItem>
                             <SelectItem value="Internet">Internet</SelectItem>
@@ -164,7 +162,6 @@ export default function DialogOnClick({
                         />
                         </div>
                     )}
-
                     {selectedDataSource === "Systems" && (
                         <div className="grid grid-cols-4 items-center gap-4">
                         <Combobox />
@@ -181,32 +178,108 @@ export default function DialogOnClick({
                 </DialogFooter>
                 </Card>
             </TabsContent>
-        <TabsContent value="password">
+        <TabsContent value="outputs">
             <Card>
-            <CardHeader>
-                <CardTitle>Password</CardTitle>
-                <CardDescription>
-                Change your password here. After saving, youll be logged out.
-                </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-                <div className="space-y-1">
-                <Label htmlFor="current">Current password</Label>
-                <Input id="current" type="password" />
+                <CardHeader>
+                    <CardTitle>Outputs</CardTitle>
+                    <CardDescription>
+                    Define an output type.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                    <div className="grid grid-cols-4 items-center">
+                        <Select onValueChange={(value) => setSelectedDataSource(value)}>
+                        <SelectTrigger className="col-span-4">
+                            <SelectValue placeholder="Select an output type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                            <SelectItem value="Paragraph">Paragraph</SelectItem>
+                            <SelectItem value="Research Report">Report</SelectItem>
+                            <SelectItem value="Deep Report">Extended Report</SelectItem>
+                            <SelectItem value="Table">Table</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                        </Select>
+                    </div>
+                </CardContent>
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button type="submit" onClick={handleAddClick}>
+                            Add
+                        </Button>
+                    </DialogClose>
+                </DialogFooter>
+                </Card>
+        </TabsContent>
+        <TabsContent value="actions">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Actions</CardTitle>
+                    <CardDescription>
+                    What do you want to do?
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center">
+                        <Select onValueChange={(value) => setSelectedDataSource(value)}>
+                        <SelectTrigger className="col-span-4">
+                            <SelectValue placeholder="Select an action" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                            <SelectItem value="Schedule">Schedule</SelectItem>
+                            <SelectItem value="Analyze">Analyze</SelectItem>
+                            <SelectItem value="Collect">Collect</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                        </Select>
+                    </div>
+                    {selectedDataSource === "Schedule" && (
+                        <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="frequency" className="text-right">
+                            Frequency
+                        </Label>
+                        {/* make a frequency specifc version */}
+                        <Combobox/>
+                        </div>
+                    )}
+                    {selectedDataSource === "Analyze" && (
+                        <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="prompt" className="text-right">
+                            Prompt
+                        </Label>
+                        <Input
+                            id="Analyze"
+                            defaultValue="What is the socioeconomic state of the world?"
+                            className="col-span-3"
+                        />
+                        </div>
+                    )}
+                    {selectedDataSource === "Collect" && (
+                        <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="amount" className="text-right">
+                            Number of rows
+                        </Label>
+                        <Input
+                            id="Analyze"
+                            defaultValue="1000"
+                            className="col-span-3"
+                            type="number"
+                        />
+                        </div>
+                    )}
                 </div>
-                <div className="space-y-1">
-                <Label htmlFor="new">New password</Label>
-                <Input id="new" type="password" />
-                </div>
-            </CardContent>
-            <DialogFooter>
-                <DialogClose asChild>
-                    <Button type="submit" onClick={handleAddClick}>
-                        Add
-                    </Button>
-                </DialogClose>
-            </DialogFooter>
-            </Card>
+                </CardContent>
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button type="submit" onClick={handleAddClick}>
+                            Add
+                        </Button>
+                    </DialogClose>
+                </DialogFooter>
+                </Card>
         </TabsContent>
         </Tabs>
         {/* <DialogHeader>
