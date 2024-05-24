@@ -1,7 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
 import { Combobox } from "@/components/ui/combobox";
 import {
   Dialog,
@@ -90,7 +104,7 @@ export default function DialogOnClick({
 
       const backendResponse = await processUploadFiles([file], "test");
       console.log("Backend upload response:", backendResponse);
-      alert("Backend upload successful");
+      alert("File upload successful, a file icon will appear when processing is complete");
 
 
       onFileUpload();
@@ -104,11 +118,101 @@ export default function DialogOnClick({
       <DialogTrigger asChild>
         <Button variant="outline" style={{ display: "none" }}></Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Add a new data source</DialogTitle>
+        <DialogContent className="sm:max-w-[600px]">
+            <Tabs defaultValue="account" className="w-[550px]">
+            <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="inputs">Inputs</TabsTrigger>
+                <TabsTrigger value="actions">Actions</TabsTrigger>
+                <TabsTrigger value="outputs">Outputs</TabsTrigger>
+            </TabsList>
+            <TabsContent value="inputs">
+                <Card>
+                <CardHeader>
+                    <CardTitle>Inputs</CardTitle>
+                    <CardDescription>
+                    Add a new input.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                <div className="grid gap-4 py-4">
+
+                    <div className="grid grid-cols-4 items-center">
+                        <Select onValueChange={(value) => setSelectedDataSource(value)}>
+                        <SelectTrigger className="col-span-4">
+                            <SelectValue placeholder="Select a data source" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                            <SelectItem value="Prompt">Prompt</SelectItem>
+                            <SelectItem value="Files">Files</SelectItem>
+                            <SelectItem value="Systems">Systems</SelectItem>
+                            <SelectItem value="Internet">Internet</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                        </Select>
+                    </div>
+                    {selectedDataSource === "Files" && (
+                        <div className="grid grid-cols-5 items-center gap-4">
+                        <Label htmlFor="file-upload" className="text-right">
+                            Upload File
+                        </Label>
+                        <Input
+                            type="file"
+                            id="file-upload"
+                            className="col-span-3"
+                            onChange={handleFileChange}
+                        />
+                        </div>
+                    )}
+
+                    {selectedDataSource === "Systems" && (
+                        <div className="grid grid-cols-4 items-center gap-4">
+                        <Combobox />
+                        </div>
+                    )}
+                </div>
+                </CardContent>
+                <DialogFooter>
+                    <DialogClose asChild>
+                        <Button type="submit" onClick={handleAddClick}>
+                            Add
+                        </Button>
+                    </DialogClose>
+                </DialogFooter>
+                </Card>
+            </TabsContent>
+        <TabsContent value="password">
+            <Card>
+            <CardHeader>
+                <CardTitle>Password</CardTitle>
+                <CardDescription>
+                Change your password here. After saving, youll be logged out.
+                </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-2">
+                <div className="space-y-1">
+                <Label htmlFor="current">Current password</Label>
+                <Input id="current" type="password" />
+                </div>
+                <div className="space-y-1">
+                <Label htmlFor="new">New password</Label>
+                <Input id="new" type="password" />
+                </div>
+            </CardContent>
+            <DialogFooter>
+                <DialogClose asChild>
+                    <Button type="submit" onClick={handleAddClick}>
+                        Add
+                    </Button>
+                </DialogClose>
+            </DialogFooter>
+            </Card>
+        </TabsContent>
+        </Tabs>
+        {/* <DialogHeader>
+          <DialogTitle>Add a new input</DialogTitle>
           <DialogDescription>
-            Configure the new data source below. Click Add when finished.
+            Configure the new input below. Click Add when finished.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -119,6 +223,7 @@ export default function DialogOnClick({
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
+                  <SelectItem value="Prompt">Prompt</SelectItem>
                   <SelectItem value="Files">Files</SelectItem>
                   <SelectItem value="Systems">Systems</SelectItem>
                   <SelectItem value="Internet">Internet</SelectItem>
@@ -153,7 +258,7 @@ export default function DialogOnClick({
               Add
             </Button>
           </DialogClose>
-        </DialogFooter>
+        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   );

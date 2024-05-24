@@ -56,10 +56,6 @@ def startup_event():
 # async def read_root(request: Request):
 #     return templates.TemplateResponse('index.html', {"request": request, "report": None})
 
-@app.get("/")
-async def read_root():
-    return {"message": "Welcome to the FastAPI application!"}
-
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)

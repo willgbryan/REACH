@@ -3,17 +3,31 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 import DialogOnClick from "@/components/ui/on-click-dialog";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 
 export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [clickedBox, setClickedBox] = useState<{ row: number; col: number } | null>(null);
   const [uploadedBoxes, setUploadedBoxes] = useState<{ row: number; col: number }[]>([]);
+  const [showPopover, setShowPopover] = useState(false);
   const rows = new Array(150).fill(1);
   const cols = new Array(100).fill(1);
 
   const handleBoxClick = (row: number, col: number) => {
-    setClickedBox({ row, col });
-    setIsDialogOpen(true);
+    const box = { row, col };
+    if (isBoxUploaded(row, col)) {
+      setShowPopover(true);
+    } else {
+      setClickedBox(box);
+      setIsDialogOpen(true);
+    }
   };
 
   const handleFileUpload = () => {
@@ -24,11 +38,8 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
     setIsDialogOpen(false);
   };
 
-  let colors = [
-    "--purple-300",
-  ];
   const getRandomColor = () => {
-    return colors[Math.floor(Math.random() * colors.length)];
+    return "--purple-300";
   };
 
   const isBoxUploaded = (row: number, col: number) => {
@@ -157,6 +168,57 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
         onOpenChange={setIsDialogOpen}
         onFileUpload={handleFileUpload}
       />
+      {showPopover && (
+        <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="outline">Open popover</Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-80">
+          <div className="grid gap-4">
+            <div className="space-y-2">
+              <h4 className="font-medium leading-none">Dimensions</h4>
+              <p className="text-sm text-muted-foreground">
+                Set the dimensions for the layer.
+              </p>
+            </div>
+            <div className="grid gap-2">
+              <div className="grid grid-cols-3 items-center gap-4">
+                <Label htmlFor="width">Width</Label>
+                <Input
+                  id="width"
+                  defaultValue="100%"
+                  className="col-span-2 h-8"
+                />
+              </div>
+              <div className="grid grid-cols-3 items-center gap-4">
+                <Label htmlFor="maxWidth">Max. width</Label>
+                <Input
+                  id="maxWidth"
+                  defaultValue="300px"
+                  className="col-span-2 h-8"
+                />
+              </div>
+              <div className="grid grid-cols-3 items-center gap-4">
+                <Label htmlFor="height">Height</Label>
+                <Input
+                  id="height"
+                  defaultValue="25px"
+                  className="col-span-2 h-8"
+                />
+              </div>
+              <div className="grid grid-cols-3 items-center gap-4">
+                <Label htmlFor="maxHeight">Max. height</Label>
+                <Input
+                  id="maxHeight"
+                  defaultValue="none"
+                  className="col-span-2 h-8"
+                />
+              </div>
+            </div>
+          </div>
+        </PopoverContent>
+      </Popover>
+      )}
     </div>
   );
 };
