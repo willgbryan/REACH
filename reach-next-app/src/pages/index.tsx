@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Boxes } from "@/components/ui/background-boxes";
 import DrawerOnClick from "@/components/ui/on-click-drawer"
-import EdgesFlow from '@/components/ui/flow/app';
+import EdgesFlow from "@/components/ui/flow/app"
 import { Button } from "@/components/ui/button"
 import { TooltipTrigger, TooltipContent, Tooltip, TooltipProvider } from "@/components/ui/tooltip"
 
@@ -17,9 +17,13 @@ import '../app/globals.css';
 export function MainPage() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  const handleAddNode = () => {
+    console.log("Node added from MainPage");
+  };
+
   return (
     <div className="grid h-screen w-full pl-[56px]">
-      <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
+      <aside className="inset-y fixed left-0 z-20 flex h-full flex-col border-r">
         <div className="border-b p-2">
           <Button aria-label="Home" size="icon" variant="outline">
             <TriangleIcon className="size-5 fill-foreground" />
@@ -106,17 +110,18 @@ export function MainPage() {
           <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl p-4 lg:col-span-2">
             <div className="flex-1" />
             <div className="h-full relative w-full overflow-hidden flex flex-col items-center justify-center rounded-lg z-10">
-                <div className="absolute inset-0 w-full h-full [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-                <EdgesFlow />
+              <div className="absolute inset-0 w-full h-full [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+              <EdgesFlow 
+                onAdd={handleAddNode} 
+                isDrawerOpen={isDrawerOpen} 
+                setIsDrawerOpen={setIsDrawerOpen} 
+              />
             </div>
             <Badge className="absolute right-3 top-3 z-20" variant="secondary">
               Canvas
             </Badge>
 
-            <form
-              className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring z-10"
-              x-chunk="dashboard-03-chunk-1"
-            >
+            <form className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring z-10" x-chunk="dashboard-03-chunk-1">
               <Label className="sr-only" htmlFor="message">
                 Message
               </Label>
@@ -155,12 +160,12 @@ export function MainPage() {
           </div>
         </main>
       </div>
-      <DrawerOnClick isOpen={isDrawerOpen} onOpenChange={setIsDrawerOpen} onFileUpload={() => {}} />
     </div>
   )
 }
 
 export default MainPage;
+
 
 function BirdIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (

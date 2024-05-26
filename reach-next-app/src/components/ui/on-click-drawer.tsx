@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -23,7 +23,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer"
+} from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -37,15 +37,22 @@ import {
 import { DialogClose } from "@radix-ui/react-dialog";
 import { createClient } from "@supabase/supabase-js";
 import { processUploadFiles } from "@/services/api";
-export default function DrawerOnClick({
-  isOpen,
-  onOpenChange,
-  onFileUpload,
-}: {
+
+interface DrawerOnClickProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   onFileUpload: (dataSource: string) => void;
-}) {
+  onAdd?: () => void;
+}
+
+const DrawerOnClick: React.FC<DrawerOnClickProps> = ({
+  isOpen,
+  onOpenChange,
+  onFileUpload,
+  onAdd = () => {}, // Provide a default function
+}) => {
+  console.log("DrawerOnClick props:", { isOpen, onOpenChange, onFileUpload, onAdd });
+
   const [selectedDataSource, setSelectedDataSource] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
   const [frequency, setFrequency] = useState<string>("");
@@ -81,6 +88,7 @@ export default function DrawerOnClick({
   };
 
   const handleAddClick = async () => {
+    console.log("handleAddClick called"); // Add a log here
     try {
       if (selectedDataSource === "Files") {
         if (!file) {
@@ -128,6 +136,8 @@ export default function DrawerOnClick({
       }
 
       onFileUpload(selectedDataSource);
+      console.log("Calling onAdd:", typeof onAdd); // Debugging statement
+      onAdd();
     } catch (error) {
       console.error("Error:", error);
     }
@@ -301,4 +311,6 @@ export default function DrawerOnClick({
       </DrawerContent>
     </Drawer>
   );
-}
+};
+
+export default DrawerOnClick;
