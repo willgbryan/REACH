@@ -48,10 +48,13 @@ export default function DialogOnClick({
 }: {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  onFileUpload: () => void;
+  onFileUpload: (dataSource: string) => void;
 }) {
   const [selectedDataSource, setSelectedDataSource] = useState<string>("");
   const [file, setFile] = useState<File | null>(null);
+  const [frequency, setFrequency] = useState<string>("");
+  const [prompt, setPrompt] = useState<string>("");
+  const [numRows, setNumRows] = useState<number>(0);
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey =
@@ -83,32 +86,65 @@ export default function DialogOnClick({
   };
 
   const handleAddClick = async () => {
-    if (!file) {
-      alert("Please select a file.");
-      return;
-    }
-
     try {
-      const { data, error } = await supabase.storage
-        .from("reach_uploads")
-        .upload(`public/${file.name}`, file, {
-          cacheControl: "3600",
-          upsert: false,
-        });
+      if (selectedDataSource === "Files") {
+        if (!file) {
+          alert("Please select a file.");
+          return;
+        }
 
-      if (error) {
-        throw error;
+        const { data, error } = await supabase.storage
+          .from("reach_uploads")
+          .upload(`public/${file.name}`, file, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+
+        if (error) {
+          throw error;
+        }
+
+        alert("File uploaded to Supabase successfully!");
+
+        const backendResponse = await processUploadFiles([file], "test");
+        console.log("Backend upload response:", backendResponse);
+        alert("File upload successful, a file icon will appear when processing is complete");
+      } else if (selectedDataSource === "Systems") {
+        console.log("System added successfully");
+        // handle action here
+      } else if (selectedDataSource === "Internet") {
+        console.log("Web added");
+        // handle action here
+      } else if (selectedDataSource === "Schedule") {
+        console.log("Scheduling with frequency:", frequency);
+        // Handle scheduling action here
+      } else if (selectedDataSource === "Analyze") {
+        console.log("Analyzing with prompt:", prompt);
+        // Handle analyze action here
+      } else if (selectedDataSource === "Collect") {
+        console.log("Collecting", numRows, "rows");
+        // Handle collect action here
+      } else if (selectedDataSource === "Paragraph") {
+        console.log("paragraph added");
+        // handle action here
+      } else if (selectedDataSource === "Research Report") {
+        console.log("report added");
+        // Handle scheduling action here
+      } else if (selectedDataSource === "Deep Report") {
+        console.log("deep added");
+        // Handle analyze action here
+      } else if (selectedDataSource === "Table") {
+        console.log("table added");
+        // Handle collect action here
+      } else {
+        console.log("Selected Data Source:", selectedDataSource);
+        // Handle other cases or show an alert
+        alert("Please select a valid data source.");
       }
 
-      alert("File uploaded to Supabase successfully!");
-
-      const backendResponse = await processUploadFiles([file], "test");
-      console.log("Backend upload response:", backendResponse);
-      alert("File upload successful, a file icon will appear when processing is complete");
-
-      onFileUpload();
+      onFileUpload(selectedDataSource); // Pass the selected data source to the parent component
     } catch (error) {
-      console.error("Error uploading file:", error);
+      console.error("Error:", error);
     }
   };
 
@@ -118,7 +154,7 @@ export default function DialogOnClick({
         <Button variant="outline" style={{ display: "none" }}></Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
-        <Tabs defaultValue="account" className="w-[550px]">
+        <Tabs defaultValue="inputs" className="w-[550px]">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="inputs">Inputs</TabsTrigger>
             <TabsTrigger value="actions">Actions</TabsTrigger>
@@ -254,6 +290,7 @@ export default function DialogOnClick({
                         id="Analyze"
                         defaultValue="What is the socioeconomic state of the world?"
                         className="col-span-3"
+                        onChange={(e) => setPrompt(e.target.value)}
                       />
                     </div>
                   )}
@@ -264,9 +301,9 @@ export default function DialogOnClick({
                       </Label>
                       <Input
                         id="Analyze"
-                        defaultValue="1000"
                         className="col-span-3"
                         type="number"
+                        onChange={(e) => setNumRows(Number(e.target.value))}
                       />
                     </div>
                   )}

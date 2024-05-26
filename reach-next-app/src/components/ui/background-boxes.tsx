@@ -15,7 +15,7 @@ import {
 export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [clickedBox, setClickedBox] = useState<{ row: number; col: number } | null>(null);
-  const [uploadedBoxes, setUploadedBoxes] = useState<{ row: number; col: number }[]>([]);
+  const [uploadedBoxes, setUploadedBoxes] = useState<{ row: number; col: number; dataSource: string }[]>([]);
   const [showPopover, setShowPopover] = useState(false);
   const rows = new Array(150).fill(1);
   const cols = new Array(100).fill(1);
@@ -30,9 +30,9 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
     }
   };
 
-  const handleFileUpload = () => {
+  const handleFileUpload = (dataSource: string) => {
     if (clickedBox) {
-      setUploadedBoxes((prev) => [...prev, clickedBox]);
+      setUploadedBoxes((prev) => [...prev, { ...clickedBox, dataSource }]);
       setClickedBox(null);
     }
     setIsDialogOpen(false);
@@ -43,7 +43,34 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
   };
 
   const isBoxUploaded = (row: number, col: number) => {
-    return uploadedBoxes.some(box => box.row === row && box.col === col);
+    const uploadedBox = uploadedBoxes.find(box => box.row === row && box.col === col);
+    if (uploadedBox) {
+      switch (uploadedBox.dataSource) {
+        case "Files":
+          return <span>File uploaded</span>;
+        case "Systems":
+          return <span>System added</span>;
+        case "Internet":
+          return <span>Internet source added</span>;
+        case "Schedule":
+          return <span>Scheduled</span>;
+        case "Analyze":
+          return <span>Analyzing</span>;
+        case "Collect":
+          return <span>Collecting data</span>;
+        case "Paragraph":
+          return <span>Paragraph</span>;
+        case "Research Report":
+          return <span>Research Report</span>;
+        case "Deep Report":
+          return <span>Deep Report</span>;
+        case "Table":
+          return <span>Table</span>;
+        default:
+          return <span>Unknown</span>;
+      }
+    }
+    return null;
   };
 
   return (
@@ -72,93 +99,7 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
               className="w-16 h-8 relative"
               onClick={() => handleBoxClick(i, j)}
             >
-              {isBoxUploaded(i, j) ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                  viewBox="0 0 192 192"
-                  width="192"
-                  height="192"
-                  preserveAspectRatio="xMidYMid meet"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    transform: "translate3d(0px, 0px, 0px)",
-                  }}
-                  id="File"
-                >
-                  <defs>
-                    <clipPath id="__lottie_element_2369">
-                      <rect width="192" height="192" x="0" y="0" />
-                    </clipPath>
-                  </defs>
-                  <g clipPath="url(#__lottie_element_2369)">
-                    <g transform="matrix(1,0,0,1,74.44400024414062,116.71900177001953)" opacity="1" style={{ display: "none" }}>
-                      <g opacity="1" transform="matrix(1,0,0,1,0,0)">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          fillOpacity="0"
-                          stroke="rgb(7,5,6)"
-                          strokeOpacity="1"
-                          strokeWidth="10.228"
-                          d="M35.48699951171875,5.113999843597412 C35.48699951171875,5.113999843597412 5.113999843597412,5.113999843597412 5.113999843597412,5.113999843597412"
-                        />
-                      </g>
-                    </g>
-                    <g transform="matrix(1,0,0,1,74.44400024414062,96.0530014038086)" opacity="1" style={{ display: "none" }}>
-                      <g opacity="1" transform="matrix(1,0,0,1,0,0)">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          fillOpacity="0"
-                          stroke="rgb(7,5,6)"
-                          strokeOpacity="1"
-                          strokeWidth="10.228"
-                          d="M35.48699951171875,5.113999843597412 C35.48699951171875,5.113999843597412 5.113999843597412,5.113999843597412 5.113999843597412,5.113999843597412"
-                        />
-                      </g>
-                    </g>
-                    <g transform="matrix(1,0,0,1,74.44400024414062,75.38600158691406)" opacity="1" style={{ display: "block" }}>
-                      <g opacity="1" transform="matrix(1,0,0,1,0,0)">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          fillOpacity="0"
-                          stroke="rgb(7,5,6)"
-                          strokeOpacity="1"
-                          strokeWidth="10.228"
-                          d="M10.175999641418457,5.113999843597412 C10.175999641418457,5.113999843597412 5.113999843597412,5.113999843597412 5.113999843597412,5.113999843597412"
-                        />
-                      </g>
-                    </g>
-                    <g transform="matrix(1,0,0,1,33.7400016784668,23.93000030517578)" opacity="1" style={{ display: "block" }}>
-                      <g opacity="1" transform="matrix(1,0,0,1,61.00400161743164,72.06999969482422)">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          fillOpacity="0"
-                          stroke="rgb(7,5,6)"
-                          strokeOpacity="1"
-                          strokeWidth="10.228"
-                          d="M35.435001373291016,-15.5 C35.435001373291016,-15.5 35.435001373291016,36.16699981689453 35.435001373291016,36.16699981689453 C35.435001373291016,41.874000549316406 30.902000427246094,46.5 25.31100082397461,46.5 C25.31100082397461,46.5 -25.31100082397461,46.5 -25.31100082397461,46.5 C-30.902000427246094,46.5 -35.435001373291016,41.874000549316406 -35.435001373291016,36.16699981689453 C-35.435001373291016,36.16699981689453 -35.435001373291016,-36.16699981689453 -35.435001373291016,-36.16699981689453 C-35.435001373291016,-41.874000549316406 -30.902000427246094,-46.5 -25.31100082397461,-46.5 C-25.31100082397461,-46.5 5.063000202178955,-46.5 5.063000202178955,-46.5"
-                        />
-                      </g>
-                      <g opacity="1" transform="matrix(1,0,0,1,81.25299835205078,41.06999969482422)">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          fillOpacity="0"
-                          stroke="rgb(7,5,6)"
-                          strokeOpacity="1"
-                          strokeWidth="10.228"
-                          d="M15.185999870300293,15.5 C15.185999870300293,15.5 -5.061999797821045,15.5 -5.061999797821045,15.5 C-10.654000282287598,15.5 -15.185999870300293,10.87399959564209 -15.185999870300293,5.166999816894531 C-15.185999870300293,5.166999816894531 -15.185999870300293,-15.5 -15.185999870300293,-15.5 C-15.185999870300293,-15.5 15.185999870300293,15.5 15.185999870300293,15.5z"
-                        />
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              ) : null}
+              {isBoxUploaded(i, j)}
             </motion.div>
           ))}
         </motion.div>
