@@ -1,7 +1,9 @@
 "use client"
 
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Boxes } from "@/components/ui/background-boxes";
+import DrawerOnClick from "@/components/ui/on-click-drawer"
+import EdgesFlow from '@/components/ui/flow/app';
 import { Button } from "@/components/ui/button"
 import { TooltipTrigger, TooltipContent, Tooltip, TooltipProvider } from "@/components/ui/tooltip"
 
@@ -13,6 +15,8 @@ import { JSX, SVGProps } from "react"
 import '../app/globals.css';
 
 export function MainPage() {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
   return (
     <div className="grid h-screen w-full pl-[56px]">
       <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
@@ -35,12 +39,12 @@ export function MainPage() {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button aria-label="Models" className="rounded-lg" size="icon" variant="ghost">
+                <Button aria-label="Items" className="rounded-lg" size="icon" variant="ghost" onClick={() => setIsDrawerOpen(true)}>
                   <BotIcon className="size-5" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="right" sideOffset={5}>
-                Models
+                Canvas Items
               </TooltipContent>
             </Tooltip>
             <Tooltip>
@@ -50,14 +54,14 @@ export function MainPage() {
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="right" sideOffset={5}>
-                Documentation
+                Workflow Outputs
               </TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                  <Button aria-label="Settings" className="rounded-lg" size="icon" variant="ghost">
-                    <Settings2Icon className="size-5" />
-                  </Button>
+                <Button aria-label="Settings" className="rounded-lg" size="icon" variant="ghost">
+                  <Settings2Icon className="size-5" />
+                </Button>
               </TooltipTrigger>
               <TooltipContent side="right" sideOffset={5}>
                 Configuration
@@ -103,7 +107,7 @@ export function MainPage() {
             <div className="flex-1" />
             <div className="h-full relative w-full overflow-hidden flex flex-col items-center justify-center rounded-lg z-10">
                 <div className="absolute inset-0 w-full h-full [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-                <Boxes />
+                <EdgesFlow />
             </div>
             <Badge className="absolute right-3 top-3 z-20" variant="secondary">
               Canvas
@@ -151,11 +155,12 @@ export function MainPage() {
           </div>
         </main>
       </div>
+      <DrawerOnClick isOpen={isDrawerOpen} onOpenChange={setIsDrawerOpen} onFileUpload={() => {}} />
     </div>
   )
 }
 
-export default MainPage; 
+export default MainPage;
 
 function BirdIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (
