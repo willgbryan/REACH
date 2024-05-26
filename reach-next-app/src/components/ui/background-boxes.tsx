@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 import DialogOnClick from "@/components/ui/on-click-dialog";
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 
 export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);

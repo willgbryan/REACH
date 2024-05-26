@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,13 +9,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@/components/ui/tabs"
+} from "@/components/ui/tabs";
 import { Combobox } from "@/components/ui/combobox";
 import {
   Dialog,
@@ -106,7 +106,6 @@ export default function DialogOnClick({
       console.log("Backend upload response:", backendResponse);
       alert("File upload successful, a file icon will appear when processing is complete");
 
-
       onFileUpload();
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -118,222 +117,172 @@ export default function DialogOnClick({
       <DialogTrigger asChild>
         <Button variant="outline" style={{ display: "none" }}></Button>
       </DialogTrigger>
-        <DialogContent className="sm:max-w-[600px]">
-            <Tabs defaultValue="account" className="w-[550px]">
-            <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="inputs">Inputs</TabsTrigger>
-                <TabsTrigger value="actions">Actions</TabsTrigger>
-                <TabsTrigger value="outputs">Outputs</TabsTrigger>
-            </TabsList>
-            <TabsContent value="inputs">
-                <Card>
-                <CardHeader>
-                    <CardTitle>Inputs</CardTitle>
-                    <CardDescription>
-                    Add a new input.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-2">
+      <DialogContent className="sm:max-w-[600px]">
+        <Tabs defaultValue="account" className="w-[550px]">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="inputs">Inputs</TabsTrigger>
+            <TabsTrigger value="actions">Actions</TabsTrigger>
+            <TabsTrigger value="outputs">Outputs</TabsTrigger>
+          </TabsList>
+          <TabsContent value="inputs">
+            <Card>
+              <CardHeader>
+                <CardTitle>Inputs</CardTitle>
+                <CardDescription>
+                  Add a new input.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
                 <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center">
-                        <Select onValueChange={(value) => setSelectedDataSource(value)}>
-                        <SelectTrigger className="col-span-4">
-                            <SelectValue placeholder="Select a data source" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                            <SelectItem value="Files">Files</SelectItem>
-                            <SelectItem value="Systems">Systems</SelectItem>
-                            <SelectItem value="Internet">Internet</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                        </Select>
+                  <div className="grid grid-cols-4 items-center">
+                    <Select onValueChange={(value) => setSelectedDataSource(value)}>
+                      <SelectTrigger className="col-span-4">
+                        <SelectValue placeholder="Select a data source" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="Files">Files</SelectItem>
+                          <SelectItem value="Systems">Systems</SelectItem>
+                          <SelectItem value="Internet">Internet</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  {selectedDataSource === "Files" && (
+                    <div className="grid grid-cols-5 items-center gap-4">
+                      <Label htmlFor="file-upload" className="text-right">
+                        Upload File
+                      </Label>
+                      <Input
+                        type="file"
+                        id="file-upload"
+                        className="col-span-3"
+                        onChange={handleFileChange}
+                      />
                     </div>
-                    {selectedDataSource === "Files" && (
-                        <div className="grid grid-cols-5 items-center gap-4">
-                        <Label htmlFor="file-upload" className="text-right">
-                            Upload File
-                        </Label>
-                        <Input
-                            type="file"
-                            id="file-upload"
-                            className="col-span-3"
-                            onChange={handleFileChange}
-                        />
-                        </div>
-                    )}
-                    {selectedDataSource === "Systems" && (
-                        <div className="grid grid-cols-4 items-center gap-4">
-                        <Combobox />
-                        </div>
-                    )}
+                  )}
+                  {selectedDataSource === "Systems" && (
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Combobox />
+                    </div>
+                  )}
                 </div>
-                </CardContent>
-                <DialogFooter>
-                    <DialogClose asChild>
-                        <Button type="submit" onClick={handleAddClick}>
-                            Add
-                        </Button>
-                    </DialogClose>
-                </DialogFooter>
-                </Card>
-            </TabsContent>
-        <TabsContent value="outputs">
+              </CardContent>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button type="submit" onClick={handleAddClick}>
+                    Add
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
+            </Card>
+          </TabsContent>
+          <TabsContent value="outputs">
             <Card>
-                <CardHeader>
-                    <CardTitle>Outputs</CardTitle>
-                    <CardDescription>
-                    Define an output type.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                    <div className="grid grid-cols-4 items-center">
-                        <Select onValueChange={(value) => setSelectedDataSource(value)}>
-                        <SelectTrigger className="col-span-4">
-                            <SelectValue placeholder="Select an output type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                            <SelectItem value="Paragraph">Paragraph</SelectItem>
-                            <SelectItem value="Research Report">Report</SelectItem>
-                            <SelectItem value="Deep Report">Extended Report</SelectItem>
-                            <SelectItem value="Table">Table</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                        </Select>
-                    </div>
-                </CardContent>
-                <DialogFooter>
-                    <DialogClose asChild>
-                        <Button type="submit" onClick={handleAddClick}>
-                            Add
-                        </Button>
-                    </DialogClose>
-                </DialogFooter>
-                </Card>
-        </TabsContent>
-        <TabsContent value="actions">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Actions</CardTitle>
-                    <CardDescription>
-                    What do you want to do?
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center">
-                        <Select onValueChange={(value) => setSelectedDataSource(value)}>
-                        <SelectTrigger className="col-span-4">
-                            <SelectValue placeholder="Select an action" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                            <SelectItem value="Schedule">Schedule</SelectItem>
-                            <SelectItem value="Analyze">Analyze</SelectItem>
-                            <SelectItem value="Collect">Collect</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                        </Select>
-                    </div>
-                    {selectedDataSource === "Schedule" && (
-                        <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="frequency" className="text-right">
-                            Frequency
-                        </Label>
-                        {/* make a frequency specifc version */}
-                        <Combobox/>
-                        </div>
-                    )}
-                    {selectedDataSource === "Analyze" && (
-                        <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="prompt" className="text-right">
-                            Prompt
-                        </Label>
-                        <Input
-                            id="Analyze"
-                            defaultValue="What is the socioeconomic state of the world?"
-                            className="col-span-3"
-                        />
-                        </div>
-                    )}
-                    {selectedDataSource === "Collect" && (
-                        <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="amount" className="text-right">
-                            Number of rows
-                        </Label>
-                        <Input
-                            id="Analyze"
-                            defaultValue="1000"
-                            className="col-span-3"
-                            type="number"
-                        />
-                        </div>
-                    )}
+              <CardHeader>
+                <CardTitle>Outputs</CardTitle>
+                <CardDescription>
+                  Define an output type.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center">
+                    <Select onValueChange={(value) => setSelectedDataSource(value)}>
+                      <SelectTrigger className="col-span-4">
+                        <SelectValue placeholder="Select an output type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="Paragraph">Paragraph</SelectItem>
+                          <SelectItem value="Research Report">Report</SelectItem>
+                          <SelectItem value="Deep Report">Extended Report</SelectItem>
+                          <SelectItem value="Table">Table</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
-                </CardContent>
-                <DialogFooter>
-                    <DialogClose asChild>
-                        <Button type="submit" onClick={handleAddClick}>
-                            Add
-                        </Button>
-                    </DialogClose>
-                </DialogFooter>
-                </Card>
-        </TabsContent>
+              </CardContent>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button type="submit" onClick={handleAddClick}>
+                    Add
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
+            </Card>
+          </TabsContent>
+          <TabsContent value="actions">
+            <Card>
+              <CardHeader>
+                <CardTitle>Actions</CardTitle>
+                <CardDescription>
+                  What do you want to do?
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center">
+                    <Select onValueChange={(value) => setSelectedDataSource(value)}>
+                      <SelectTrigger className="col-span-4">
+                        <SelectValue placeholder="Select an action" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="Schedule">Schedule</SelectItem>
+                          <SelectItem value="Analyze">Analyze</SelectItem>
+                          <SelectItem value="Collect">Collect</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  {selectedDataSource === "Schedule" && (
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="frequency" className="text-right">
+                        Frequency
+                      </Label>
+                      <Combobox />
+                    </div>
+                  )}
+                  {selectedDataSource === "Analyze" && (
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="prompt" className="text-right">
+                        Prompt
+                      </Label>
+                      <Input
+                        id="Analyze"
+                        defaultValue="What is the socioeconomic state of the world?"
+                        className="col-span-3"
+                      />
+                    </div>
+                  )}
+                  {selectedDataSource === "Collect" && (
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="amount" className="text-right">
+                        Number of rows
+                      </Label>
+                      <Input
+                        id="Analyze"
+                        defaultValue="1000"
+                        className="col-span-3"
+                        type="number"
+                      />
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button type="submit" onClick={handleAddClick}>
+                    Add
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
+            </Card>
+          </TabsContent>
         </Tabs>
-        {/* <DialogHeader>
-          <DialogTitle>Add a new input</DialogTitle>
-          <DialogDescription>
-            Configure the new input below. Click Add when finished.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center">
-            <Select onValueChange={(value) => setSelectedDataSource(value)}>
-              <SelectTrigger className="col-span-4">
-                <SelectValue placeholder="Select a data source" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="Prompt">Prompt</SelectItem>
-                  <SelectItem value="Files">Files</SelectItem>
-                  <SelectItem value="Systems">Systems</SelectItem>
-                  <SelectItem value="Internet">Internet</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {selectedDataSource === "Files" && (
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="file-upload" className="text-right">
-                Upload File
-              </Label>
-              <Input
-                type="file"
-                id="file-upload"
-                className="col-span-3"
-                onChange={handleFileChange}
-              />
-            </div>
-          )}
-
-          {selectedDataSource === "Systems" && (
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Combobox />
-            </div>
-          )}
-        </div>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button type="submit" onClick={handleAddClick}>
-              Add
-            </Button>
-          </DialogClose>
-        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   );
 }
-
