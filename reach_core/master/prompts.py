@@ -136,7 +136,7 @@ def generate_outline_report_prompt(question, context, report_format="apa", total
            ' Use appropriate Markdown syntax to format the outline and ensure readability.'
 
 
-def generate_table_prompt(question, context, report_format="csv", total_words=10):
+def generate_table_prompt(question, context, report_format="csv", total_words=20):
     """ Generates the table prompt for the given question and research summary.
     Args: question (str): The question to generate the table prompt for
             research_summary (str): The research summary to generate the table prompt for
@@ -241,9 +241,10 @@ def generate_subtopic_report_prompt(
     
     "Main Topic and Subtopic":
     Using the latest information available, construct a detailed report on the subtopic: {current_subtopic} under the main topic: {main_topic}.
+    ONLY USE INFORMATION PROVIDED IN THE CONTEXT TO GENERATE YOUR RESPONSE
     
     "Content Focus":
-    - The report should focus on answering the question, be well-structured, informative, in-depth, and include facts and numbers if available.
+    - The report should focus on answering the question, be well-structured, informative, in-depth, and only contain information from sources.
     - Use markdown syntax and follow the {report_format.upper()} format.
     
     "Structure and Formatting":
@@ -266,6 +267,7 @@ def generate_subtopic_report_prompt(
     Assume the current date is {datetime.now(timezone.utc).strftime('%B %d, %Y')} if required.
     
     "IMPORTANT!":
+    - Information MUST come entirely from sources, refrain from generating information not found in the sources.
     - The focus MUST be on the main topic! You MUST Leave out any information un-related to it!
     - Must NOT have any introduction, conclusion, summary or reference section.
     """
