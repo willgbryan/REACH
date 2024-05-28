@@ -16,13 +16,15 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 
 import DrawerOnClick from '@/components/ui/on-click-drawer';
+import { useDrawer } from '@/components/ui/DrawerContext';
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
 const edgeTypes = {};
 const nodeTypes = {};
 
-const EdgesFlow = ({ isDrawerOpen, setIsDrawerOpen, onAdd }) => {
+const EdgesFlow = ({ onAdd }) => {
+  const { isDrawerOpen, setIsDrawerOpen } = useDrawer();
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
@@ -37,10 +39,7 @@ const EdgesFlow = ({ isDrawerOpen, setIsDrawerOpen, onAdd }) => {
         y: Math.random() * window.innerHeight,
       },
     };
-    setNodes((nds) => {
-      const updatedNodes = nds.concat(newNode);
-      return updatedNodes;
-    });
+    setNodes((nds) => nds.concat(newNode));
     if (onAdd) {
       onAdd();
     }
@@ -66,12 +65,7 @@ const EdgesFlow = ({ isDrawerOpen, setIsDrawerOpen, onAdd }) => {
         <Background />
         <MiniMap />
       </ReactFlow>
-      <DrawerOnClick 
-        isOpen={isDrawerOpen} 
-        onOpenChange={setIsDrawerOpen}
-        onFileUpload={(selectedDataSource) => console.log(`File uploaded: ${selectedDataSource}`)}
-        onAdd={handleAddNode}
-      />
+      <DrawerOnClick onFileUpload={(selectedDataSource) => console.log(`File uploaded: ${selectedDataSource}`)} onAdd={handleAddNode} />
     </>
   );
 };

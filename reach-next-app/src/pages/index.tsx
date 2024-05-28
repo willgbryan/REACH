@@ -1,170 +1,195 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
-import { Boxes } from "@/components/ui/background-boxes";
-import DrawerOnClick from "@/components/ui/on-click-drawer"
-import EdgesFlow from "@/components/ui/flow/app"
-import { Button } from "@/components/ui/button"
-import { TooltipTrigger, TooltipContent, Tooltip, TooltipProvider } from "@/components/ui/tooltip"
-
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
-import { JSX, SVGProps } from "react"
-
+import React from 'react';
+import { DrawerProvider, useDrawer } from '@/components/ui/DrawerContext';
+import { Boxes } from '@/components/ui/background-boxes';
+import DrawerOnClick from '@/components/ui/on-click-drawer';
+import EdgesFlow from '@/components/ui/flow/app';
+import { Button } from '@/components/ui/button';
+import { TooltipTrigger, TooltipContent, Tooltip, TooltipProvider } from '@/components/ui/tooltip';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { JSX, SVGProps } from 'react';
 import '../app/globals.css';
 
 export function MainPage() {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  return (
+    <DrawerProvider>
+      <div className="grid h-screen w-full pl-[56px]">
+        <Sidebar />
+        <Content />
+      </div>
+    </DrawerProvider>
+  );
+}
 
+const Sidebar = () => {
+  const { setIsDrawerOpen } = useDrawer();
+
+  return (
+    <aside className="inset-y fixed left-0 z-20 flex h-full flex-col border-r">
+      <div className="border-b p-2">
+        <Button aria-label="Home" size="icon" variant="outline">
+          <TriangleIcon className="size-5 fill-foreground" />
+        </Button>
+      </div>
+      <nav className="grid gap-1 p-2">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button aria-label="Playground" className="rounded-lg bg-muted" size="icon" variant="ghost">
+                <SquareTerminalIcon className="size-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right" sideOffset={5}>
+              Canvas
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                aria-label="Items"
+                className="rounded-lg"
+                size="icon"
+                variant="ghost"
+                onClick={() => setIsDrawerOpen(true)}
+              >
+                <BotIcon className="size-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right" sideOffset={5}>
+              Canvas Items
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button aria-label="Documentation" className="rounded-lg" size="icon" variant="ghost">
+                <BookIcon className="size-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right" sideOffset={5}>
+              Workflow Outputs
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button aria-label="Settings" className="rounded-lg" size="icon" variant="ghost">
+                <Settings2Icon className="size-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right" sideOffset={5}>
+              Configuration
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </nav>
+      <nav className="mt-auto grid gap-1 p-2">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button aria-label="Help" className="mt-auto rounded-lg" size="icon" variant="ghost">
+                <LifeBuoyIcon className="size-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right" sideOffset={5}>
+              Help
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button aria-label="Account" className="mt-auto rounded-lg" size="icon" variant="ghost">
+                <SquareUserIcon className="size-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right" sideOffset={5}>
+              Account
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </nav>
+    </aside>
+  );
+};
+
+const Content = () => {
+  return (
+    <div className="flex flex-col">
+      <Header />
+      <MainContent />
+    </div>
+  );
+};
+
+const Header = () => (
+  <header className="sticky top-0 z-10 flex h-[57px] items-center gap-1 border-b bg-background px-4">
+    <h1 className="text-xl font-semibold">Reach</h1>
+    <Button className="ml-auto gap-1.5 text-sm" size="sm" variant="outline">
+      <ShareIcon className="size-3.5" />
+      Share
+    </Button>
+  </header>
+);
+
+const MainContent = () => {
   const handleAddNode = () => {
-    console.log("Node added from MainPage");
+    console.log('Node added from MainPage');
   };
 
   return (
-    <div className="grid h-screen w-full pl-[56px]">
-      <aside className="inset-y fixed left-0 z-20 flex h-full flex-col border-r">
-        <div className="border-b p-2">
-          <Button aria-label="Home" size="icon" variant="outline">
-            <TriangleIcon className="size-5 fill-foreground" />
-          </Button>
+    <main className="grid flex-1 gap-4 overflow-auto p-4">
+      <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl p-4 lg:col-span-2">
+        <div className="flex-1" />
+        <div className="h-full relative w-full overflow-hidden flex flex-col items-center justify-center rounded-lg z-10">
+          <div className="absolute inset-0 w-full h-full [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+          <EdgesFlow onAdd={handleAddNode} />
         </div>
-        <nav className="grid gap-1 p-2">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button aria-label="Playground" className="rounded-lg bg-muted" size="icon" variant="ghost">
-                  <SquareTerminalIcon className="size-5" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="right" sideOffset={5}>
-                Canvas
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button aria-label="Items" className="rounded-lg" size="icon" variant="ghost" onClick={() => setIsDrawerOpen(true)}>
-                  <BotIcon className="size-5" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="right" sideOffset={5}>
-                Canvas Items
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button aria-label="Documentation" className="rounded-lg" size="icon" variant="ghost">
-                  <BookIcon className="size-5" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="right" sideOffset={5}>
-                Workflow Outputs
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button aria-label="Settings" className="rounded-lg" size="icon" variant="ghost">
-                  <Settings2Icon className="size-5" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="right" sideOffset={5}>
-                Configuration
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </nav>
-        <nav className="mt-auto grid gap-1 p-2">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button aria-label="Help" className="mt-auto rounded-lg" size="icon" variant="ghost">
-                  <LifeBuoyIcon className="size-5" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="right" sideOffset={5}>
-                Help
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button aria-label="Account" className="mt-auto rounded-lg" size="icon" variant="ghost">
-                  <SquareUserIcon className="size-5" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="right" sideOffset={5}>
-                Account
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </nav>
-      </aside>
-      <div className="flex flex-col">
-        <header className="sticky top-0 z-10 flex h-[57px] items-center gap-1 border-b bg-background px-4">
-          <h1 className="text-xl font-semibold">Reach</h1>
-          <Button className="ml-auto gap-1.5 text-sm" size="sm" variant="outline">
-            <ShareIcon className="size-3.5" />
-            Share
-          </Button>
-        </header>
-        <main className="grid flex-1 gap-4 overflow-auto p-4">
-          <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl p-4 lg:col-span-2">
-            <div className="flex-1" />
-            <div className="h-full relative w-full overflow-hidden flex flex-col items-center justify-center rounded-lg z-10">
-              <div className="absolute inset-0 w-full h-full [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-              <EdgesFlow 
-                onAdd={handleAddNode} 
-                isDrawerOpen={isDrawerOpen} 
-                setIsDrawerOpen={setIsDrawerOpen} 
-              />
-            </div>
-            <Badge className="absolute right-3 top-3 z-20" variant="secondary">
-              Canvas
-            </Badge>
-
-            <form className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring z-10" x-chunk="dashboard-03-chunk-1">
-              <Label className="sr-only" htmlFor="message">
-                Message
-              </Label>
-              <Textarea
-                className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0"
-                id="message"
-                placeholder="Type your message here..."
-              />
-              <div className="flex items-center p-3 pt-0">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <PaperclipIcon className="size-4" />
-                        <span className="sr-only">Attach file</span>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="top">Attach File</TooltipContent>
-                  </Tooltip>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button size="icon" variant="ghost">
-                        <MicIcon className="size-4" />
-                        <span className="sr-only">Use Microphone</span>
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="top">Use Microphone</TooltipContent>
-                  </Tooltip>
-                  <Button className="ml-auto gap-1.5" size="sm" type="submit">
-                    Send Message
-                    <CornerDownLeftIcon className="size-3.5" />
-                  </Button>
-                </TooltipProvider>
-              </div>
-            </form>
-          </div>
-        </main>
+        <Badge className="absolute right-3 top-3 z-20" variant="secondary">
+          Canvas
+        </Badge>
+        <MessageForm />
       </div>
+    </main>
+  );
+};
+
+const MessageForm = () => (
+  <form className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring z-10">
+    <Label className="sr-only" htmlFor="message">
+      Message
+    </Label>
+    <Textarea className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0" id="message" placeholder="Type your message here..." />
+    <div className="flex items-center p-3 pt-0">
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button size="icon" variant="ghost">
+              <PaperclipIcon className="size-4" />
+              <span className="sr-only">Attach file</span>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="top">Attach File</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button size="icon" variant="ghost">
+              <MicIcon className="size-4" />
+              <span className="sr-only">Use Microphone</span>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="top">Use Microphone</TooltipContent>
+        </Tooltip>
+        <Button className="ml-auto gap-1.5" size="sm" type="submit">
+          Send Message
+          <CornerDownLeftIcon className="size-3.5" />
+        </Button>
+      </TooltipProvider>
     </div>
-  )
-}
+  </form>
+);
 
 export default MainPage;
+
 
 
 function BirdIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
