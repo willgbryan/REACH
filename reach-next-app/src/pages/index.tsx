@@ -1,9 +1,10 @@
-"use client"
+"use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { DrawerProvider, useDrawer } from '@/components/ui/DrawerContext';
+import { SystemConfigProvider, useSystemConfig } from '@/components/ui/SystemConfigContext';
+import { SupabaseProvider, useSupabase } from '@/components/ui/SupabaseContext';
 import { Boxes } from '@/components/ui/background-boxes';
-import DrawerOnClick from '@/components/ui/on-click-drawer';
 import EdgesFlow from '@/components/ui/flow/app';
 import { Button } from '@/components/ui/button';
 import { TooltipTrigger, TooltipContent, Tooltip, TooltipProvider } from '@/components/ui/tooltip';
@@ -11,22 +12,80 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { JSX, SVGProps } from 'react';
+import { SystemDialog } from '@/components/ui/on-click-system-dialog';
 import '../app/globals.css';
+import { Input } from '@/components/ui/input';
 
-export function MainPage() {
-  return (
-    <DrawerProvider>
+const AuthenticatedContent = () => (
+  <DrawerProvider>
+    <SystemConfigProvider>
       <div className="grid h-screen w-full pl-[56px]">
         <Sidebar />
         <Content />
+        <SystemDialog />
       </div>
-    </DrawerProvider>
+    </SystemConfigProvider>
+  </DrawerProvider>
+);
+
+const Login = () => {
+  const { signIn, signUp } = useSupabase();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isSignUp, setIsSignUp] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (isSignUp) {
+        await signUp(email, password);
+        alert('Sign up successful! Please check your email to confirm.');
+      } else {
+        await signIn(email, password);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // TODO breakout into separate auth page component
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <form onSubmit={handleSubmit} className="w-full max-w-md">
+        <div className="mb-4">
+          <Label htmlFor="email">Email</Label>
+          <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        </div>
+        <div className="mb-4">
+          <Label htmlFor="password">Password</Label>
+          <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        </div>
+        <Button type="submit" variant="outline" className="w-full">{isSignUp ? 'Sign Up' : 'Login'}</Button>
+        <Button type="button" variant="link" onClick={() => setIsSignUp(!isSignUp)} className="w-full mt-2">
+          {isSignUp ? 'Already have an account? Log In' : 'Don\'t have an account? Sign Up'}
+        </Button>
+      </form>
+    </div>
+  );
+};
+
+export function MainPage() {
+  const { isAuthenticated } = useSupabase();
+
+  return isAuthenticated ? <AuthenticatedContent /> : <Login />;
+}
+
+export default function App() {
+  return (
+    <SupabaseProvider>
+      <MainPage />
+    </SupabaseProvider>
   );
 }
 
 const Sidebar = () => {
   const { setIsDrawerOpen } = useDrawer();
-
+  const { setIsSystemConfigOpen } = useSystemConfig();
   return (
     <aside className="inset-y fixed left-0 z-20 flex h-full flex-col border-r">
       <div className="border-b p-2">
@@ -74,7 +133,12 @@ const Sidebar = () => {
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button aria-label="Settings" className="rounded-lg" size="icon" variant="ghost">
+              <Button 
+                aria-label="config" 
+                className="rounded-lg" 
+                size="icon" 
+                variant="ghost"
+                onClick={() => setIsSystemConfigOpen(true)}>
                 <Settings2Icon className="size-5" />
               </Button>
             </TooltipTrigger>
@@ -121,15 +185,24 @@ const Content = () => {
   );
 };
 
-const Header = () => (
-  <header className="sticky top-0 z-10 flex h-[57px] items-center gap-1 border-b bg-background px-4">
-    <h1 className="text-xl font-semibold">Reach</h1>
-    <Button className="ml-auto gap-1.5 text-sm" size="sm" variant="outline">
-      <ShareIcon className="size-3.5" />
-      Share
-    </Button>
-  </header>
-);
+const Header = () => {
+  const { logout } = useSupabase();
+
+  return(
+    <header className="sticky top-0 z-10 flex h-[57px] items-center justify-between border-b bg-background px-4">
+      <h1 className="text-xl font-semibold">Reach</h1>
+      <div className="flex gap-1.5">
+        <Button className="text-sm" size="sm" variant="outline">
+          <ShareIcon className="size-3.5" />
+          Share
+        </Button>
+        <Button className="text-sm" size="sm" variant="outline" onClick={logout}>
+          Logout
+        </Button>
+      </div>
+    </header>
+  );
+}
 
 const MainContent = () => {
   const handleAddNode = () => {
@@ -142,7 +215,7 @@ const MainContent = () => {
         <div className="flex-1" />
         <div className="h-full relative w-full overflow-hidden flex flex-col items-center justify-center rounded-lg z-10">
           <div className="absolute inset-0 w-full h-full [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-          <EdgesFlow onAdd={handleAddNode} />
+          <EdgesFlow />
         </div>
         <Badge className="absolute right-3 top-3 z-20" variant="secondary">
           Canvas
@@ -187,10 +260,6 @@ const MessageForm = () => (
     </div>
   </form>
 );
-
-export default MainPage;
-
-
 
 function BirdIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (

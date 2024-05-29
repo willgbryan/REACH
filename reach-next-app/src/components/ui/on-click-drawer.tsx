@@ -244,10 +244,19 @@ return (
                 )}
                 {selectedDataSource === 'Collect' && (
                 <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="prompt" className="text-right">
+                    Prompt
+                    </Label>
+                    <Input
+                    id="Collect"
+                    defaultValue="Compare the Raptor engine to older rocket engines."
+                    className="col-span-3"
+                    onChange={(e) => setPrompt(e.target.value)}
+                    />
                     <Label htmlFor="amount" className="text-right">
                     Number of rows
                     </Label>
-                    <Input id="Analyze" className="col-span-3" type="number" onChange={(e) => setNumRows(Number(e.target.value))} />
+                    <Input id="Rows" className="col-span-3" type="number" onChange={(e) => setNumRows(Number(e.target.value))} />
                 </div>
                 )}
             </div>
