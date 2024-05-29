@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import ReactFlow, {
   useNodesState,
   useEdgesState,
@@ -24,26 +24,36 @@ const edgeTypes = {};
 const nodeTypes = {};
 
 const EdgesFlow = ({ onAdd }) => {
-  const { isDrawerOpen, setIsDrawerOpen } = useDrawer();
+  const { isDrawerOpen, setIsDrawerOpen, selectedDataSource } = useDrawer();
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   const onConnect = useCallback((params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
 
   const handleAddNode = useCallback(() => {
+    let style = {};
+    if (selectedDataSource === 'input') {
+      style = { background: '#e3f2fd', border: '1px solid #90caf9' };
+    } else if (selectedDataSource === 'action') {
+      style = { background: '#fce4ec', border: '1px solid #f48fb1' };
+    } else if (selectedDataSource === 'output') {
+      style = { background: '#e8f5e9', border: '1px solid #a5d6a7' };
+    }
+
     const newNode = {
       id: `${nodes.length + 1}`,
-      data: { label: 'Added node' },
+      data: { label: selectedDataSource ? `Added node: ${selectedDataSource}` : 'Added node' },
       position: {
         x: Math.random() * window.innerWidth - 100,
         y: Math.random() * window.innerHeight,
       },
+      style,
     };
     setNodes((nds) => nds.concat(newNode));
     if (onAdd) {
       onAdd();
     }
-  }, [nodes, setNodes, onAdd]);
+  }, [nodes, setNodes, onAdd, selectedDataSource]);
 
   return (
     <>
