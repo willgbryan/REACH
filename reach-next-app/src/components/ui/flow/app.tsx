@@ -1,4 +1,4 @@
-import React, { useCallback, MouseEvent } from 'react';
+import React, { useCallback } from 'react';
 import ReactFlow, {
   useNodesState,
   useEdgesState,
@@ -47,18 +47,18 @@ const EdgesFlow: React.FC<EdgesFlowProps> = ({ onAdd }) => {
       },
     };
 
-    if (selectedDataSource === 'input') {
+    if (selectedDataSource === 'Files') {
       newNode = {
         ...newNode,
         type: 'input',
         style: { background: '#e3f2fd', border: '1px solid #90caf9' },
       };
-    } else if (selectedDataSource === 'action') {
+    } else if (selectedDataSource === 'Systems') {
       newNode = {
         ...newNode,
         style: { background: '#fce4ec', border: '1px solid #f48fb1' },
       };
-    } else if (selectedDataSource === 'output') {
+    } else if (selectedDataSource === 'Internet') {
       newNode = {
         ...newNode,
         style: { background: '#e8f5e9', border: '1px solid #a5d6a7' },
@@ -91,9 +91,6 @@ const EdgesFlow: React.FC<EdgesFlowProps> = ({ onAdd }) => {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onNodeDrag={onNodeDrag}
-        // className="intersection-flow"
-        // snapToGrid={true}
-        // snapGrid={[20, 20]}
         edgeTypes={edgeTypes}
         nodeTypes={nodeTypes}
         fitView
@@ -104,7 +101,7 @@ const EdgesFlow: React.FC<EdgesFlowProps> = ({ onAdd }) => {
         <Background />
         <MiniMap />
       </ReactFlow>
-      <DrawerOnClick onFileUpload={(selectedDataSource) => console.log(`File uploaded: ${selectedDataSource}`)} onAdd={handleAddNode} />
+      <DrawerOnClick onFileUpload={handleAddNode} onAdd={handleAddNode} />
     </>
   );
 };
