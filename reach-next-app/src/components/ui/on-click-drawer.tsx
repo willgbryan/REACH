@@ -43,6 +43,7 @@ const DrawerOnClick: React.FC<{ onFileUpload: (dataSource: string) => void; onAd
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     setFile(file || null);
+    // hack fix
     onAdd();
   };
 
@@ -67,6 +68,14 @@ const DrawerOnClick: React.FC<{ onFileUpload: (dataSource: string) => void; onAd
           cacheControl: '3600',
           upsert: false,
         });
+        // const { } = await supabase
+        //     .from('file_storage')
+        //     .insert({ 
+        //         id: user_id,
+        //         file_name: file.name, 
+        //         file_location: `reach_uploads/public/${file.name}`,
+        //         user_org: 'reach' // fetch company from user table on user email or UID
+        //     })
 
         if (error) {
           throw error;
