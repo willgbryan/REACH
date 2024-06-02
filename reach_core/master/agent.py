@@ -141,28 +141,27 @@ class Reach:
         Returns:
             context: List of context
         """
-        context = []
+        content = []
         sub_queries = await get_sub_queries(query, self.role, self.cfg, self.parent_query, self.report_type) + [query]
         await stream_output("logs",
                             f"I will conduct my research based on the following queries: {sub_queries}...",
                             self.websocket)
-
+        
         for sub_query in sub_queries:
             await stream_output("logs", f"\nRunning research for '{sub_query}'...", self.websocket)
 
             parsed_content: List[Dict[str, str]] = []
             parsed_uploads_path = "uploads/parsed_uploads.json"
             async with aiofiles.open(parsed_uploads_path, "r") as file:
-                content = await file.read()
-                if content:
-                    parsed_content = json.loads(content)
+                read_content = await file.read()
+                if read_content:
+                    parsed_content = json.loads(read_content)
                     
             document_content = await self.get_similar_content_by_query(sub_query, parsed_content)
 
-            content = document_content
-
-            if content:
+            if document_content:
                 await stream_output("logs", f"{content}", self.websocket)
+                content.append(document_content)
             else:
                 await stream_output("logs", f"No content found for '{sub_query}'...", self.websocket)
         return content
@@ -174,7 +173,7 @@ class Reach:
         Returns:
             context: List of context
         """
-        context = []
+        content = []
         sub_queries = await get_sub_queries(query, self.role, self.cfg, self.parent_query, self.report_type) + [query]
         await stream_output("logs",
                             f"I will conduct my research based on the following queries: {sub_queries}...",
@@ -186,16 +185,15 @@ class Reach:
             parsed_content: List[Dict[str, str]] = []
             parsed_systems_path = "hubspot/parsed_app.json"
             async with aiofiles.open(parsed_systems_path, "r") as file:
-                content = await file.read()
-                if content:
-                    parsed_content = json.loads(content)
+                read_content = await file.read()
+                if read_content:
+                    parsed_content = json.loads(read_content)
                     
             document_content = await self.get_similar_content_by_query(sub_query, parsed_content)
 
-            content = document_content
-
-            if content:
-                await stream_output("logs", f"{content}", self.websocket)
+            if document_content:
+                await stream_output("logs", f"{document_content}", self.websocket)
+                content.append(document_content)
             else:
                 await stream_output("logs", f"No content found for '{sub_query}'...", self.websocket)
         return content
@@ -207,24 +205,25 @@ class Reach:
         Returns:
             context: List of context
         """
-        context = []
+        content = []
         sub_queries = await get_sub_queries(query, self.role, self.cfg, self.parent_query, self.report_type) + [query]
         await stream_output("logs",
                             f"I will conduct my research based on the following queries: {sub_queries}...",
                             self.websocket)
 
+        content = []
         # Run Sub-Queries
         for sub_query in sub_queries:
             await stream_output("logs", f"\nRunning research for '{sub_query}'...", self.websocket)
             scraped_sites = await self.scrape_sites_by_query(sub_query)
             web_content = await self.get_similar_content_by_query(sub_query, scraped_sites)
 
-            content = web_content
-
-            if content:
-                await stream_output("logs", f"{content}", self.websocket)
+            if web_content:
+                await stream_output("logs", f"{web_content}", self.websocket)
+                content.append(web_content)
             else:
                 await stream_output("logs", f"No content found for '{sub_query}'...", self.websocket)
+
         print(f"Collected content: {content}")
 
         return content
