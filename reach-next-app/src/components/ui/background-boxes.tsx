@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
-import DialogOnClick from "@/components/ui/on-click-dialog";
+// import DialogOnClick from "@/components/ui/on-click-system-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -104,11 +104,11 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
           ))}
         </motion.div>
       ))}
-      <DialogOnClick
+      {/* <DialogOnClick
         isOpen={isDialogOpen}
         onOpenChange={setIsDialogOpen}
         onFileUpload={handleFileUpload}
-      />
+      /> */}
       {showPopover && (
         <Popover>
         <PopoverTrigger asChild>

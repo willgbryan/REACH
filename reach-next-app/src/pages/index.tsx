@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { DrawerProvider, useDrawer } from '@/components/ui/DrawerContext';
 import { SystemConfigProvider, useSystemConfig } from '@/components/ui/SystemConfigContext';
 import { SupabaseProvider, useSupabase } from '@/components/ui/SupabaseContext';
-import { Boxes } from '@/components/ui/background-boxes';
+// import { Boxes } from '@/components/ui/background-boxes';
 import EdgesFlow from '@/components/ui/flow/app';
 import { Button } from '@/components/ui/button';
 import { TooltipTrigger, TooltipContent, Tooltip, TooltipProvider } from '@/components/ui/tooltip';
@@ -220,7 +220,6 @@ const MainContent = () => {
         <Badge className="absolute right-3 top-3 z-20" variant="secondary">
           Canvas
         </Badge>
-        <MessageForm />
       </div>
     </main>
   );
