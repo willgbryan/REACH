@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/shadcn/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/shadcn/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Combobox } from '@/components/ui/combobox';
-import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerTrigger } from '@/components/ui/drawer';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Combobox } from '@/components/shadcn/combobox';
+import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerTrigger } from '@/components/shadcn/drawer';
+import { Input } from '@/components/shadcn/input';
+import { Label } from '@/components/shadcn/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DialogClose } from '@radix-ui/react-dialog';
 import { createClient } from '@supabase/supabase-js';
 import { processUploadFiles } from '@/services/api';
-import { useDrawer } from '@/components/ui/DrawerContext';
+import { useDrawer } from '@/components/shadcn/DrawerContext';
 
 const DrawerOnClick: React.FC<{ onFileUpload: (dataSource: string) => void; onAdd?: () => void }> = ({ onFileUpload, onAdd = () => {} }) => {
   const { isDrawerOpen, setIsDrawerOpen, selectedDataSource, setSelectedDataSource } = useDrawer();

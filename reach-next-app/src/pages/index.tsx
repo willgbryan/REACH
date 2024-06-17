@@ -1,20 +1,18 @@
 "use client";
 
 import React, { useState } from 'react';
-import { DrawerProvider, useDrawer } from '@/components/ui/DrawerContext';
+import { DrawerProvider, useDrawer } from '@/components/shadcn/DrawerContext';
 import { SystemConfigProvider, useSystemConfig } from '@/components/ui/SystemConfigContext';
 import { SupabaseProvider, useSupabase } from '@/components/ui/SupabaseContext';
-// import { Boxes } from '@/components/ui/background-boxes';
 import EdgesFlow from '@/components/ui/flow/app';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/shadcn/button';
 import { TooltipTrigger, TooltipContent, Tooltip, TooltipProvider } from '@/components/ui/tooltip';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/shadcn/label';
+import { Badge } from '@/components/shadcn/badge';
 import { JSX, SVGProps } from 'react';
-import { SystemDialog } from '@/components/ui/on-click-system-dialog';
+import { SystemDialog } from '@/components/shadcn/on-click-system-dialog';
 import '../app/globals.css';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/shadcn/input';
 
 const AuthenticatedContent = () => (
   <DrawerProvider>
@@ -224,66 +222,6 @@ const MainContent = () => {
     </main>
   );
 };
-
-const MessageForm = () => (
-  <form className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring z-10">
-    <Label className="sr-only" htmlFor="message">
-      Message
-    </Label>
-    <Textarea className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0" id="message" placeholder="Type your message here..." />
-    <div className="flex items-center p-3 pt-0">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button size="icon" variant="ghost">
-              <PaperclipIcon className="size-4" />
-              <span className="sr-only">Attach file</span>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="top">Attach File</TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button size="icon" variant="ghost">
-              <MicIcon className="size-4" />
-              <span className="sr-only">Use Microphone</span>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="top">Use Microphone</TooltipContent>
-        </Tooltip>
-        <Button className="ml-auto gap-1.5" size="sm" type="submit">
-          Send Message
-          <CornerDownLeftIcon className="size-3.5" />
-        </Button>
-      </TooltipProvider>
-    </div>
-  </form>
-);
-
-function BirdIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M16 7h.01" />
-      <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" />
-      <path d="m20 7 2 .5-2 .5" />
-      <path d="M10 18v3" />
-      <path d="M14 17.75V21" />
-      <path d="M7 18a6 6 0 0 0 3.84-10.61" />
-    </svg>
-  )
-}
-
 
 function BookIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   return (

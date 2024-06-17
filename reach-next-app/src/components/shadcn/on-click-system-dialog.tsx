@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/shadcn/button";
 import {
   Dialog,
   DialogContent,
@@ -6,9 +6,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/components/shadcn/dialog";
+import { Input } from "@/components/shadcn/input";
+import { Label } from "@/components/shadcn/label";
 import { useSystemConfig } from '@/components/ui/SystemConfigContext';
 
 export function SystemDialog() {

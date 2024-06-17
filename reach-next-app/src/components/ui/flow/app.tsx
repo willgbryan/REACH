@@ -17,8 +17,8 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import './node-style.css';
 
-import DrawerOnClick from '@/components/ui/on-click-drawer';
-import { useDrawer } from '@/components/ui/DrawerContext';
+import DrawerOnClick from '@/components/shadcn/on-click-drawer';
+import { useDrawer } from '@/components/shadcn/DrawerContext';
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
