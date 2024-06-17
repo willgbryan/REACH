@@ -81,7 +81,7 @@ const EdgesFlow: React.FC<EdgesFlowProps> = ({ onAdd }) => {
     const handleAddNode = useCallback(() => {
       let newNode: Node = {
         id: `${nodes.length + 1}`,
-        data: { label: `Added node: ${selectedDataSource}` },
+        data: { label: `${selectedDataSource}` },
         position: {
           x: Math.random() * window.innerWidth - 100,
           y: Math.random() * window.innerHeight,
