@@ -6,7 +6,7 @@ import { SystemConfigProvider, useSystemConfig } from '@/components/ui/SystemCon
 import { SupabaseProvider, useSupabase } from '@/components/ui/SupabaseContext';
 import EdgesFlow from '@/components/ui/flow/app';
 import { Button } from '@/components/shadcn/button';
-import { TooltipTrigger, TooltipContent, Tooltip, TooltipProvider } from '@/components/ui/tooltip';
+import { TooltipTrigger, TooltipContent, Tooltip, TooltipProvider } from '@/components/shadcn/tooltip';
 import { Label } from '@/components/shadcn/label';
 import { Badge } from '@/components/shadcn/badge';
 import { JSX, SVGProps } from 'react';
