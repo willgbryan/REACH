@@ -13,10 +13,10 @@ class Config:
         self.embedding_provider = os.getenv("EMBEDDING_PROVIDER", "openai")
         self.llm_provider = os.getenv("LLM_PROVIDER", "openai")
         self.fast_llm_model = os.getenv(
-            "FAST_LLM_MODEL", "gpt-4-turbo"
+            "FAST_LLM_MODEL", "gpt-4o"
         )  # mistral:instruct
         self.smart_llm_model = os.getenv(
-            "SMART_LLM_MODEL", "gpt-4-turbo"
+            "SMART_LLM_MODEL", "gpt-4o"
         )  # mistral:instruct
         self.fast_token_limit = int(os.getenv("FAST_TOKEN_LIMIT", 2000))
         self.smart_token_limit = int(os.getenv("SMART_TOKEN_LIMIT", 4000))
